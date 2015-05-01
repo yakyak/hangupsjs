@@ -1,0 +1,38 @@
+{
+  "name": "hangupsjs",
+  "version": "0.0.1",
+  "description": "Nodejs third party library for Google Hangouts",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/algesten/hangupsjs"
+  },
+  "keywords": [
+    "hangouts",
+    "library"
+  ],
+  "author": "Martin Algesten <martin@algesten.se>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/algesten/hangupsjs/issues"
+  },
+  "homepage": "https://github.com/algesten/hangupsjs",
+  "dependencies": {
+    "bog": "^1.0.0",
+    "file-cookie-store": "^0.2.0",
+    "flat-file-db": "^0.1.4",
+    "fnuc": "0.0.15",
+    "q": "^1.2.0",
+    "request": "^2.54.0",
+    "tough-cookie": "^0.12.1",
+    "tough-cookie-filestore": "0.0.1",
+    "zombie": "^3.1.1"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.9.1",
+    "request-debug": "^0.1.1"
+  }
+}
