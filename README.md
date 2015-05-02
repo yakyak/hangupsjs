@@ -18,6 +18,28 @@ I take no credit for the excellent work of Tom Dryer putting together
 the original python client library for Google Hangouts. This port is
 simply taking his work and porting it to coffeescript step by step.
 
+## Usage
+
+```
+$ npm install hangupsjs
+```
+
+The client is started with `connect()` passing callback function for a
+promise for a login object containing the credentials.
+
+```coffee
+Q = require 'q'
+
+creds = -> Q
+    email: 'login@gmail.com'
+    pass:  'mysecret'
+
+Client = require './src/client'
+
+client = new Client()
+client.connect(creds).done()
+```
+
 ## License
 
 Copyright (c) 2015 Martin Algesten
