@@ -4,6 +4,7 @@ FileCookieStore = require 'tough-cookie-filestore'
 {CookieJar}     = require 'tough-cookie'
 syspath  = require 'path'
 log      = require 'bog'
+fs       = require 'fs'
 Q        = require 'q'
 
 Auth    = require './auth'
@@ -14,10 +15,19 @@ MessageParser = require './messageparser'
 DEFAULTS =
     cookiepath: syspath.normalize syspath.join __dirname, '../cookie.json'
 
+# ensure path exists
+touch = (path) ->
+    try
+        fs.statSync(path)
+    catch err
+        if err.code == 'ENOENT'
+            fs.writeFileSync(path, '')
+
 module.exports = class Client extends EventEmitter
 
     constructor: (opts) ->
         o = mixin DEFAULTS, opts
+        touch o.cookiepath
         @jar = new CookieJar (@jarstore = new FileCookieStore o.cookiepath)
         @channel = new Channel @jarstore
         @init = new Init @jarstore
