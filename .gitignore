@@ -21,4 +21,5 @@ bower_components
 doc
 
 BrowserStackLocal
-cookie.txt
+cookie.json
+login.coffee
