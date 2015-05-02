@@ -1,6 +1,6 @@
 require('fnuc').expose global
 FileCookieStore = require 'tough-cookie-filestore'
-CookieJar       = require('tough-cookie').CookieJar
+{CookieJar}     = require 'tough-cookie'
 syspath  = require 'path'
 log      = require 'bog'
 Q        = require 'q'
@@ -33,6 +33,7 @@ module.exports = class Client
             # now intialize the chat using the pvt
             @init.initChat pvt
         .then =>
-            process.exit(0)
-        #.then =>
-        #    @channel.fetchSid()
+            ret = @channel.fetchSid()
+            ret
+        .then ->
+            console.log 'ending'

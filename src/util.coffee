@@ -12,4 +12,9 @@ plug = (rs, rj) -> (err, val) -> if err then rj(err) else rs(val)
 
 req = (as...) -> Q.Promise (rs, rj) -> request as..., plug(rs, rj)
 
-module.exports = {req, plug, find}
+uniqfn = (as, fn) ->
+    fned = map as, fn
+    as.filter (v, i) -> index(fned, fned[i]) == i
+
+
+module.exports = {req, plug, find, uniqfn}

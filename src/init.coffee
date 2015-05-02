@@ -3,7 +3,7 @@ jsdom   = require 'jsdom'
 log     = require 'bog'
 Q       = require 'q'
 
-{req, find} = require './util'
+{req, find, uniqfn} = require './util'
 
 {CLIENT_GET_SELF_INFO_RESPONSE,
 CLIENT_CONVERSATION_STATE_LIST,
@@ -36,7 +36,10 @@ module.exports = class Init
             qs: params
             jar: request.jar @jarstore
         req(opts).then (res) =>
+            @parseBody res.body
 
+    parseBody: (body) ->
+        Q().then ->
             # the structure of the html body is (bizarelly):
             # <script>...</script>
             # <script>...</script>
@@ -48,7 +51,7 @@ module.exports = class Init
             # jsom stops evaluating things after the end </html> but
             # the code inside <html> is not necessary. strip it.
 
-            html = res.body.replace /<!DOCTYPE html><html>(.|\n)*<\/html>/m, ''
+            html = body.replace /<!DOCTYPE html><html>(.|\n)*<\/html>/m, ''
 
             # the result here is an html-page with <script> tags.
             # we run jsdom on that to eval the result.
@@ -87,3 +90,9 @@ module.exports = class Init
                         log.debug 'init data', k, d
                 else
                     log.warn 'no init data for', k
+
+            # massage the entities
+            entgroups = (@entities["group#{g}"].entities for g in [1..5])
+            allents = map concat(@entities.entities, entgroups...), (e) -> e.entity
+            deduped = uniqfn allents, (e) -> e.id.gaia_id
+            @entities = deduped
