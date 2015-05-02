@@ -3,7 +3,7 @@ hangupsjs
 
 # Not finished
 
-The client connects and sets up the necessary push channels. However no API-calls for sending/receiving chat message have been implemented.
+#### The client connects and sets up the necessary push channels. However no API-calls for sending/receiving chat message have been implemented.
 
 ## Summary
 
