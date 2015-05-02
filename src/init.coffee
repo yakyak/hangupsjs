@@ -1,7 +1,21 @@
 request = require 'request'
-jsdom   = require 'jsdom'
 log     = require 'bog'
 Q       = require 'q'
+fs      = require 'fs'
+syspath = require 'path'
+
+wrench  = require 'wrench'
+
+# use private jsdom since it conflicts with zombie's monkey patches
+try
+    from = syspath.join __dirname, '../node_modules/jsdom'
+    to = syspath.join __dirname, './jsdom'
+    fs.statSync to
+catch err
+    console.log err
+    if err.code == 'ENOENT'
+        wrench.copyDirSyncRecursive from, to
+jsdom   = require './jsdom/lib/jsdom'
 
 {req, find, uniqfn} = require './util'
 
