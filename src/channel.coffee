@@ -18,6 +18,31 @@ UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36
 
 op  = (o) -> "#{CHANNEL_URL_PREFIX}/#{o}"
 
+# typical long poll
+#
+# 2015-05-02 14:44:19 DEBUG found sid/gsid 5ECBB7A224ED4276 XOqP3EYTfy6z0eGEr9OD5A
+# 2015-05-02 14:44:19 DEBUG long poll req
+# 2015-05-02 14:44:19 DEBUG long poll response 200 OK
+# 2015-05-02 14:44:19 DEBUG got msg [[[2,["noop"]]]]
+# 2015-05-02 14:44:19 DEBUG got msg [[[3,[{"p":"{\"1\":{\"1\":{\"1\":{\"1\":1,\"2\":1}},\"4\":\"1430570659159\",\"5\":\"S1\"},\"3\":{\"1\":{\"1\":1},\"2\":\"lcsw_hangouts881CED94\"}}"}]]]]
+# 2015-05-02 14:44:49 DEBUG got msg [[[4,["noop"]]]]
+# 2015-05-02 14:45:14 DEBUG got msg [[[5,["noop"]]]]
+# ...
+# 2015-05-02 14:47:56 DEBUG got msg [[[11,["noop"]]]]
+# 2015-05-02 14:48:21 DEBUG got msg [[[12,["noop"]]]]
+# 2015-05-02 14:48:21 DEBUG long poll end
+# 2015-05-02 14:48:21 DEBUG long poll req
+# 2015-05-02 14:48:21 DEBUG long poll response 200 OK
+# 2015-05-02 14:48:21 DEBUG got msg [[[13,["noop"]]]]
+# ...
+# 2015-05-02 15:31:39 DEBUG long poll error { [Error: ESOCKETTIMEDOUT] code: 'ESOCKETTIMEDOUT' }
+# 2015-05-02 15:31:39 DEBUG poll error { [Error: ESOCKETTIMEDOUT] code: 'ESOCKETTIMEDOUT' }
+# 2015-05-02 15:31:39 DEBUG backing off for 2 ms
+# 2015-05-02 15:31:39 DEBUG long poll end
+# 2015-05-02 15:31:39 DEBUG long poll req
+# 2015-05-02 15:31:39 DEBUG long poll response 200 OK
+# 2015-05-02 15:31:39 DEBUG got msg [[[121,["noop"]]]]
+
 class NetworkError extends Error then constructor: (@code, @message) -> super
 
 authhead = (sapisid, msec, origin) ->
@@ -88,7 +113,7 @@ module.exports = class Channel
 
 
     # get next messages from channel
-    get: =>
+    getLines: =>
         @start() unless @running
         @pushParser.allLines()
 
@@ -174,7 +199,7 @@ module.exports = class Channel
 #                log.debug 'long poll chunk\n' + hexy.hexy(chunk)
                 @pushParser.parse chunk
         .on 'error', (err) =>
-            log.error 'long poll error', err
+            log.debug 'long poll error', err
             rj err
         .on 'end', ->
             log.debug 'long poll end'

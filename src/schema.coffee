@@ -2,6 +2,8 @@
 
 s = {}
 
+None = ''
+
 ##############################################################################
 # Enums
 ##############################################################################
@@ -103,14 +105,14 @@ s.USER_ID = Message([
 ])
 
 s.CLIENT_ENTITY = Message([
-    '', Field()
-    '', Field()
-    '', Field()
-    '', Field()
-    '', Field()
-    '', Field()
-    '', Field()
-    '', Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
     'id', s.USER_ID
     'properties', Message([
         'type',        Field(), # 0, 1, or None
@@ -122,8 +124,8 @@ s.CLIENT_ENTITY = Message([
 ])
 
 s.CLIENT_GET_SELF_INFO_RESPONSE = Message([
-    '', Field() # 'cgsirp'
-    '', Field() # response header
+    None, Field() # 'cgsirp'
+    None, Field() # response header
     'self_entity', s.CLIENT_ENTITY
 ])
 
@@ -136,12 +138,12 @@ s.CLIENT_CONVERSATION = Message([
     'type', EnumField(s.ConversationType)
     'name', Field()
     'self_conversation_state', Message([
-        '', Field()
-        '', Field()
-        '', Field()
-        '', Field()
-        '', Field()
-        '', Field()
+        None, Field()
+        None, Field()
+        None, Field()
+        None, Field()
+        None, Field()
+        None, Field()
         'self_read_state', Message([
             'participant_id', s.USER_ID
             'latest_read_timestamp', Field()
@@ -153,34 +155,34 @@ s.CLIENT_CONVERSATION = Message([
         'invite_timestamp', Field()
         'sort_timestamp', Field()
         'active_timestamp', Field()
-        '', Field()
-        '', Field()
-        '', Field()
-        '', Field()
+        None, Field()
+        None, Field()
+        None, Field()
+        None, Field()
     ])
-    '', Field()
-    '', Field()
-    '', Field()
+    None, Field()
+    None, Field()
+    None, Field()
     'read_state', RepeatedField(Message([
             'participant_id', s.USER_ID
             'last_read_timestamp', Field()
         ])
     )
-    '', Field()
+    None, Field()
     'otr_status', EnumField(s.OffTheRecordStatus)
-    '', Field()
-    '', Field()
+    None, Field()
+    None, Field()
     'current_participant', RepeatedField(s.USER_ID)
     'participant_data', RepeatedField(Message([
             'id', s.USER_ID
             'fallback_name', Field()
-            '', Field()
+            None, Field()
     ]))
-    '', Field()
-    '', Field()
-    '', Field()
-    '', Field()
-    '', Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
 ])
 
 s.MESSAGE_SEGMENT = Message([
@@ -198,7 +200,7 @@ s.MESSAGE_SEGMENT = Message([
 ])
 
 s.CLIENT_CHAT_MESSAGE = Message([
-    '', Field()  # always ''?
+    None, Field()  # always None?
     'annotation', RepeatedField(Field())
     'message_content', Message([
         'segment', RepeatedField(s.MESSAGE_SEGMENT)
@@ -208,9 +210,9 @@ s.CLIENT_CHAT_MESSAGE = Message([
 
 s.CLIENT_MEMBERSHIP_CHANGE = Message([
     'type', EnumField(s.MembershipChangeType)
-    '', RepeatedField(Field())
+    None, RepeatedField(Field())
     'participant_ids', RepeatedField(s.USER_ID)
-    '', Field()
+    None, Field()
 ])
 
 s.CLIENT_CONVERSATION_RENAME = Message([
@@ -225,7 +227,7 @@ s.CLIENT_HANGOUT_EVENT = Message([
     'transferred_conversation_id', Field()  # always None?
     'refresh_timeout_secs', Field()
     'is_periodic_refresh', Field()
-    '', Field()  # always 1?
+    None, Field()  # always 1?
 ])
 
 s.CLIENT_OTR_MODIFICATION = Message([
@@ -244,19 +246,19 @@ s.CLIENT_EVENT = Message([
         'client_generated_id', Field()
         'notification_level', EnumField(s.ClientNotificationLevel)
     ]),
-    '', Field()  # always ''?
-    '', Field()  # always 0? (expiration_timestamp?)
+    None, Field()  # always ''?
+    None, Field()  # always 0? (expiration_timestamp?)
     'chat_message', s.CLIENT_CHAT_MESSAGE
-    '', Field()  # always ''?
+    None, Field()  # always ''?
     'membership_change', s.CLIENT_MEMBERSHIP_CHANGE
     'conversation_rename', s.CLIENT_CONVERSATION_RENAME
     'hangout_event', s.CLIENT_HANGOUT_EVENT
     'event_id', Field()
     'advances_sort_timestamp', Field()
     'otr_modification', s.CLIENT_OTR_MODIFICATION
-    '', Field()  # 0, 1 or ''? related to notifications?
+    None, Field()  # 0, 1 or ''? related to notifications?
     'event_otr', EnumField(s.OffTheRecordStatus)
-    '', Field()  # always 1? (advances_sort_timestamp?)
+    None, Field()  # always 1? (advances_sort_timestamp?)
 ])
 
 s.CLIENT_EVENT_CONTINUATION_TOKEN = Message([
@@ -269,23 +271,23 @@ s.CLIENT_CONVERSATION_STATE = Message([
     'conversation_id', s.CONVERSATION_ID
     'conversation', s.CLIENT_CONVERSATION
     'event', RepeatedField(s.CLIENT_EVENT)
-    '', Field()
+    None, Field()
     'event_continuation_token', s.CLIENT_EVENT_CONTINUATION_TOKEN
-    '', Field()
-    '', RepeatedField(Field())
+    None, Field()
+    None, RepeatedField(Field())
 ])
 
 s.CLIENT_CONVERSATION_STATE_LIST = RepeatedField(s.CLIENT_CONVERSATION_STATE)
 
 s.CLIENT_ENTITY = Message([
-    '', Field()
-    '', Field()
-    '', Field()
-    '', Field()
-    '', Field()
-    '', Field()
-    '', Field()
-    '', Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
     'id', s.USER_ID
     'properties', Message([
         'type', Field()  # 0, 1, or ''
@@ -297,24 +299,82 @@ s.CLIENT_ENTITY = Message([
 ])
 
 s.ENTITY_GROUP = Message([
-    '', Field() # always 0?
-    '', Field() # some sort of ID
+    None, Field() # always 0?
+    None, Field() # some sort of ID
     'entities', RepeatedField(Message([
         'entity', s.CLIENT_ENTITY
-        '', Field()  # always 0?
+        None, Field()  # always 0?
     ]))
 ])
 
 s.INITIAL_CLIENT_ENTITIES = Message([
-    '', Field()  # 'cgserp'
-    '', Field()  # a header
+    None, Field()  # 'cgserp'
+    None, Field()  # a header
     'entities', RepeatedField(s.CLIENT_ENTITY)
-    '', Field()  # always ''?
+    None, Field()  # always ''?
     'group1', s.ENTITY_GROUP
     'group2', s.ENTITY_GROUP
     'group3', s.ENTITY_GROUP
     'group4', s.ENTITY_GROUP
     'group5', s.ENTITY_GROUP
+])
+
+s.CLIENT_STATE_UPDATE_HEADER = Message([
+    'active_client_state', EnumField(s.ActiveClientState)
+    None, Field(),
+    'request_trace_id', Field()
+    None, Field()
+    'current_server_time', Field()
+    None, Field()
+    None, Field()
+    # optional ID of the client causing the update?
+    None, Field()
+])
+
+s.CLIENT_EVENT_NOTIFICATION = Message([
+    'event', s.CLIENT_EVENT
+])
+
+s.CLIENT_SET_FOCUS_NOTIFICATION = Message([
+    'conversation_id', s.CONVERSATION_ID
+    'user_id', s.USER_ID
+    'timestamp', Field()
+    'status', EnumField(s.FocusStatus)
+    'device', EnumField(s.FocusDevice)
+])
+
+s.CLIENT_SET_TYPING_NOTIFICATION = Message([
+    'conversation_id', s.CONVERSATION_ID
+    'user_id', s.USER_ID
+    'timestamp', Field()
+    'status', EnumField(s.TypingStatus)
+])
+
+s.CLIENT_WATERMARK_NOTIFICATION = Message([
+    'participant_id', s.USER_ID
+    'conversation_id', s.CONVERSATION_ID
+    'latest_read_timestamp', Field()
+])
+
+s.CLIENT_STATE_UPDATE = Message([
+    'state_update_header', s.CLIENT_STATE_UPDATE_HEADER
+    'conversation_notification', Field()  # always None?
+    'event_notification', s.CLIENT_EVENT_NOTIFICATION
+    'focus_notification', s.CLIENT_SET_FOCUS_NOTIFICATION
+    'typing_notification', s.CLIENT_SET_TYPING_NOTIFICATION
+    'notification_level_notification', Field()
+    'reply_to_invite_notification', Field()
+    'watermark_notification', s.CLIENT_WATERMARK_NOTIFICATION
+    None, Field(),
+    'settings_notification', Field()
+    'view_modification', Field()
+    'easter_egg_notification', Field()
+    'client_conversation', s.CLIENT_CONVERSATION
+    'self_presence_notification', Field()
+    'delete_notification', Field()
+    'presence_notification', Field()
+    'block_notification', Field()
+    'invitation_watermark_notification', Field()
 ])
 
 module.exports = s

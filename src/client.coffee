@@ -1,4 +1,5 @@
 require('fnuc').expose global
+{EventEmitter}  = require 'events'
 FileCookieStore = require 'tough-cookie-filestore'
 {CookieJar}     = require 'tough-cookie'
 syspath  = require 'path'
@@ -8,17 +9,20 @@ Q        = require 'q'
 Auth    = require './auth'
 Init    = require './init'
 Channel = require './channel'
+MessageParser = require './messageparser'
 
 DEFAULTS =
     cookiepath: syspath.normalize syspath.join __dirname, '../cookie.json'
 
-module.exports = class Client
+module.exports = class Client extends EventEmitter
 
     constructor: (opts) ->
         o = mixin DEFAULTS, opts
         @jar = new CookieJar (@jarstore = new FileCookieStore o.cookiepath)
         @channel = new Channel @jarstore
         @init = new Init @jarstore
+        @messageParser = new MessageParser(this)
+        @on 'clientid', (@clientId) =>
 
     connect: (creds) ->
         @auth = new Auth @jar, creds
@@ -33,8 +37,14 @@ module.exports = class Client
             # now intialize the chat using the pvt
             @init.initChat pvt
         .then =>
-            do getMsg = =>
-                @channel.get().then (msg) ->
-                    console.log 'got msg', JSON.stringify(msg, '  ')
-                    getMsg()
+            do poller = =>
+                @channel.getLines().then (lines) =>
+                    @messageParser.parsePushLines lines
+                    poller()
+                .done()
             null
+
+    # debug each event emitted
+    emit: (ev, data) ->
+        log.debug 'emit', ev, (data ? '')
+        super

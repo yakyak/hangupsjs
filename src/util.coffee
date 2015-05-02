@@ -18,4 +18,6 @@ uniqfn = (as, fn) ->
 
 wait = (time) -> Q.Promise (rs) -> setTimeout rs, time
 
-module.exports = {req, plug, find, uniqfn, wait}
+tryparse = (str) -> try JSON.parse(str) catch err then null
+
+module.exports = {req, plug, find, uniqfn, wait, tryparse}
