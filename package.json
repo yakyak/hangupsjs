@@ -2,9 +2,10 @@
   "name": "hangupsjs",
   "version": "0.0.1",
   "description": "Nodejs third party library for Google Hangouts",
-  "main": "index.js",
+  "main": "lib/client.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "prepublish": "coffee -o lib src"
   },
   "repository": {
     "type": "git",
