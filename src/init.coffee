@@ -12,7 +12,6 @@ try
     to = syspath.join __dirname, './jsdom'
     fs.statSync to
 catch err
-    console.log err
     if err.code == 'ENOENT'
         wrench.copyDirSyncRecursive from, to
 jsdom   = require './jsdom/lib/jsdom'
