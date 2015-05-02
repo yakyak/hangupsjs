@@ -37,7 +37,7 @@ creds = -> Q
 
 client = new Client()
 
-# set more verbose debug
+# set more verbose logging
 client.loglevel 'debug'
 
 client.connect(creds).done()
