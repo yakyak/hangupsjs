@@ -24,3 +24,5 @@ BrowserStackLocal
 cookie.json
 login.coffee
 jsdom
+
+lib
