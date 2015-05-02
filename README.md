@@ -36,6 +36,10 @@ creds = -> Q
     pass:  'mysecret'
 
 client = new Client()
+
+# set more verbose debug
+client.loglevel 'debug'
+
 client.connect(creds).done()
 ```
 

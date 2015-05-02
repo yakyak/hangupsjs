@@ -34,6 +34,8 @@ module.exports = class Client extends EventEmitter
         @messageParser = new MessageParser(this)
         @on 'clientid', (@clientId) =>
 
+    loglevel: (lvl) -> log.level lvl
+
     connect: (creds) ->
         @auth = new Auth @jar, creds
         # getAuth does a login and stored the cookies
