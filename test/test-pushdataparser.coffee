@@ -39,3 +39,12 @@ describe 'PushDataParser', ->
         lines = p.parse msg2
         deql lines, 1
         deql p.leftover, null
+
+    describe 'allLines', ->
+
+        it 'is a promise for all the lines read', (done) ->
+            p.allLines().then (lines) ->
+                deql lines, ['abc', 'def']
+                done()
+            .done()
+            p.parse new Buffer('5\n"abc"5\n"def"')

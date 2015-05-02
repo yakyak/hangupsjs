@@ -1,3 +1,4 @@
+Q = require 'q'
 
 findNextLf = (buf, start) ->
     i = start
@@ -32,8 +33,27 @@ module.exports = class PushDataParser
             @lines.push line
             i = end
         @leftover = data.slice i if i < data.length
-        @lines.length
+        available = @available()
+        if available and @def
+            @def.resolve @lines
+            @def = null
+            @lines = []
+        available
 
     available: -> @lines.length
 
     pop: -> @lines.pop()
+
+    allLines: ->
+        def = @def ? Q.defer()
+        if @lines.length
+            def.resolve @lines
+            @def = null
+            @lines = []
+        else
+            @def = def
+        return def.promise
+
+    reset: ->
+        @lines = []
+        @leftover = null

@@ -33,7 +33,8 @@ module.exports = class Client
             # now intialize the chat using the pvt
             @init.initChat pvt
         .then =>
-            ret = @channel.fetchSid()
-            ret
-        .then ->
-            console.log 'ending'
+            do getMsg = =>
+                @channel.get().then (msg) ->
+                    console.log 'got msg', JSON.stringify(msg, '  ')
+                    getMsg()
+            null
