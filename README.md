@@ -28,13 +28,12 @@ The client is started with `connect()` passing callback function for a
 promise for a login object containing the credentials.
 
 ```coffee
-Q = require 'q'
+Client = require 'hangupsjs'
+Q      = require 'q'
 
 creds = -> Q
     email: 'login@gmail.com'
     pass:  'mysecret'
-
-Client = require 'hangupsjs'
 
 client = new Client()
 client.connect(creds).done()
