@@ -34,7 +34,7 @@ creds = -> Q
     email: 'login@gmail.com'
     pass:  'mysecret'
 
-Client = require './src/client'
+Client = require 'hangupsjs'
 
 client = new Client()
 client.connect(creds).done()
