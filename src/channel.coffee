@@ -3,7 +3,7 @@ crypto  = require 'crypto'
 log     = require 'bog'
 Q       = require 'q'
 
-require('request-debug') request
+{req} = require './util'
 
 PVT_TOKEN_URL = 'https://talkgadget.google.com/talkgadget/_/extension-start'
 
@@ -14,7 +14,6 @@ UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36
       (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36'
 
 op  = (o) -> "#{CHANNEL_URL_PREFIX}/#{o}"
-find = (as, f) -> return a for a in as when f(a)
 
 authhead = (sapisid, msec, origin) ->
     auth_string = "#{msec} #{sapisid} #{origin}"
@@ -26,8 +25,8 @@ authhead = (sapisid, msec, origin) ->
         'x-goog-authuser': '0'
         'user-agent': UA
     }
-authheadof = (db) ->
-    sapisid = cookieval db, 'SAPISID'
+authheadof = (jar) ->
+    sapisid = cookieval jar, 'SAPISID'
     msec = Date.now()
     authhead sapisid, msec, ORIGIN_URL
 
@@ -37,27 +36,25 @@ authheadof = (db) ->
 #console.log 'SAPISIDHASH 1428159172194_f216c39fed596f9fa3f67d0c43462da39b9d310e'
 
 
-req = (as...) -> Q.Promise (re, rj) ->
-    request as..., (err, res) -> if err then rj(err) else re(res)
-
 module.exports = class Channel
 
-    constructor: (@db) ->
+    constructor: (@jarstore) ->
 
-    fetchPvt: ->
+    fetchPvt: =>
         opts =
             method: 'GET'
             uri: PVT_TOKEN_URL
-            jar: dbtojar @db, PVT_TOKEN_URL
-        req(opts).then (res) ->
-            console.log res.body
+            jar: request.jar @jarstore
+        req(opts).then (res) =>
+            data = JSON.parse res.body
+            log.debug 'found pvt token', data[1]
+            data[1]
 
-    fetchSid: ->
-
+    fetchSid: =>
         opts =
             method: 'POST'
             uri: op 'channel/bind'
-            jar: dbtojar @db, CHANNEL_URL_PREFIX
+            jar: @jar
             qs:
                 VER: 8
                 RID: 81187

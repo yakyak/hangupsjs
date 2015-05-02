@@ -1,0 +1,89 @@
+request = require 'request'
+jsdom   = require 'jsdom'
+log     = require 'bog'
+Q       = require 'q'
+
+{req, find} = require './util'
+
+{CLIENT_GET_SELF_INFO_RESPONSE,
+CLIENT_CONVERSATION_STATE_LIST,
+INITIAL_CLIENT_ENTITIES} = require './schema'
+
+# make jsdom process <script>
+jsdom.defaultDocumentFeatures =
+    FetchExternalResources   : ['script']
+    ProcessExternalResources : ['script']
+    MutationEvents           : '2.0'
+    QuerySelector            : false
+
+CHAT_INIT_URL = 'https://talkgadget.google.com/u/0/talkgadget/_/chat'
+CHAT_INIT_PARAMS =
+    prop: 'aChromeExtension',
+    fid:  'gtn-roster-iframe-id',
+    ec:   '["ci:ec",true,true,false]',
+    pvt:  null,  # Populated later
+
+module.exports = class Init
+
+    constructor: (@jarstore) ->
+
+    initChat: (pvt) ->
+        params = clone CHAT_INIT_PARAMS
+        params.pvt = pvt
+        opts =
+            method: 'GET'
+            uri: CHAT_INIT_URL
+            qs: params
+            jar: request.jar @jarstore
+        req(opts).then (res) =>
+
+            # the structure of the html body is (bizarelly):
+            # <script>...</script>
+            # <script>...</script>
+            # <script>...</script>
+            # <!DOCTYPE html><html>...</html>
+            # <script>...</script>
+            # <script>...</script>
+            #
+            # jsom stops evaluating things after the end </html> but
+            # the code inside <html> is not necessary. strip it.
+
+            html = res.body.replace /<!DOCTYPE html><html>(.|\n)*<\/html>/m, ''
+
+            # the result here is an html-page with <script> tags.
+            # we run jsdom on that to eval the result.
+            jsdom.jsdom(html).parentWindow
+        .then (win) =>
+            # the page has a weird and wonderful javascript structure in
+            # win.AF_initDataChunkQueue =
+            # [ { key: 'ds:0', isError: false, hash: '2', data: [Function] },
+            #   { key: 'ds:1', isError: false, hash: '26', data: [Function] },
+            #   { key: 'ds:2', isError: false, hash: '19', data: [Function] },
+            #   { key: 'ds:3', isError: false, hash: '5', data: [Function] }...
+            DICT =
+                apikey: { key:'ds:7',  fn: (d) -> d[0][2] }
+                email:  { key:'ds:33', fn: (d) -> d[0][2] }
+                headerdate:    { key:'ds:2', fn: (d) -> d[0][4] }
+                headerversion: { key:'ds:2', fn: (d) -> d[0][6] }
+                headerid:      { key:'ds:4', fn: (d) -> d[0][7] }
+                timestamp:     { key:'ds:21', fn: (d) -> new Date (d[0][1][4] / 1000) }
+                self_entity:   { key:'ds:20', fn: (d) ->
+                    CLIENT_GET_SELF_INFO_RESPONSE.parse(d[0]).self_entity
+                }
+                conv_states: { key:'ds:19', fn: (d) ->
+                    CLIENT_CONVERSATION_STATE_LIST.parse(d[0][3])
+                }
+                entities: { key:'ds:21', fn: (d) ->
+                    INITIAL_CLIENT_ENTITIES.parse d[0]
+                }
+
+            for k, spec of DICT
+                ent = find win.AF_initDataChunkQueue, (e) -> spec.key == e.key
+                if ent
+                    this[k] = d = spec.fn ent.data()
+                    if d.length
+                        log.debug 'init data count', k, d.length
+                    else
+                        log.debug 'init data', k, d
+                else
+                    log.warn 'no init data for', k
