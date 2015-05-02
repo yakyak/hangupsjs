@@ -50,7 +50,11 @@ module.exports = class Init
             qs: params
             jar: request.jar @jarstore
         req(opts).then (res) =>
-            @parseBody res.body
+            if res.statusCode == 200
+                @parseBody res.body
+            else
+                log.warn 'init failed', res.statusCode, res.statusMessage
+                Q.reject new Error('init failed')
 
     parseBody: (body) ->
         Q().then ->
