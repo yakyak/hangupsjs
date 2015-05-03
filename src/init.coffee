@@ -16,7 +16,7 @@ catch err
         wrench.copyDirSyncRecursive from, to
 jsdom   = require './jsdom/lib/jsdom'
 
-{req, find, uniqfn} = require './util'
+{req, find, uniqfn, NetworkError} = require './util'
 
 {CLIENT_GET_SELF_INFO_RESPONSE,
 CLIENT_CONVERSATION_STATE_LIST,
@@ -53,7 +53,7 @@ module.exports = class Init
                 @parseBody res.body
             else
                 log.warn 'init failed', res.statusCode, res.statusMessage
-                Q.reject new Error('init failed')
+                Q.reject NetworkError.forRes(res)
 
     parseBody: (body) ->
         Q().then ->

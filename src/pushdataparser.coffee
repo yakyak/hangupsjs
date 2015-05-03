@@ -55,5 +55,8 @@ module.exports = class PushDataParser
         return def.promise
 
     reset: ->
+        if @def
+            @def.resolve []
+            @def = null
         @lines = []
         @leftover = null

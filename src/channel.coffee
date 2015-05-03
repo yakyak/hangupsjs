@@ -6,7 +6,7 @@ log     = require 'bog'
 Q       = require 'q'
 hexy    = require 'hexy'
 
-{req, find, wait} = require './util'
+{req, find, wait, NetworkError} = require './util'
 PushDataParser = require './pushdataparser'
 
 ORIGIN_URL = 'https://talkgadget.google.com'
@@ -43,8 +43,6 @@ op  = (o) -> "#{CHANNEL_URL_PREFIX}/#{o}"
 # 2015-05-02 15:31:39 DEBUG long poll response 200 OK
 # 2015-05-02 15:31:39 DEBUG got msg [[[121,["noop"]]]]
 
-class NetworkError extends Error then constructor: (@code, @message) -> super
-
 authhead = (sapisid, msec, origin) ->
     auth_string = "#{msec} #{sapisid} #{origin}"
     auth_hash = crypto.createHash('sha1').update(auth_string).digest 'hex'
@@ -78,10 +76,12 @@ module.exports = class Channel
             log.debug 'found pvt token', data[1]
             data[1]
 
+    authHeaders: ->
+        sapisid = sapisidof @jarstore
+        authhead sapisid, Date.now(), ORIGIN_URL
+
     fetchSid: =>
         Q().then =>
-            sapisid = sapisidof @jarstore
-            headers = authhead sapisid, Date.now(), ORIGIN_URL
             opts =
                 method: 'POST'
                 uri: op 'channel/bind'
@@ -92,7 +92,7 @@ module.exports = class Channel
                     ctype: 'hangouts'
                 form:
                     count: 0
-                headers: headers
+                headers: @authHeaders()
                 encoding: null # get body as buffer
             req(opts).then (res) ->
                 # Example format (after parsing JS):
@@ -145,8 +145,12 @@ module.exports = class Channel
 
     # gracefully stop polling
     stop: =>
-        # will stop polling at next loop
+        # stop looping
         @running = false
+        # this releases the @getLines() promise
+        @pushParser.reset()
+        # XXX must do something here to
+        # end the current long poll request
 
 
     poll: (retries) =>
@@ -166,8 +170,6 @@ module.exports = class Channel
     # long polling
     reqpoll: => Q.Promise (rs, rj) =>
         log.debug 'long poll req'
-        sapisid = sapisidof @jarstore
-        headers = authhead sapisid, Date.now(), ORIGIN_URL
         opts =
             method: 'GET'
             uri: op 'channel/bind'
@@ -181,7 +183,7 @@ module.exports = class Channel
                 CI: 0
                 ctype: 'hangouts'
                 TYPE: 'xmlhttp'
-            headers: headers
+            headers: @authHeaders()
             encoding: null # get body as buffer
             timeout: 30000 # 30 seconds timeout in connect attempt
         ok = false
@@ -193,7 +195,7 @@ module.exports = class Channel
                 ok = false
                 log.debug 'sid became invalid'
                 @sid = null
-            rj new NetworkError(res.statusCode, res.statusMessage)
+            rj NetworkError.forRes(res)
         .on 'data', (chunk) =>
             if ok
 #                log.debug 'long poll chunk\n' + hexy.hexy(chunk)

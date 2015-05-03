@@ -10,6 +10,10 @@ find = curry (o, fn) ->
 
 plug = (rs, rj) -> (err, val) -> if err then rj(err) else rs(val)
 
+class NetworkError extends Error
+    constructor: (@code, @message, @body) -> super
+NetworkError.forRes = (res) -> new NetworkError(res.statusCode, res.statusMessage, res.body)
+
 req = (as...) -> Q.Promise (rs, rj) -> request as..., plug(rs, rj)
 
 uniqfn = (as, fn) ->
@@ -20,4 +24,4 @@ wait = (time) -> Q.Promise (rs) -> setTimeout rs, time
 
 tryparse = (str) -> try JSON.parse(str) catch err then null
 
-module.exports = {req, plug, find, uniqfn, wait, tryparse}
+module.exports = {req, plug, find, uniqfn, wait, tryparse, NetworkError}
