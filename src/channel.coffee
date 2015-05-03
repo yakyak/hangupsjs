@@ -155,7 +155,7 @@ module.exports = class Channel
 
     poll: (retries) =>
         Q().then ->
-            backoffTime = 2 * (MAX_RETRIES - retries)
+            backoffTime = 2 * (MAX_RETRIES - retries) * 1000
             log.debug 'backing off for', backoffTime, 'ms' if backoffTime
             wait backoffTime
         .then =>
