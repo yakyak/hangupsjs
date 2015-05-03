@@ -2,7 +2,7 @@ log     = require 'bog'
 request = require 'request'
 Q       = require 'q'
 
-{req, NetworkError} = require './util'
+{req, NetworkError, tryparse} = require './util'
 
 #require('request-debug') request
 
@@ -39,7 +39,10 @@ module.exports = class ChatReq
             showBody = if res.statusCode == 200 then '' else res.body?.toString?()
             log.debug 'request for', url, 'result:', res.statusCode, showBody
             if res.statusCode == 200
-                res.body
+                if json
+                    tryparse res.body.toString()
+                else
+                    res.body # protojson, return as Buffer
             else
                 log.debug 'request for', url, 'result:', res.statusCode, res.body?.toString?()
                 Q.reject NetworkError.forRes(res)

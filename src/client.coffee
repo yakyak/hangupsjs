@@ -13,7 +13,7 @@ Channel = require './channel'
 MessageParser = require './messageparser'
 ChatReq = require './chatreq'
 
-{ActiveClientState,
+{ActiveClientState, OffTheRecordStatus
 CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE} = require './schema'
 
 DEFAULTS =
@@ -46,7 +46,9 @@ module.exports = class Client extends EventEmitter
         @activeState = false
 
         # clientid comes as part of pushdata
-        @on 'clientid', (clientid) => @init.clientid = clientid
+        @on 'clientid', (clientid) =>
+            @init.clientid = clientid
+            @emit 'connected' if @isInited()
 
     loglevel: (lvl) -> log.level lvl
 
@@ -70,7 +72,8 @@ module.exports = class Client extends EventEmitter
                     @messageParser.parsePushLines lines
                     poller()
                 .done()
-            null
+            # wait for connected event to release promise
+            Q.Promise (rs) => @once 'connected', -> rs()
 
     # debug each event emitted
     emit: (ev, data) ->
@@ -100,6 +103,16 @@ module.exports = class Client extends EventEmitter
             @activeState = ActiveClientState.IS_ACTIVE_CLIENT
             @lastActive = Date.now()
             @setactiveclient true, 120
+
+
+    # makes the header required at the start of each api call body.
+    _requestBodyHeader: ->
+        [
+            [6, 3, @init.headerversion, @init.headerdate],
+            [@init.clientid, @init.headerid],
+            None,
+            "en"
+        ]
 
 
     # The active client receives notifications. This marks the client as active.
@@ -136,19 +149,44 @@ module.exports = class Client extends EventEmitter
             CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE.parse body
 
 
-    _requestBodyHeader: ->
-        [
-            [6, 3, @init.headerversion, @init.headerdate],
-            [@init.clientid, @init.headerid],
-            None,
-            "en"
-        ]
+    # Send a chat message to a conversation.
+    #
+    # conversation_id must be a valid conversation ID. segments must be a
+    # list of message segments to send, in pblite format.
+    #
+    # otr_status determines whether the message will be saved in the server's
+    # chat history. Note that the OTR status of the conversation is
+    # irrelevant, clients may send messages with whatever OTR status they
+    # like.
+    #
+    # image_id is an option ID of an image retrieved from
+    # @upload_image(). If provided, the image will be attached to the
+    # message.
+    sendchatmessage: (conversation_id, segments, image_id=None,
+        otr_status=OffTheRecordStatus.ON_THE_RECORD) ->
+        client_generated_id = Math.round Math.random() * Math.pow(2,32)
+        @chatreq.req('conversations/sendchatmessage', [
+            @_requestBodyHeader(),
+            None, None, None, [],
+            [
+                segments, []
+            ],
+            (if image_id then [[image_id, False]] else None),
+            [
+                [conversation_id],
+                client_generated_id,
+                otr_status,
+            ],
+            None, None, None, []
+        ]).then (resp) ->
+            # sendchatmessage can return 200 but still contain an error
+            if resp?.response_header?.status != 'OK'
+                Q.reject resp
+            else
+                resp
 
 
-    # syncallnewevents(self, timestamp)
-    # sendchatmessage
     # upload_image(self, thefile, extension_hint="jpg")
-    # setactiveclient(self, is_active, timeout_secs)
     # removeuser(self, conversation_id)
     # deleteconversation(self, conversation_id)
     # settyping(self, conversation_id, typing=schemas.TypingStatus.TYPING)
