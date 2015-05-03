@@ -392,5 +392,10 @@ s.CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE = Message([
     'conversation_state', RepeatedField(s.CLIENT_CONVERSATION_STATE)
 ])
 
+CLIENT_GET_CONVERSATION_RESPONSE = Message([
+    None, Field()  # 'cgcrp'
+    'response_header', s.CLIENT_RESPONSE_HEADER
+    'conversation_state', s.CLIENT_CONVERSATION_STATE
+])
 
 module.exports = s
