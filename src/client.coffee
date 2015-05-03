@@ -13,7 +13,7 @@ Channel = require './channel'
 MessageParser = require './messageparser'
 ChatReq = require './chatreq'
 
-{ActiveClientState, OffTheRecordStatus
+{ActiveClientState, OffTheRecordStatus, TypingStatus,
 CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE} = require './schema'
 
 DEFAULTS =
@@ -167,15 +167,15 @@ module.exports = class Client extends EventEmitter
         client_generated_id = Math.round Math.random() * Math.pow(2,32)
         @chatreq.req('conversations/sendchatmessage', [
             @_requestBodyHeader(),
-            None, None, None, [],
+            None, None, None, []
             [
                 segments, []
             ],
-            (if image_id then [[image_id, False]] else None),
+            (if image_id then [[image_id, False]] else None)
             [
-                [conversation_id],
-                client_generated_id,
-                otr_status,
+                [conversation_id]
+                client_generated_id
+                otr_status
             ],
             None, None, None, []
         ]).then (resp) ->
@@ -185,21 +185,48 @@ module.exports = class Client extends EventEmitter
             else
                 resp
 
+    # Return information about your account.
+    getselfinfo: ->
+        @chatreq.req('contacts/getselfinfo', [
+            @_requestBodyHeader()
+            [], []
+        ])
 
-    # upload_image(self, thefile, extension_hint="jpg")
-    # removeuser(self, conversation_id)
-    # deleteconversation(self, conversation_id)
+
+    # Set focus (occurs whenever you give focus to a client).
+    setfocus: (conversation_id) ->
+        @chatreq.req('conversations/setfocus', [
+            @_requestBodyHeader()
+            [conversation_id]
+            1
+            20
+        ])
+
+
+    # Send typing notification.
+    #
+    # conversation_id must be a valid conversation ID. typing must be
+    # a TypingStatus enum.
+    settyping: (conversation_id, typing=TypingStatus.TYPING) ->
+        @chatreq.req('conversations/settyping', [
+            @_requestBodyHeader()
+            [conversation_id]
+            typing
+        ])
+
     # settyping(self, conversation_id, typing=schemas.TypingStatus.TYPING)
-    # updatewatermark(self, conv_id, read_timestamp)
-    # getselfinfo(self)
-    # setfocus(self, conversation_id)
-    # searchentities(self, search_string, max_results)
     # setpresence(self, online, mood=None)
     # querypresence(self, chat_id)
-    # getentitybyid(self, chat_id_list)
-    # getconversation(self, conversation_id, event_timestamp, max_events=50)
-    # syncrecentconversations(self)
-    # setchatname(self, conversation_id, name)
-    # sendeasteregg(self, conversation_id, easteregg)
-    # createconversation(self, chat_id_list, force_group = False)
+    # removeuser(self, conversation_id)
+    # deleteconversation(self, conversation_id)
+    # updatewatermark(self, conv_id, read_timestamp)
     # adduser(self, conversation_id, chat_id_list)
+    # setchatname(self, conversation_id, name)
+    # createconversation(self, chat_id_list, force_group = False)
+    # getconversation(self, conversation_id, event_timestamp, max_events=50)
+    #
+    # syncrecentconversations(self)
+    # searchentities(self, search_string, max_results)
+    # getentitybyid(self, chat_id_list)
+    # upload_image(self, thefile, extension_hint="jpg")
+    # sendeasteregg(self, conversation_id, easteregg)
