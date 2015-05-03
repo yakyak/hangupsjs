@@ -33,7 +33,7 @@ SETACTIVE_LIMIT = 60 * 1000
 
 None = undefined
 
-randomid = Math.round Math.random() * Math.pow(2,32)
+randomid = -> Math.round Math.random() * Math.pow(2,32)
 datetolong = (d) -> if typeis d, 'date' then d.getTime() else d
 togoogtime = sequence datetolong, mul(1000)
 
