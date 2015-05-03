@@ -10,6 +10,12 @@ module.exports = class ChatReq
 
     constructor: (@jarstore, @init, @channel) ->
 
+    # does a request against url.
+    # contentype is request Content-Type.
+    # body is the body which will be JSON.stringify()
+    # json is whether we want a result that is json or protojson
+    #
+    # These cookies are typically submitted:
     # NID, SID, HSID, SSID, APISID, SAPISID
     baseReq: (url, contenttype, body, json=true) ->
         headers = @channel.authHeaders()
@@ -39,6 +45,8 @@ module.exports = class ChatReq
                 Q.reject NetworkError.forRes(res)
 
 
+    # request endpoint by submitting body. json toggles whether we want
+    # the result as json or protojson
     req: (endpoint, body, json=true) ->
         url = "https://clients6.google.com/chat/v1/#{endpoint}"
         @baseReq url, 'application/json+protobuf', body, json

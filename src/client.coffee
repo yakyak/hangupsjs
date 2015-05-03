@@ -13,7 +13,8 @@ Channel = require './channel'
 MessageParser = require './messageparser'
 ChatReq = require './chatreq'
 
-{ActiveClientState} = require './schema'
+{ActiveClientState,
+CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE} = require './schema'
 
 DEFAULTS =
     cookiepath: syspath.normalize syspath.join __dirname, '../cookie.json'
@@ -28,6 +29,8 @@ touch = (path) ->
 
 # Minimum time between setactive calls
 SETACTIVE_LIMIT = 60 * 1000
+
+None = undefined
 
 module.exports = class Client extends EventEmitter
 
@@ -89,15 +92,21 @@ module.exports = class Client extends EventEmitter
     isActive: -> @activeState == ActiveClientState.IS_ACTIVE_CLIENT
 
 
+    # Utility method to throttle calls to @setactiveclient to happen
+    # at most once every 60 seconds.
     setActive: ->
         timedOut = Date.now() - @lastActive > SETACTIVE_LIMIT
         if timedOut or not @isActive()
             @activeState = ActiveClientState.IS_ACTIVE_CLIENT
             @lastActive = Date.now()
-            @_setActive true, 120
+            @setactiveclient true, 120
 
 
-    _setActive: (active, timeoutsecs) ->
+    # The active client receives notifications. This marks the client as active.
+    #
+    #
+    # api: clients/setactiveclient
+    setactiveclient: (active, timeoutsecs) ->
         @chatreq.req 'clients/setactiveclient', [
             @_requestBodyHeader()
             active
@@ -106,11 +115,32 @@ module.exports = class Client extends EventEmitter
         ]
 
 
+    # List all events occuring at or after timestamp. Timestamp can be
+    # a date or long millis.
+    #
+    # This method requests protojson rather than json so we have one
+    # chat message parser rather than two.
+    #
+    # timestamp: date instance specifying the time after which to
+    # return all events occuring in.
+    #
+    # returns a parsed CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE
+    syncallnewevents: (timestamp) ->
+        time = mul 1000, if typeis timestamp, 'date' then timestamp.getTime() else timestamp
+        @chatreq.req('conversations/syncallnewevents', [
+            @_requestBodyHeader()
+            time
+            [], None, [], false, []
+            1048576 # max_response_size_bytes
+        ], false).then (body) -> # receive as protojson
+            CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE.parse body
+
+
     _requestBodyHeader: ->
         [
             [6, 3, @init.headerversion, @init.headerdate],
             [@init.clientid, @init.headerid],
-            undefined,
+            None,
             "en"
         ]
 

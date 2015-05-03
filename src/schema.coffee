@@ -377,4 +377,20 @@ s.CLIENT_STATE_UPDATE = Message([
     'invitation_watermark_notification', Field()
 ])
 
+s.CLIENT_RESPONSE_HEADER = Message([
+    'status', Field()  # 1 => success
+    None, Field()
+    None, Field()
+    'request_trace_id', Field()
+    'current_server_time', Field()
+])
+
+s.CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE = Message([
+    None, Field()  # 'csanerp'
+    'response_header', s.CLIENT_RESPONSE_HEADER
+    'sync_timestamp', Field()
+    'conversation_state', RepeatedField(s.CLIENT_CONVERSATION_STATE)
+])
+
+
 module.exports = s

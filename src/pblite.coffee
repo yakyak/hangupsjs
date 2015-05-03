@@ -33,6 +33,9 @@ class Message
         @fields = fields
     parse: (input) ->
         return null unless input
+        input = input.toString() if input instanceof Buffer
+        # we must eval since protojson is not proper json: [1,,""]
+        input = eval input if typeis input, 'string'
         out = {}
         for a in [0...@fields.length] by 2
             val = input[a/2]
