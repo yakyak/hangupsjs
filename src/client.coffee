@@ -177,7 +177,7 @@ module.exports = class Client extends EventEmitter
             [
                 segments, []
             ],
-            (if image_id then [[image_id, False]] else None)
+            (if image_id then [[image_id, false]] else None)
             [
                 [conversation_id]
                 client_generated_id
@@ -231,7 +231,7 @@ module.exports = class Client extends EventEmitter
             ]
             None
             None
-            # True if going offline, False if coming online
+            # true if going offline, false if coming online
             [not online]
             # UTF-8 smiley like 0x1f603
             [mood]
@@ -350,8 +350,8 @@ module.exports = class Client extends EventEmitter
         @chatreq.req('conversations/getconversation', [
             @_requestBodyHeader()
             [[conversation_id], [], []],  # conversationSpec
-            False,                        # includeConversationMetadata
-            True,                         # includeEvents
+            false,                        # includeConversationMetadata
+            true,                         # includeEvents
             None,                         # ???
             max_events,                   # maxEventsPerConversation
             # eventContinuationToken (specifying timestamp is sufficient)
