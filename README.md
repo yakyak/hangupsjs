@@ -1,10 +1,6 @@
 hangupsjs
 =========
 
-# Not finished
-
-#### The client connects and sets up the necessary push channels. However no API-calls for sending/receiving chat message have been implemented.
-
 ## Summary
 
 Client library for Google Hangouts in nodejs.
@@ -21,6 +17,8 @@ Port of https://github.com/tdryer/hangups to node js.
 I take no credit for the excellent work of Tom Dryer putting together
 the original python client library for Google Hangouts. This port is
 simply taking his work and porting it to coffeescript step by step.
+
+The library is rather new and needs more tests, error handling etc.
 
 ## Usage
 
