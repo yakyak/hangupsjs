@@ -44,7 +44,11 @@ client = new Client()
 # set more verbose logging
 client.loglevel 'debug'
 
-client.connect(creds).done()
+client.connect(creds).then ->
+    client.sendchatmessage('UgzJilj2Tg_oqk5EhEp4AaABAQ', [
+        [0, 'Hello World']
+    ])
+.done()
 ```
 
 ## License
