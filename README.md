@@ -1,6 +1,8 @@
 hangupsjs
 =========
 
+[![Build Status](https://travis-ci.org/algesten/hangupsjs.svg)](https://travis-ci.org/algesten/hangupsjs) [![Gitter](https://d378bf3rn661mp.cloudfront.net/gitter.svg)](https://gitter.im/algesten/hangupsjs)
+
 ## Summary
 
 Client library for Google Hangouts in nodejs.
