@@ -27,11 +27,13 @@ module.exports = class MessageParser
         null
 
     parsePayload: (payload) =>
+        payload = tryparse(payload) if typeis payload, 'string'
         if payload[0] == 'cbu'
-            update = CLIENT_STATE_UPDATE.parse payload[1]
-            @emit 'update', update
+            for u in payload[1]
+                update = CLIENT_STATE_UPDATE.parse u
+                @emit 'update', update
         else
-            logger.info 'ignoring payload with header', payload[0]
+            log.info 'ignoring payload with header', payload[0]
 
 
     emit: (ev, data) => @emitter?.emit ev, data
