@@ -4,6 +4,13 @@ Q   = require 'q'
 {tryparse} = require './util'
 {CLIENT_STATE_UPDATE} = require './schema'
 
+CLIENT_EVENT_PARTS = [
+    'chat_message'
+    'membership_change'
+    'conversation_rename'
+    'hangout_event'
+]
+
 module.exports = class MessageParser
 
     constructor: (@emitter) ->
@@ -31,9 +38,29 @@ module.exports = class MessageParser
         if payload[0] == 'cbu'
             for u in payload[1]
                 update = CLIENT_STATE_UPDATE.parse u
-                @emit 'update', update
+                @emitUpdateParts update
         else
             log.info 'ignoring payload with header', payload[0]
+
+
+    emitUpdateParts: (update) ->
+        header = update.state_update_header
+        for k, value of update
+            [_, eventname] = k.match(/(.*)_notification/) ? []
+            continue unless eventname and value
+            if eventname == 'event'
+                # further split the nebulous "CLIENT_EVENT"
+                @emitEventParts header, value.event
+            else
+                value._header = header
+                @emit eventname, value
+
+
+    emitEventParts: (header, event) ->
+        for part in CLIENT_EVENT_PARTS when event[part]
+            ks = filter keys(event), (k) ->
+                event[k] and (k == part or not contains CLIENT_EVENT_PARTS, k)
+            @emit part, pick event, ks
 
 
     emit: (ev, data) => @emitter?.emit ev, data

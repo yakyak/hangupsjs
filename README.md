@@ -61,8 +61,6 @@ client.connect(creds).then ->
 
 High level API calls that are not doing direct hangouts calls.
 
-
-
 #### `Client()`
 
 `Client(opts)`
@@ -137,7 +135,6 @@ Sets the log level one of `debug`, `info`, `warn` or `error`.
 
 Each API call does a direct operation against hangouts. Each call
 returns a promise for the result.
-
 
 #### `sendchatmessage`
 
@@ -376,6 +373,59 @@ Send an easteregg to a conversation.
 
 ## Events
 
+The following events are available on the `Client` object. Example:
+
+```coffee
+client.on 'chat_message', (msg) ->
+    # ... do something
+```
+
+#### `connected`
+
+When the client is fully inited and connected.
+
+#### 'chat_message'
+
+On a received chat message.
+
+#### 'membership\_change'
+
+Member joining/leaving conversation.
+
+#### 'conversation\_rename'
+
+On a renamed conversation.
+
+#### 'focus'
+
+When a user focuses a conversation.
+
+#### 'typing'
+
+When a user is typing.
+
+#### 'watermark'
+
+When a user updates their read timestamp.
+
+
+### To investigated
+
+The following events are possible and not investigated. Please tell me
+in an [issue](issues) if you figure one out.
+
+* 'hangout\_event'
+* `client_conversation`
+* 'notification\_level'
+* 'conversation\_notification'
+* 'reply\_to\_invite'
+* 'settings'
+* 'easter\_egg'
+* 'self\_presence'
+* 'delete'
+* 'presence'
+* 'block'
+* 'invitation_watermark'
 
 
 

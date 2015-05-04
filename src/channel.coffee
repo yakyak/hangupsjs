@@ -9,7 +9,6 @@ Q       = require 'q'
 PushDataParser = require './pushdataparser'
 
 ORIGIN_URL = 'https://talkgadget.google.com'
-#ORIGIN_URL = 'https://0.client-channel.google.com'
 CHANNEL_URL_PREFIX = 'https://0.client-channel.google.com/client-channel'
 
 UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36
