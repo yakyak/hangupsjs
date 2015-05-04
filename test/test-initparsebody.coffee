@@ -12,7 +12,7 @@ describe 'Init', ->
 
     describe 'parseBody', ->
 
-        it 'takes an html body, evals it through jsdom and extracts data', ->
+        it 'takes an html body, evals it and extracts data', ->
             body = fs.readFileSync './test/body.html', 'utf-8'
             init.parseBody(body).then ->
                 deql init.apikey, 'AIzaSyAfFJCeph-euFSwtmqFZi0kaKk-cZ5wufM'

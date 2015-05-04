@@ -24,19 +24,17 @@
   "dependencies": {
     "bog": "^1.0.0",
     "fnuc": "0.0.15",
-    "hexy": "^0.2.7",
-    "jsdom": "^3.1.2",
     "q": "^1.2.0",
     "request": "^2.54.0",
     "tough-cookie": "^0.12.1",
     "tough-cookie-filestore": "0.0.1",
-    "wrench": "^1.5.8",
     "zombie": "^3.1.1"
   },
   "devDependencies": {
     "coffee-script": "^1.9.1",
     "chai": "^2.3.0",
     "mocha": "^2.2.4",
-    "request-debug": "^0.1.1"
+    "request-debug": "^0.1.1",
+    "hexy": "^0.2.7"
   }
 }

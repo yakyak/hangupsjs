@@ -4,30 +4,11 @@ Q       = require 'q'
 fs      = require 'fs'
 syspath = require 'path'
 
-wrench  = require 'wrench'
-
-# use private jsdom since it conflicts with zombie's monkey patches
-try
-    from = syspath.join __dirname, '../node_modules/jsdom'
-    to = syspath.join __dirname, './jsdom'
-    fs.statSync to
-catch err
-    if err.code == 'ENOENT'
-        wrench.copyDirSyncRecursive from, to
-jsdom   = require './jsdom/lib/jsdom'
-
 {req, find, uniqfn, NetworkError} = require './util'
 
 {CLIENT_GET_SELF_INFO_RESPONSE,
 CLIENT_CONVERSATION_STATE_LIST,
 INITIAL_CLIENT_ENTITIES} = require './schema'
-
-# make jsdom process <script>
-jsdom.defaultDocumentFeatures =
-    FetchExternalResources   : ['script']
-    ProcessExternalResources : ['script']
-    MutationEvents           : '2.0'
-    QuerySelector            : false
 
 CHAT_INIT_URL = 'https://talkgadget.google.com/u/0/talkgadget/_/chat'
 CHAT_INIT_PARAMS =
@@ -64,18 +45,27 @@ module.exports = class Init
             # <!DOCTYPE html><html>...</html>
             # <script>...</script>
             # <script>...</script>
-            #
-            # jsom stops evaluating things after the end </html> but
-            # the code inside <html> is not necessary. strip it.
 
-            html = body.replace /<!DOCTYPE html><html>(.|\n)*<\/html>/m, ''
+            # first remove the <html> part
+            html = body.replace /<!DOCTYPE html><html>(.|\n)*<\/html>/gm, ''
 
-            # the result here is an html-page with <script> tags.
-            # we run jsdom on that to eval the result.
-            jsdom.jsdom(html).parentWindow
-        .then (win) =>
+            # and then the <script> tags
+            html = html.replace /<\/?script>/gm, ''
+
+            # expose the init chunk queue
+            html = html.replace 'var AF_initDataChunkQueue =',
+                'var AF_initDataChunkQueue = this.AF_initDataChunkQueue ='
+
+            # eval it.
+            # eval is a security risk, google could inject random
+            # data into our client right here.
+            do (-> eval html).bind(out = {})
+
+            # and return the exposed data
+            return out
+        .then (out) =>
             # the page has a weird and wonderful javascript structure in
-            # win.AF_initDataChunkQueue =
+            # out.AF_initDataChunkQueue =
             # [ { key: 'ds:0', isError: false, hash: '2', data: [Function] },
             #   { key: 'ds:1', isError: false, hash: '26', data: [Function] },
             #   { key: 'ds:2', isError: false, hash: '19', data: [Function] },
@@ -98,7 +88,7 @@ module.exports = class Init
                 }
 
             for k, spec of DICT
-                ent = find win.AF_initDataChunkQueue, (e) -> spec.key == e.key
+                ent = find out.AF_initDataChunkQueue, (e) -> spec.key == e.key
                 if ent
                     this[k] = d = spec.fn ent.data()
                     if d.length
