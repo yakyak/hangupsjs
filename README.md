@@ -130,6 +130,54 @@ Only after all these steps are completed will `isInited` return true.
 Sets the log level one of `debug`, `info`, `warn` or `error`.
 
 
+#### `MessageBuilder`
+
+Helper to compose message `segments` that goes into
+[`sendchatmessage`](#sendchatmessage). The builder has these methods.
+
+Example:
+
+```coffee
+bld = new Client.MessageBuilder()
+segments = bld.text('Hello ').bold('World').text('!!!').toSegments()
+client.sendchatmessage('UgzfaJwj2Tg_oqk5EhEp5faABAQ', segments)
+```
+
+##### `builder.text`
+
+`(txt, bold=false, italic=false, strikethrough=false, underline=false, href=null) ->`
+
+Adds a text segment.
+
+```coffee
+builder.text('Hello')
+```
+
+##### `builder.bold`
+
+Adds a text segment in bold.
+
+##### `builder.italic`
+
+Adds a text segment in italic.
+
+##### `builder.strikethrough`
+
+Adds a text segment strikethroughed.
+
+##### `builder.underline`
+
+Adds an underlined text segment.
+
+##### `builder.link`
+
+(TODO, not working) Adds a text that is a link.
+
+##### `builder.toSegments`
+
+Turns the builder into an array of segments usable for `sendchatmessage`.
+
+
 
 ### Low Level API
 

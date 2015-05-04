@@ -1,17 +1,18 @@
 require('fnuc').expose global
-{EventEmitter}  = require 'events'
 FileCookieStore = require 'tough-cookie-filestore'
 {CookieJar}     = require 'tough-cookie'
-syspath  = require 'path'
-log      = require 'bog'
-fs       = require 'fs'
-Q        = require 'q'
+{EventEmitter}  = require 'events'
+syspath         = require 'path'
+log             = require 'bog'
+fs              = require 'fs'
+Q               = require 'q'
 
-Auth    = require './auth'
-Init    = require './init'
-Channel = require './channel'
-MessageParser = require './messageparser'
-ChatReq = require './chatreq'
+MessageBuilder  = require './messagebuilder'
+MessageParser   = require './messageparser'
+ChatReq         = require './chatreq'
+Channel         = require './channel'
+Auth            = require './auth'
+Init            = require './init'
 
 {OffTheRecordStatus, TypingStatus,
 CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
@@ -394,3 +395,4 @@ module.exports = class Client extends EventEmitter
 # Expose these as part of publich API
 Client.OffTheRecordStatus = OffTheRecordStatus
 Client.TypingStatus       = TypingStatus
+Client.MessageBuilder     = MessageBuilder
