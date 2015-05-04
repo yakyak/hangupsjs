@@ -390,11 +390,11 @@ When the client is fully inited and connected.
 
 On a received chat message.
 
-#### `membership\_change`
+#### `membership_change`
 
 Member joining/leaving conversation.
 
-#### `conversation\_rename`
+#### `conversation_rename`
 
 On a renamed conversation.
 
@@ -416,14 +416,14 @@ When a user updates their read timestamp.
 The following events are possible and not investigated. Please tell me
 in an [issue](issues) if you figure one out.
 
-* `hangout\_event`
+* `hangout_event`
 * `client_conversation`
-* `notification\_level`
-* `conversation\_notification`
-* `reply\_to\_invite`
+* `notification_level`
+* `conversation_notification`
+* `reply_to_invite`
 * `settings`
-* `easter\_egg`
-* `self\_presence`
+* `easter_egg`
+* `self_presence`
 * `delete`
 * `presence`
 * `block`
