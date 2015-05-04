@@ -4,7 +4,6 @@ request = require 'request'
 crypto  = require 'crypto'
 log     = require 'bog'
 Q       = require 'q'
-hexy    = require 'hexy'
 
 {req, find, wait, NetworkError} = require './util'
 PushDataParser = require './pushdataparser'
@@ -124,6 +123,7 @@ module.exports = class Channel
         @running = true
         @sid = null   # ensures we get a new sid
         @gsid = null
+        @subscribed = false
         run = =>
             # graceful stop of polling
             return unless @running
@@ -195,14 +195,65 @@ module.exports = class Channel
                 ok = false
                 log.debug 'sid became invalid'
                 @sid = null
+                @gsid = null
+                @subscribed = false
             rj NetworkError.forRes(res)
         .on 'data', (chunk) =>
             if ok
-#                log.debug 'long poll chunk\n' + hexy.hexy(chunk)
+#                log.debug 'long poll chunk\n' + require('hexy').hexy(chunk)
                 @pushParser.parse chunk
+            # subscribe on first data received
+            @subscribe() unless @subscribed
         .on 'error', (err) =>
             log.debug 'long poll error', err
             rj err
         .on 'end', ->
             log.debug 'long poll end'
             rs()
+
+
+    # Subscribes the channel to receive relevant events. Only needs to
+    # be called when a new channel (SID/gsessionid) is opened.
+    subscribe: =>
+        return if @subscribed
+        @subscribed = true
+        Q().then ->
+            wait(1000) # https://github.com/tdryer/hangups/issues/58
+        .then =>
+            timestamp = Date.now() * 1000
+            opts =
+                method: 'POST'
+                uri: op 'channel/bind'
+                jar: request.jar @jarstore
+                qs:
+                    VER: 8
+                    RID: 81188
+                    ctype: 'hangouts'
+                    gsessionid: @gsid
+                    SID: @sid
+                headers: @authHeaders()
+                timeout: 30000 # 30 seconds timeout in connect attempt
+                form:
+                    count: 3,
+                    ofs: 0,
+                    req0_p: '{"1":{"1":{"1":{"1":3,"2":2}},"2":{"1":{"1":3,"2":' +
+                            '2},"2":"","3":"JS","4":"lcsclient"},"3":' +
+                            timestamp + ',"4":0,"5":"c1"},"2":{}}',
+                    req1_p: '{"1":{"1":{"1":{"1":3,"2":2}},"2":{"1":{"1":3,"2":' +
+                            '2},"2":"","3":"JS","4":"lcsclient"},"3":' +
+                            timestamp + ',"4":' + timestamp +
+                            ',"5":"c3"},"3":{"1":{"1":"babel"}}}',
+                    req2_p: '{"1":{"1":{"1":{"1":3,"2":2}},"2":{"1":{"1":3,"2":' +
+                            '2},"2":"","3":"JS","4":"lcsclient"},"3":' +
+                            timestamp + ',"4":' + timestamp +
+                            ',"5":"c4"},"3":{"1":{"1":"hangout_invite"}}}'
+            req(opts)
+        .then (res) ->
+            if res.statusCode == 200
+                log.debug 'subscribed channel'
+            else
+                Q.reject NetworkError.forRes(res)
+        .fail (err) =>
+            log.error 'subscribe failed', err
+            @subscribed = false
+            Q.reject err
