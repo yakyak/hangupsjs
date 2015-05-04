@@ -93,7 +93,7 @@ Disconnects the client.
 `isInited`
 
 For Client to be fully inited the following must happen on
-[`connect`](#connect)`
+[`connect`](#connect)
 
 1. Get login cookies against https://accounts.google.com/ServiceLogin
    or reuse cached cookies.
