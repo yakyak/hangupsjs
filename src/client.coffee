@@ -13,7 +13,7 @@ Channel = require './channel'
 MessageParser = require './messageparser'
 ChatReq = require './chatreq'
 
-{ActiveClientState, OffTheRecordStatus, TypingStatus,
+{OffTheRecordStatus, TypingStatus,
 CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
 CLIENT_GET_CONVERSATION_RESPONSE} = require './schema'
 
@@ -27,9 +27,6 @@ touch = (path) ->
     catch err
         if err.code == 'ENOENT'
             fs.writeFileSync(path, '')
-
-# Minimum time between setactive calls
-SETACTIVE_LIMIT = 60 * 1000
 
 None = undefined
 
@@ -47,8 +44,6 @@ module.exports = class Client extends EventEmitter
         @init = new Init @jarstore
         @chatreq = new ChatReq @jarstore, @init, @channel
         @messageParser = new MessageParser(this)
-        @lastActive = 0
-        @activeState = false
 
         # clientid comes as part of pushdata
         @on 'clientid', (clientid) =>
@@ -95,19 +90,6 @@ module.exports = class Client extends EventEmitter
         # checks that we have all init stuff
         !!(@init.apikey and @init.email and @init.headerdate and @init.headerversion and
         @init.headerid and @init.clientid)
-
-
-    isActive: -> @activeState == ActiveClientState.IS_ACTIVE_CLIENT
-
-
-    # Utility method to throttle calls to @setactiveclient to happen
-    # at most once every 60 seconds.
-    setActive: ->
-        timedOut = Date.now() - @lastActive > SETACTIVE_LIMIT
-        if timedOut or not @isActive()
-            @activeState = ActiveClientState.IS_ACTIVE_CLIENT
-            @lastActive = Date.now()
-            @setactiveclient true, 120
 
 
     # makes the header required at the start of each api call body.
@@ -321,7 +303,7 @@ module.exports = class Client extends EventEmitter
         ]
 
 
-    # Create new conversation.
+    # Create a new conversation.
     #
     # chat_ids is an array of chat_id which should be invited to
     # conversation (except yourself).
@@ -407,3 +389,8 @@ module.exports = class Client extends EventEmitter
 
 
     # upload_image(self, thefile, extension_hint="jpg")
+
+
+# Expose these as part of publich API
+Client.OffTheRecordStatus = OffTheRecordStatus
+Client.TypingStatus       = TypingStatus
