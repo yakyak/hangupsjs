@@ -371,6 +371,8 @@ Send an easteregg to a conversation.
 `easteregg`: may not be empty. could be one of 'ponies', 'pitchforks',
 'bikeshed', 'shydino'
 
+
+
 ## Events
 
 The following events are available on the `Client` object. Example:
@@ -384,27 +386,27 @@ client.on 'chat_message', (msg) ->
 
 When the client is fully inited and connected.
 
-#### 'chat_message'
+#### `chat_message`
 
 On a received chat message.
 
-#### 'membership\_change'
+#### `membership\_change`
 
 Member joining/leaving conversation.
 
-#### 'conversation\_rename'
+#### `conversation\_rename`
 
 On a renamed conversation.
 
-#### 'focus'
+#### `focus`
 
 When a user focuses a conversation.
 
-#### 'typing'
+#### `typing`
 
 When a user is typing.
 
-#### 'watermark'
+#### `watermark`
 
 When a user updates their read timestamp.
 
@@ -414,18 +416,18 @@ When a user updates their read timestamp.
 The following events are possible and not investigated. Please tell me
 in an [issue](issues) if you figure one out.
 
-* 'hangout\_event'
+* `hangout\_event`
 * `client_conversation`
-* 'notification\_level'
-* 'conversation\_notification'
-* 'reply\_to\_invite'
-* 'settings'
-* 'easter\_egg'
-* 'self\_presence'
-* 'delete'
-* 'presence'
-* 'block'
-* 'invitation_watermark'
+* `notification\_level`
+* `conversation\_notification`
+* `reply\_to\_invite`
+* `settings`
+* `easter\_egg`
+* `self\_presence`
+* `delete`
+* `presence`
+* `block`
+* `invitation_watermark`
 
 
 
