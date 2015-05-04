@@ -127,6 +127,24 @@ Each API call does a direct operation against hangouts. Each call
 returns a promise for the result.
 
 
+#### `sendchatmessage: (conversation_id, segments, image_id=None, otr_status=OffTheRecordStatus.ON_THE_RECORD) ->`
+
+Send a chat message to a conversation.
+
+`conversation_id`: the conversation to send a message to.
+
+`segments`: array of segments to send. See
+[`messagebuilder`](#messagebuilder) for help.
+
+`image_id`: (TODO) is an option ID of an image retrieved from
+[`upload_image()`](#upload_image). If provided, the image will be
+attached to the # message.
+
+`otr_status`: determines whether the message will be saved in the
+server's chat history. Note that the OTR status of the conversation is
+irrelevant, clients may send messages with whatever OTR status they
+like. One of `Client.OffTheRecordStatus.OFF_THE_RECORD` or
+`Client.OffTheRecordStatus.ON_THE_RECORD`.
 
 #### `setactiveclient: (active, timeoutsecs) ->`
 
