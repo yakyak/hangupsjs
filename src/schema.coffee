@@ -369,7 +369,7 @@ s.CLIENT_STATE_UPDATE = Message([
     'settings_notification', Field()
     'view_modification', Field()
     'easter_egg_notification', Field()
-    'client_conversation', s.CLIENT_CONVERSATION
+    'client_conversation_notification', s.CLIENT_CONVERSATION # deviation from python
     'self_presence_notification', Field()
     'delete_notification', Field()
     'presence_notification', Field()
