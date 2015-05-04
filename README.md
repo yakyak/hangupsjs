@@ -63,13 +63,17 @@ High level API calls that are not doing direct hangouts calls.
 
 
 
-#### `Client(opts)` constructor
+#### `Client()`
+
+`Client(opts)`
 
 `opts.cookiepath` (optional) path to store cached login cookies.
 
 
 
-#### `connect: (creds) ->`
+#### `connect`
+
+`connect: (creds) ->`
 
 Attempts to connect the client to hangouts. See
 [`isInited`](#isinited) for the steps that connects the client.
@@ -78,7 +82,9 @@ is completed. On the [`connected`](#connected) event.
 
 
 
-#### `disconnect: ->`
+#### `disconnect`
+
+`disconnect: ->`
 
 Disconnects the client.
 
@@ -86,8 +92,10 @@ Disconnects the client.
 
 #### `isInited`
 
+`isInited`
+
 For Client to be fully inited the following must happen on
-[`connect`](#connect):
+[`connect`](#connect)`
 
 1. Get login cookies against https://accounts.google.com/ServiceLogin
    or reuse cached cookies.
@@ -117,9 +125,13 @@ Only after all these steps are completed will `isInited` return true.
 
 
 
-#### `loglevel: (level) ->`
+#### `loglevel`
+
+`loglevel: (level) ->`
 
 Sets the log level one of `debug`, `info`, `warn` or `error`.
+
+
 
 ### Low Level
 
@@ -127,7 +139,9 @@ Each API call does a direct operation against hangouts. Each call
 returns a promise for the result.
 
 
-#### `sendchatmessage: (conversation_id, segments, image_id=None, otr_status=OffTheRecordStatus.ON_THE_RECORD) ->`
+#### `sendchatmessage`
+
+`sendchatmessage: (conversation_id, segments, image_id=None, otr_status=OffTheRecordStatus.ON_THE_RECORD) ->`
 
 Send a chat message to a conversation.
 
@@ -146,7 +160,9 @@ irrelevant, clients may send messages with whatever OTR status they
 like. One of `Client.OffTheRecordStatus.OFF_THE_RECORD` or
 `Client.OffTheRecordStatus.ON_THE_RECORD`.
 
-#### `setactiveclient: (active, timeoutsecs) ->`
+#### `setactiveclient`
+
+`setactiveclient: (active, timeoutsecs) ->`
 
 The active client receives notifications. This marks the client as active.
 
@@ -156,7 +172,9 @@ The active client receives notifications. This marks the client as active.
 
 
 
-#### `syncallnewevents: (timestamp) ->`
+#### `syncallnewevents`
+
+`syncallnewevents: (timestamp) ->`
 
 List all events occuring at or after timestamp. Timestamp can be a
 date or long millis.
@@ -166,13 +184,17 @@ all events occuring in.
 
 
 
-#### `getselfinfo: ->`
+#### `getselfinfo`
+
+`getselfinfo: ->`
 
 Return information about your account.
 
 
 
-#### `setfocus: (conversation_id) ->`
+#### `setfocus`
+
+`setfocus: (conversation_id) ->`
 
 Set focus (occurs whenever you give focus to a client).
 
@@ -180,7 +202,9 @@ Set focus (occurs whenever you give focus to a client).
 
 
 
-#### `settyping: (conversation_id, typing=TypingStatus.TYPING) ->`
+#### `settyping`
+
+`settyping: (conversation_id, typing=TypingStatus.TYPING) ->`
 
 Send typing notification.
 
@@ -193,7 +217,9 @@ notification for.
 
 
 
-#### `setpresence: (online, mood=None) ->`
+#### `setpresence`
+
+`setpresence: (online, mood=None) ->`
 
 Set the presence or mood of this client.
 
@@ -203,7 +229,9 @@ Set the presence or mood of this client.
 
 
 
-#### `querypresence: (chat_id) ->`
+#### `querypresence`
+
+`querypresence: (chat_id) ->`
 
 Check someone's presence status.
 
@@ -211,7 +239,9 @@ Check someone's presence status.
 
 
 
-#### `removeuser: (conversation_id) ->`
+#### `removeuser`
+
+`removeuser: (conversation_id) ->`
 
 Remove self from chat.
 
@@ -219,7 +249,9 @@ Remove self from chat.
 
 
 
-#### `deleteconversation: (conversation_id) ->`
+#### `deleteconversation`
+
+`deleteconversation: (conversation_id) ->`
 
 Delete one-to-one conversation.
 
@@ -227,7 +259,9 @@ Delete one-to-one conversation.
 
 
 
-#### `updatewatermark: (conversation_id, timestamp) ->`
+#### `updatewatermark`
+
+`updatewatermark: (conversation_id, timestamp) ->`
 
 Update the watermark (read timestamp) for a conversation.
 
@@ -237,7 +271,9 @@ Update the watermark (read timestamp) for a conversation.
 
 
 
-#### `adduser: (conversation_id, chat_ids) ->`
+#### `adduser`
+
+`adduser: (conversation_id, chat_ids) ->`
 
 Add user(s) to existing conversation.
 
@@ -247,7 +283,9 @@ Add user(s) to existing conversation.
 
 
 
-#### `renameconversation: (conversation_id, name) ->`
+#### `renameconversation`
+
+`renameconversation: (conversation_id, name) ->`
 
 Set the name of a conversation.
 
@@ -257,7 +295,9 @@ Set the name of a conversation.
 
 
 
-#### `createconversation: (chat_ids, force_group=false) ->`
+#### `createconversation`
+
+`createconversation: (chat_ids, force_group=false) ->`
 
 Create a new conversation.
 
@@ -271,7 +311,9 @@ The new conversation ID is returned as `res.conversation.id.id`
 
 
 
-#### `getconversation: (conversation_id, timestamp, max_events=50) ->`
+#### `getconversation`
+
+`getconversation: (conversation_id, timestamp, max_events=50) ->`
 
 Return conversation events.
 
@@ -288,7 +330,9 @@ before.
 
 
 
-#### `syncrecentconversations: ->`
+#### `syncrecentconversations`
+
+`syncrecentconversations: ->`
 
 List the contents of recent conversations, including messages.
 Similar to syncallnewevents, but appears to return a limited number of
@@ -297,7 +341,9 @@ range.
 
 
 
-#### `searchentities: (search_string, max_results=10) ->`
+#### `searchentities`
+
+`searchentities: (search_string, max_results=10) ->`
 
 Search for people.
 
@@ -307,7 +353,9 @@ Search for people.
 
 
 
-#### `getentitybyid: (chat_ids) ->`
+#### `getentitybyid`
+
+`getentitybyid: (chat_ids) ->`
 
 Return information about a list of chat_ids.
 
@@ -315,7 +363,9 @@ Return information about a list of chat_ids.
 
 
 
-#### `sendeasteregg: (conversation_id, easteregg) ->`
+#### `sendeasteregg`
+
+`sendeasteregg: (conversation_id, easteregg) ->`
 
 Send an easteregg to a conversation.
 
