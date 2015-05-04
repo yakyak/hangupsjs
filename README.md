@@ -57,7 +57,7 @@ client.connect(creds).then ->
 
 ## API
 
-### High Level
+### High Level API
 
 High level API calls that are not doing direct hangouts calls.
 
@@ -133,7 +133,7 @@ Sets the log level one of `debug`, `info`, `warn` or `error`.
 
 
 
-### Low Level
+### Low Level API
 
 Each API call does a direct operation against hangouts. Each call
 returns a promise for the result.
