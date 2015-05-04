@@ -459,7 +459,7 @@ When a user is typing.
 When a user updates their read timestamp.
 
 
-### To investigated
+### To be investigated
 
 The following events are possible and not investigated. Please tell me
 in an [issue](https://github.com/algesten/hangupsjs/issues) if you figure one out.
