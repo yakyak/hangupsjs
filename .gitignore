@@ -21,7 +21,7 @@ bower_components
 doc
 
 BrowserStackLocal
-cookie.json
+cookies.json
 login.coffee
 jsdom
 

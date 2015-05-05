@@ -65,7 +65,8 @@ High level API calls that are not doing direct hangouts calls.
 
 `Client(opts)`
 
-`opts.cookiepath` (optional) path to store cached login cookies.
+`opts.cookiespath` (optional) path to file in which to store cached
+login cookies. Defaults to `cookies.json` in module dir.
 
 
 

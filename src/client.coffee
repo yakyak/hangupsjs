@@ -19,7 +19,7 @@ CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
 CLIENT_GET_CONVERSATION_RESPONSE} = require './schema'
 
 DEFAULTS =
-    cookiepath: syspath.normalize syspath.join __dirname, '../cookie.json'
+    cookiespath: syspath.normalize syspath.join __dirname, '../cookies.json'
 
 # ensure path exists
 touch = (path) ->
@@ -39,8 +39,8 @@ module.exports = class Client extends EventEmitter
 
     constructor: (opts) ->
         o = mixin DEFAULTS, opts
-        touch o.cookiepath
-        @jar = new CookieJar (@jarstore = new FileCookieStore o.cookiepath)
+        touch o.cookiespath
+        @jar = new CookieJar (@jarstore = new FileCookieStore o.cookiespath)
         @channel = new Channel @jarstore
         @init = new Init @jarstore
         @chatreq = new ChatReq @jarstore, @init, @channel
