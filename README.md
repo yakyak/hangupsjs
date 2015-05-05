@@ -24,17 +24,28 @@ The library is rather new and needs more tests, error handling etc.
 
 ## Usage
 
-```
+```bash
 $ npm install hangupsjs
 ```
 
 The client is started with `connect()` passing callback function for a
 promise for a login object containing the credentials.
 
+When using email/password based login, [zombie](http://zombie.js.org/)
+version 3 is needed as an optional dep.
+
+```bash
+$ npm install zombie@3
+```
+
+Example usage:
+
 ```coffee
 Client = require 'hangupsjs'
 Q      = require 'q'
 
+# callback to get promise for creds
+# email/pass requires optional zombie dep.
 creds = -> Q
     email: 'login@gmail.com'
     pass:  'mysecret'
@@ -48,6 +59,7 @@ client.loglevel 'debug'
 client.on 'chat_message', (ev) ->
     console.log ev
 
+# connect and post a message
 client.connect(creds).then ->
     client.sendchatmessage('UgzJilj2Tg_oqk5EhEp4AaABAQ', [
         [0, 'Hello World']
@@ -79,6 +91,56 @@ Attempts to connect the client to hangouts. See
 Returns a promise for connection. The promise only resolves when init
 is completed. On the [`connected`](#connected) event.
 
+`creds`: is callback that returns a promise for login creds. The creds
+are either `{email:<your.google.email>,pass:<your.password>}` or
+`{cookies:<array of strings or tough-cookie-jar>}`
+
+##### email/pass
+
+To login using an email/password combo, you need the scriptable
+[zombie](http://zombie.js.org/) browser installed in your
+project. Version 3.x of this browser is compatible with nodejs and 4.x
+with io.js.
+
+```bash
+$ npm install -S zombie@3
+```
+
+This dependency drags in a monkey patched jsdom and is gyp-compiled,
+hence we keep it as an optional dependency.
+
+Example
+
+```coffee
+creds = -> Q
+    email: 'login@gmail.com'
+    pass:  'mysecret'
+
+client.connect(creds).then -> # and so on...
+```
+
+##### cookies
+
+The other way to log in is to provide a string array of cookies for
+the `google.com` domain that are set up as part of a successful login.
+
+Typically these cookies are called: `NID`, `SID`, `HSID`, `SSID`,
+`APISID`, `SAPISID`
+
+Example:
+
+```coffee
+creds = -> Q {cookies:[
+    'NID=67=QI6go9WM<redacted>WDFxv; Expires=Wed, 04 Nov 2015 06:10:24 GMT; Domain=google.com; Path=/; HttpOnly'
+    'SID=DASDPgAAA<redacted>AKJASKJD; Expires=Thu, 04 May 2017 06:10:24 GMT; Domain=google.com; Path=/'
+    'HSID=AR<redacted>QX_; Expires=Thu, 04 May 2017 06:10:24 GMT; Domain=google.com; Path=/; HttpOnly; Priority=HIGH'
+    'SSID=Ak<redacted>D; Expires=Thu, 04 May 2017 06:10:24 GMT; Domain=google.com; Path=/; Secure; HttpOnly; Priority=HIGH'
+    'APISID=kM<redacted>seXb; Expires=Thu, 04 May 2017 06:10:24 GMT; Domain=google.com; Path=/; Priority=HIGH'
+    'SAPISID=cl<redacted>Od; Expires=Thu, 04 May 2017 06:10:24 GMT; Domain=google.com; Path=/; Secure; Priority=HIGH'
+    ]}
+
+client.connect(creds).then -> # and so on...
+```
 
 
 #### `disconnect`
