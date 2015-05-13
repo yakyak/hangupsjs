@@ -60,6 +60,8 @@ client.connect(creds).then ->
 .done()
 ```
 
+The same example code in javascript:
+
 ```javascript
 var Client = require('hangupsjs');
 var Q = require('q');
