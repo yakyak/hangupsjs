@@ -31,24 +31,16 @@ $ npm install hangupsjs
 The client is started with `connect()` passing callback function for a
 promise for a login object containing the credentials.
 
-When using email/password based login, [zombie](http://zombie.js.org/)
-version 3 is needed as an optional dep.
-
-```bash
-$ npm install zombie@3
-```
-
 Example usage:
 
 ```coffee
 Client = require 'hangupsjs'
 Q      = require 'q'
 
-# callback to get promise for creds
-# email/pass requires optional zombie dep.
-creds = -> Q
-    email: 'login@gmail.com'
-    pass:  'mysecret'
+# callback to get promise for creds using stdin. this in turn
+# means the user must fire up their browser and get the
+# requested token.
+creds = -> auth:Client.authStdin
 
 client = new Client()
 
@@ -80,7 +72,8 @@ High level API calls that are not doing direct hangouts calls.
 `opts.cookiespath` (optional) path to file in which to store cached
 login cookies. Defaults to `cookies.json` in module dir.
 
-
+`opts.rtokenpath` (optional) path to file in which to store the
+oauth refresh token. Defaults to `refreshtoken.txt` in module dir.
 
 #### `connect`
 
@@ -92,29 +85,22 @@ Returns a promise for connection. The promise only resolves when init
 is completed. On the [`connected`](#connected) event.
 
 `creds`: is callback that returns a promise for login creds. The creds
-are either `{email:<your.google.email>,pass:<your.password>}` or
+are either `{creds:-><promise for token>}` or
 `{cookies:<array of strings or tough-cookie-jar>}`
 
 ##### email/pass
 
-To login using an email/password combo, you need the scriptable
-[zombie](http://zombie.js.org/) browser installed in your
-project. Version 3.x of this browser is compatible with nodejs and 4.x
-with io.js.
+To login using an email/password combo, you need to login using OAuth
+and provide the access token to the API. Furthermore it uses a google
+white listed OAuth CLIENT\_ID and CLIENT\_SECRET that shows up as
+"iOS Device" in your accounts page.
 
-```bash
-$ npm install -S zombie@3
-```
+https://accounts.google.com/o/oauth2/auth?&client_id=936475272427.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.google.com%2Faccounts%2FOAuthLogin&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&response_type=code
 
-This dependency drags in a monkey patched jsdom and is gyp-compiled,
-hence we keep it as an optional dependency.
-
-Example
+The library provides a stdin-method that requests the token.
 
 ```coffee
-creds = -> Q
-    email: 'login@gmail.com'
-    pass:  'mysecret'
+creds = -> auth:Client.authStdin
 
 client.connect(creds).then -> # and so on...
 ```

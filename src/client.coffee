@@ -19,6 +19,7 @@ CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
 CLIENT_GET_CONVERSATION_RESPONSE} = require './schema'
 
 DEFAULTS =
+    rtokenpath:  syspath.normalize syspath.join __dirname, '../refreshtoken.txt'
     cookiespath: syspath.normalize syspath.join __dirname, '../cookies.json'
 
 # ensure path exists
@@ -38,9 +39,9 @@ togoogtime = sequence datetolong, mul(1000)
 module.exports = class Client extends EventEmitter
 
     constructor: (opts) ->
-        o = mixin DEFAULTS, opts
-        touch o.cookiespath
-        @jar = new CookieJar (@jarstore = new FileCookieStore o.cookiespath)
+        @opts = mixin DEFAULTS, opts
+        touch @opts.cookiespath
+        @jar = new CookieJar (@jarstore = new FileCookieStore @opts.cookiespath)
         @channel = new Channel @jarstore
         @init = new Init @jarstore
         @chatreq = new ChatReq @jarstore, @init, @channel
@@ -54,7 +55,7 @@ module.exports = class Client extends EventEmitter
     loglevel: (lvl) -> log.level lvl
 
     connect: (creds) ->
-        @auth = new Auth @jar, creds
+        @auth = new Auth @jar, @jarstore, creds, @opts
         # getAuth does a login and stored the cookies
         # of the login into the db. the cookies are
         # cached.
@@ -396,3 +397,4 @@ module.exports = class Client extends EventEmitter
 Client.OffTheRecordStatus = OffTheRecordStatus
 Client.TypingStatus       = TypingStatus
 Client.MessageBuilder     = MessageBuilder
+Client.authStdin          = Auth::authStdin

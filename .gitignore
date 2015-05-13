@@ -24,5 +24,6 @@ BrowserStackLocal
 cookies.json
 login.coffee
 jsdom
+refreshtoken.txt
 
 lib

@@ -25,3 +25,4 @@ cookies.json
 login.coffee
 jsdom
 test
+refreshtoken.txt
