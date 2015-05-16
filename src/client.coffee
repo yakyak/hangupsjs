@@ -398,3 +398,4 @@ Client.OffTheRecordStatus = OffTheRecordStatus
 Client.TypingStatus       = TypingStatus
 Client.MessageBuilder     = MessageBuilder
 Client.authStdin          = Auth::authStdin
+Client.OAUTH2_LOGIN_URL   = Auth.OAUTH2_LOGIN_URL

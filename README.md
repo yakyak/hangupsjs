@@ -129,6 +129,8 @@ and provide the access token to the API. Furthermore it uses a google
 white listed OAuth CLIENT\_ID and CLIENT\_SECRET that shows up as
 "iOS Device" in your accounts page.
 
+This is the login URL, also available as `Client.OAUTH2_LOGIN_URL`.
+
 https://accounts.google.com/o/oauth2/auth?&client_id=936475272427.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.google.com%2Faccounts%2FOAuthLogin&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&response_type=code
 
 The library provides a stdin-method that requests the token.

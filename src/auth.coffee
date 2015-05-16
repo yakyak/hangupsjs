@@ -210,3 +210,6 @@ module.exports = class Auth
                 if chunk != null
                     rs chunk
                     process.stdin.removeListener 'on', fn
+
+# Expose this to Client
+Auth.OAUTH2_LOGIN_URL = OAUTH2_LOGIN_URL
