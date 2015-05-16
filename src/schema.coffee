@@ -199,6 +199,14 @@ s.MESSAGE_SEGMENT = Message([
     ])
 ])
 
+s.MESSAGE_ATTACHMENT = Message([
+    'embed_item', Message([
+        # 249 (PLUS_PHOTO), 340, 335, 0
+        'type_', RepeatedField(Field())
+        'data', Field()  # can be a dict
+    ])
+])
+
 s.CLIENT_CHAT_MESSAGE = Message([
     None, Field()  # always None?
     'annotation', RepeatedField(Field())

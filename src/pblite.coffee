@@ -1,3 +1,4 @@
+log = require 'bog'
 require('fnuc').expose global
 
 # A field can hold any value
@@ -20,10 +21,11 @@ class EnumField
 class RepeatedField
     constructor: (field) ->
         return new RepeatedField(field) unless this instanceof RepeatedField
+        console.trace() unless typeof field?.parse == 'function'
         @field = field
     parse: (input) ->
         return input unless input
-        @field.parse(a) for a in input
+        @field?.parse(a) for a in input
 
 class Message
     # fields is array organised as
