@@ -154,7 +154,6 @@ module.exports = class Auth
             if res.statusCode == 200
                 log.debug 'auth with code success'
                 body = JSON.parse(res.body)
-                console.log res.body
                 # save it and then return the access token
                 @saveRefreshToken(body.refresh_token).then ->
                     body.access_token
