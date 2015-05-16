@@ -101,5 +101,7 @@ module.exports = class Init
             # massage the entities
             entgroups = (@entities["group#{g}"].entities for g in [1..5])
             allents = map concat(@entities.entities, entgroups...), (e) -> e.entity
-            deduped = uniqfn allents, (e) -> e.id.gaia_id
+            # only keep real entities
+            safe = allents.filter (e) -> e?.id?.gaia_id
+            deduped = uniqfn safe, (e) -> e.id.gaia_id
             @entities = deduped
