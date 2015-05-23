@@ -34,7 +34,6 @@
     "coffee-script": "^1.9.1",
     "hexy": "^0.2.7",
     "mocha": "^2.2.4",
-    "request-debug": "^0.1.1",
-    "zombie": "^3.1.1"
+    "request-debug": "^0.1.1"
   }
 }
