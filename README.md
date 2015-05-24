@@ -244,7 +244,7 @@ segments = bld.text('Hello ').bold('World').text('!!!').toSegments()
 client.sendchatmessage('UgzfaJwj2Tg_oqk5EhEp5faABAQ', segments)
 ```
 
-##### `builder.text`
+##### `builder.text(txt)`
 
 `(txt, bold=false, italic=false, strikethrough=false, underline=false, href=null) ->`
 
@@ -254,29 +254,29 @@ Adds a text segment.
 builder.text('Hello')
 ```
 
-##### `builder.bold`
+##### `builder.bold(txt)`
 
 Adds a text segment in bold.
 
-##### `builder.italic`
+##### `builder.italic(txt)`
 
 Adds a text segment in italic.
 
-##### `builder.strikethrough`
+##### `builder.strikethrough(txt)`
 
 Adds a text segment strikethroughed.
 
-##### `builder.underline`
+##### `builder.underline(txt)`
 
 Adds an underlined text segment.
 
-##### `build.linebreak`
+##### `build.linebreak()`
 
 Adds a new line.
 
-##### `builder.link`
+##### `builder.link(txt, href)`
 
-(TODO, not working) Adds a text that is a link.
+Adds a text that is a link.
 
 ##### `builder.toSegments`
 

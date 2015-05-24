@@ -17,6 +17,7 @@ module.exports = class MessageBuilder
                 format[2] = if strikethrough then 1 else null
                 format[3] = if underline then 1 else null
             if href
+                seg[0] = SegmentType.LINK
                 seg[2] = null unless seg[2]
                 seg[3] = link = []
                 link[0] = href
