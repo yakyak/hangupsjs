@@ -270,6 +270,10 @@ Adds a text segment strikethroughed.
 
 Adds an underlined text segment.
 
+##### `build.linebreak`
+
+Adds a new line.
+
 ##### `builder.link`
 
 (TODO, not working) Adds a text that is a link.

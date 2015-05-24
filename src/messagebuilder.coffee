@@ -29,4 +29,9 @@ module.exports = class MessageBuilder
     underline: (txt) -> @text txt, false, false, false, true
     link: (txt, href) -> @text txt, false, false, false, false, href
 
+    linebreak: ->
+        seg = [SegmentType.LINE_BREAK, '\n']
+        @segments.push seg
+        this
+
     toSegments: -> @segments
