@@ -31,8 +31,12 @@ MERGE_SESSION_MAIL = "https://accounts.google.com/MergeSession?service=mail" +
 
 class AuthError extends Error then constructor: -> super
 
-cookieStrToJar = (jar, str) -> Q.Promise (rs, rj) ->
-    jar.setCookie Cookie.parse(str), OAUTH2_LOGIN_URL, plug(rs,rj)
+setCookie = (jar) -> (cookie) -> Q.Promise (rs, rj) ->
+    jar.setCookie cookie, OAUTH2_LOGIN_URL, plug(rs,rj)
+
+cookieStrToJar = (jar, str) -> setCookie(jar)(Cookie.parse(str))
+
+clone = (o) -> JSON.parse JSON.stringify o
 
 module.exports = class Auth
 
@@ -111,7 +115,6 @@ module.exports = class Auth
         path = @opts.rtokenpath
         Q().then ->
             Q.Promise (rs, rj) -> fs.writeFile path, rtoken, plug(rs,rj)
-
 
     authWithRefreshToken: (rtoken) =>
         log.debug 'auth with refresh token'

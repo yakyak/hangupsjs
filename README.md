@@ -172,7 +172,6 @@ client.connect(creds).then -> # and so on...
 Disconnects the client.
 
 
-
 #### `isInited`
 
 `isInited`
@@ -214,6 +213,23 @@ Only after all these steps are completed will `isInited` return true.
 
 Sets the log level one of `debug`, `info`, `warn` or `error`.
 
+
+#### `logout`
+
+`logout: () ->`
+
+Logs the current client out by removing refresh token and cached cookies.
+
+Example:
+
+```coffee
+# force cleared state
+client.logout().then ->
+    # will now require new credentials
+    client.connect(creds)
+.then ->
+    ...
+```
 
 #### `MessageBuilder`
 

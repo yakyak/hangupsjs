@@ -7,6 +7,8 @@ log             = require 'bog'
 fs              = require 'fs'
 Q               = require 'q'
 
+{plug} = require './util'
+
 MessageBuilder  = require './messagebuilder'
 MessageParser   = require './messageparser'
 ChatReq         = require './chatreq'
@@ -31,21 +33,23 @@ touch = (path) ->
         if err.code == 'ENOENT'
             fs.writeFileSync(path, '')
 
+rm = (path) -> Q.Promise((rs, rj) -> fs.unlink(path, plug(rs, rj))).fail (err) ->
+    if err.code == 'ENOENT' then null else Q.reject(err)
+
 None = undefined
 
 randomid = -> Math.round Math.random() * Math.pow(2,32)
 datetolong = (d) -> if typeis d, 'date' then d.getTime() else d
 togoogtime = sequence datetolong, mul(1000)
 
+# token indicating abort in connect-loop
+ABORT = {abort:true}
+
 module.exports = class Client extends EventEmitter
 
     constructor: (opts) ->
         @opts = mixin DEFAULTS, opts
-        touch @opts.cookiespath
-        @jar = new CookieJar (@jarstore = new FileCookieStore @opts.cookiespath)
-        @channel = new Channel @jarstore
-        @init = new Init @jarstore
-        @chatreq = new ChatReq @jarstore, @init, @channel
+        @doInit()
         @messageParser = new MessageParser(this)
 
         # clientid comes as part of pushdata
@@ -65,18 +69,49 @@ module.exports = class Client extends EventEmitter
             # initialization request (otherwise it will return 400)
             @channel.fetchPvt()
         .then (pvt) =>
+            # see https://github.com/algesten/hangupsjs/issues/6
+            unless pvt
+                # clear state and start reconnecting
+                @logout().then => @connect(creds)
+                return Q.reject ABORT
             # now intialize the chat using the pvt
             @init.initChat pvt
         .then =>
             @running = true
             do poller = =>
-                return unless @running
+                return Q.reject(ABORT) unless @running
                 @channel.getLines().then (lines) =>
                     @messageParser.parsePushLines lines
                     poller()
                 .done()
             # wait for connected event to release promise
             Q.Promise (rs) => @once 'connected', -> rs()
+        .fail (err) =>
+            if err == ABORT then return null else Q.reject(err)
+
+
+    doInit: ->
+        touch @opts.cookiespath
+        @jar = new CookieJar (@jarstore = new FileCookieStore @opts.cookiespath)
+        @channel = new Channel @jarstore
+        @init = new Init @jarstore
+        @chatreq = new ChatReq @jarstore, @init, @channel
+
+
+    # clears entire auth state, removing cached cookies and refresh
+    # token.
+    logout: =>
+        rpath = @opts.rtokenpath
+        cpath = @opts.cookiespath
+        @disconnect()
+        Q().then ->
+            log.info 'removing refresh token'
+            rm rpath
+        .then ->
+            log.info 'removing cookie store'
+            rm cpath
+        .then =>
+            @doInit()
 
     # debug each event emitted
     emit: (ev, data) ->
@@ -86,7 +121,7 @@ module.exports = class Client extends EventEmitter
 
     disconnect: ->
         @running = false
-        @channel.stop()
+        @channel?.stop?()
 
 
     isInited: =>
