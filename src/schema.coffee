@@ -406,4 +406,11 @@ s.CLIENT_GET_CONVERSATION_RESPONSE = Message([
     'conversation_state', s.CLIENT_CONVERSATION_STATE
 ])
 
+s.CLIENT_GET_ENTITY_BY_ID_RESPONSE = Message([
+    None, Field()  # 'cgebirp'
+    'response_header', s.CLIENT_RESPONSE_HEADER
+    'entities', RepeatedField(s.CLIENT_ENTITY)
+])
+
+
 module.exports = s

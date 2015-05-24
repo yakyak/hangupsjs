@@ -16,7 +16,8 @@ Init            = require './init'
 
 {OffTheRecordStatus, TypingStatus,
 CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
-CLIENT_GET_CONVERSATION_RESPONSE} = require './schema'
+CLIENT_GET_CONVERSATION_RESPONSE
+CLIENT_GET_ENTITY_BY_ID_RESPONSE} = require './schema'
 
 DEFAULTS =
     rtokenpath:  syspath.normalize syspath.join __dirname, '../refreshtoken.txt'
