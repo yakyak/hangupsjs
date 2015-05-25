@@ -26,4 +26,8 @@ describe 'MessageBuilder', ->
 
     it 'adds a link', ->
         deql mb.link('linktext', 'http://foo/bar').toSegments(),
-        [[0,'linktext',null,['http://foo/bar']]]
+        [[2,'linktext',null,['http://foo/bar']]]
+
+    it 'adds a linebreak', ->
+        deql mb.linebreak().toSegments(),
+        [[1,'\n']]
