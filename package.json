@@ -1,6 +1,6 @@
 {
   "name": "hangupsjs",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "google hangouts client library for nodejs",
   "main": "lib/client.js",
   "scripts": {
