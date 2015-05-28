@@ -144,12 +144,13 @@ module.exports = class Channel
 
     # gracefully stop polling
     stop: =>
+        log.debug 'channel stop'
         # stop looping
         @running = false
         # this releases the @getLines() promise
-        @pushParser.reset()
-        # XXX must do something here to
-        # end the current long poll request
+        @pushParser?.reset?()
+        # abort current request
+        @currentReq?.abort?()
 
 
     poll: (retries) =>
@@ -186,7 +187,7 @@ module.exports = class Channel
             encoding: null # get body as buffer
             timeout: 30000 # 30 seconds timeout in connect attempt
         ok = false
-        r = request(opts).on 'response', (res) =>
+        @currentReq = request(opts).on 'response', (res) =>
             log.debug 'long poll response', res.statusCode, res.statusMessage
             if res.statusCode == 200
                 return ok = true

@@ -1,4 +1,5 @@
-Q = require 'q'
+Q   = require 'q'
+log = require 'bog'
 
 findNextLf = (buf, start) ->
     i = start
@@ -55,6 +56,7 @@ module.exports = class PushDataParser
         return def.promise
 
     reset: ->
+        log.debug 'PushDataParser reset'
         if @def
             @def.resolve []
             @def = null

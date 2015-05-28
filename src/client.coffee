@@ -84,6 +84,8 @@ module.exports = class Client extends EventEmitter
                 @channel.getLines().then (lines) =>
                     @messageParser.parsePushLines lines
                     poller()
+                .fail (err) ->
+                    if err == ABORT then return null else Q.reject(err)
                 .done()
             # wait for connected event to release promise
             Q.Promise (rs) => @once 'connected', -> rs()
@@ -121,6 +123,7 @@ module.exports = class Client extends EventEmitter
 
 
     disconnect: ->
+        log.debug 'disconnect'
         @running = false
         @channel?.stop?()
 
