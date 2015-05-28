@@ -546,7 +546,7 @@ Uploads an image that can be later attached to a chat message.
 `imagefile` is a string path
 
 `filename` can optionally be provided otherwise the path name is
-# used.
+used.
 
 returns an image_id that can be used in sendchatmessage
 
