@@ -513,6 +513,18 @@ Return information about a list of chat_ids.
 
 
 
+#### `setconversationnotificationlevel`
+
+`setconversationnotificationlevel: (conversation_id, level) ->`
+
+Set the notification level of a conversation.
+
+`conversation_id`: the conversation for which enable/disable notifications.
+
+`level`: `ClientNotificationLevel.RING` (30) to enable notifications or `ClientNotificationLevel.QUIET` (10) to disable them. 
+
+
+
 #### `sendeasteregg`
 
 `sendeasteregg: (conversation_id, easteregg) ->`

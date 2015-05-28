@@ -16,7 +16,7 @@ Channel         = require './channel'
 Auth            = require './auth'
 Init            = require './init'
 
-{OffTheRecordStatus, TypingStatus,
+{OffTheRecordStatus, TypingStatus, ClientNotificationLevel
 CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
 CLIENT_GET_CONVERSATION_RESPONSE
 CLIENT_GET_ENTITY_BY_ID_RESPONSE} = require './schema'
@@ -413,7 +413,17 @@ module.exports = class Client extends EventEmitter
         ], false).then (body) ->
             CLIENT_GET_ENTITY_BY_ID_RESPONSE.parse body
 
-
+    # Set the notification level of a conversation
+    #
+    # Pass ClientNotificationLevel.QUIET to disable notifications,
+    # or ClientNotificationLevel.RING to enable them.
+    setconversationnotificationlevel: (conversation_id, level) ->
+        @chatreq.req 'conversations/setconversationnotificationlevel', [
+            @_requestBodyHeader()
+            [conversation_id]
+            level
+        ]
+    
     # Send a easteregg to a conversation.
     #
     # easteregg may not be empty. should be one of
@@ -430,8 +440,9 @@ module.exports = class Client extends EventEmitter
 
 
 # Expose these as part of publich API
-Client.OffTheRecordStatus = OffTheRecordStatus
-Client.TypingStatus       = TypingStatus
-Client.MessageBuilder     = MessageBuilder
-Client.authStdin          = Auth::authStdin
-Client.OAUTH2_LOGIN_URL   = Auth.OAUTH2_LOGIN_URL
+Client.OffTheRecordStatus      = OffTheRecordStatus
+Client.TypingStatus            = TypingStatus
+Client.ClientNotificationLevel = ClientNotificationLevel
+Client.MessageBuilder          = MessageBuilder
+Client.authStdin               = Auth::authStdin
+Client.OAUTH2_LOGIN_URL        = Auth.OAUTH2_LOGIN_URL
