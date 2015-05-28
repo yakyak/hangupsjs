@@ -574,6 +574,19 @@ When a user is typing.
 
 When a user updates their read timestamp.
 
+#### `notification_level`
+
+When user changes the notification level of his own
+conversation. I.e. [setconversationnotificationlevel](#setconversationnotificationlevel).
+
+[See #10](https://github.com/algesten/hangupsjs/issues/10)
+
+#### `easter_egg`
+
+When anyone in the conversation triggers an easter
+egg.
+
+[See #10](https://github.com/algesten/hangupsjs/issues/10)
 
 ### To be investigated
 
@@ -582,14 +595,12 @@ in an [issue](https://github.com/algesten/hangupsjs/issues) if you figure one ou
 
 * `hangout_event`
 * `client_conversation`
-* `notification_level`
 * `conversation_notification`
 * `reply_to_invite`
 * `settings`
-* `easter_egg`
-* `self_presence`
+* `self_presence` [See #10](https://github.com/algesten/hangupsjs/issues/10)
 * `delete`
-* `presence`
+* `presence` [See #10](https://github.com/algesten/hangupsjs/issues/10)
 * `block`
 * `invitation_watermark`
 
