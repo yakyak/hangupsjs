@@ -300,8 +300,8 @@ Send a chat message to a conversation.
 `segments`: array of segments to send. See
 [`messagebuilder`](#messagebuilder) for help.
 
-`image_id`: (TODO) is an option ID of an image retrieved from
-[`upload_image()`](#upload_image). If provided, the image will be
+`image_id`: is an optional ID of an image retrieved from
+[`uploadimage()`](#uploadimage). If provided, the image will be
 attached to the # message.
 
 `otr_status`: determines whether the message will be saved in the
@@ -534,6 +534,21 @@ Send an easteregg to a conversation.
 
 `easteregg`: may not be empty. could be one of 'ponies', 'pitchforks',
 'bikeshed', 'shydino'
+
+
+
+#### `uploadimage`
+
+`uploadimage: (path, filename=null) ->`
+
+Uploads an image that can be later attached to a chat message.
+
+`imagefile` is a string path
+
+`filename` can optionally be provided otherwise the path name is
+# used.
+
+returns an image_id that can be used in sendchatmessage
 
 
 

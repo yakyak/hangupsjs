@@ -29,7 +29,7 @@ module.exports = class ChatReq
             jar: request.jar @jarstore
             qs: params
             headers: headers
-            body: JSON.stringify(body)
+            body: if Buffer.isBuffer body then body else JSON.stringify(body)
             encoding: null # get body as buffer
             timeout: 30000 # 30 seconds timeout in connect attempt
         req(opts).fail (err) ->
@@ -44,7 +44,7 @@ module.exports = class ChatReq
                 else
                     res.body # protojson, return as Buffer
             else
-                log.debug 'request for', url, 'result:', res.statusCode, res.body?.toString?()
+                log.debug 'request for 2', url, 'result:', res.statusCode, res.body?.toString?()
                 Q.reject NetworkError.forRes(res)
 
 

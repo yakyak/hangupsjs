@@ -22,6 +22,8 @@ CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
 CLIENT_GET_CONVERSATION_RESPONSE
 CLIENT_GET_ENTITY_BY_ID_RESPONSE} = require './schema'
 
+IMAGE_UPLOAD_URL = 'http://docs.google.com/upload/photos/resumable'
+
 DEFAULTS =
     rtokenpath:  syspath.normalize syspath.join __dirname, '../refreshtoken.txt'
     cookiespath: syspath.normalize syspath.join __dirname, '../cookies.json'
@@ -189,8 +191,8 @@ module.exports = class Client extends EventEmitter
     # irrelevant, clients may send messages with whatever OTR status they
     # like.
     #
-    # image_id is an option ID of an image retrieved from
-    # @upload_image(). If provided, the image will be attached to the
+    # image_id is an optional ID of an image retrieved from
+    # @uploadimage(). If provided, the image will be attached to the
     # message.
     sendchatmessage: (conversation_id, segments, image_id=None,
         otr_status=OffTheRecordStatus.ON_THE_RECORD) ->
@@ -441,7 +443,56 @@ module.exports = class Client extends EventEmitter
             level
         ]
 
-    # upload_image(self, thefile, extension_hint="jpg")
+
+    # Uploads an image that can be later attached to a chat message.
+    #
+    # imagefile is a string path
+    #
+    # filename can optionally be provided otherwise the path name is
+    # used.
+    #
+    # returns an image_id that can be used in sendchatmessage
+    uploadimage: (imagefile, filename=null) =>
+        # either use provided or from path
+        filename = filename ? syspath.basename(imagefile)
+        size = null
+        puturl = null
+        chatreq = @chatreq
+        Q().then -> Q.Promise (rs, rj) ->
+            # figure out file size
+            fs.stat imagefile, plug(rs, rj)
+        .then (st) ->
+            size = st.size
+        .then ->
+            log.debug 'image resume upload prepare'
+            chatreq.baseReq IMAGE_UPLOAD_URL, 'application/x-www-form-urlencoded;charset=UTF-8'
+            , {
+                protocolVersion: "0.8"
+                createSessionRequest:
+                    fields: [{
+                        external: {
+                            filename,
+                            size,
+                            put: {},
+                            name: 'file'
+                        }
+                    }]
+            }
+        .then (body) ->
+            puturl = body?.sessionStatus?.externalFieldTransfers?[0]?.putInfo?.url
+            log.debug 'image resume upload to:', puturl
+        .then -> Q.Promise (rs, rj) ->
+            fs.readFile filename, plug(rs, rj)
+        .then (buf) ->
+            log.debug 'image resume uploading'
+            chatreq.baseReq puturl, 'application/octet-stream', buf
+        .then (body) ->
+            log.debug 'image resume upload finished'
+            body?.sessionStatus?.additionalInfo?['uploader_service.GoogleRupioAdditionalInfo']?.completionInfo?.customerSpecificInfo?.photoid
+
+
+
+
 
 
 # Expose these as part of publich API
