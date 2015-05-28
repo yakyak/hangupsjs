@@ -280,7 +280,7 @@ Adds a text that is a link.
 
 ##### `builder.toSegments`
 
-Turns the builder into an array of segments usable for `sendchatmessage`.
+Turns the builder into an array of segments usable for [`sendchatmessage`](#sendchatmessage).
 
 
 
@@ -301,7 +301,7 @@ Send a chat message to a conversation.
 [`messagebuilder`](#messagebuilder) for help.
 
 `image_id`: is an optional ID of an image retrieved from
-[`uploadimage()`](#uploadimage). If provided, the image will be
+[`uploadimage`](#uploadimage). If provided, the image will be
 attached to the # message.
 
 `otr_status`: determines whether the message will be saved in the
@@ -547,7 +547,7 @@ Uploads an image that can be later attached to a chat message.
 
 `filename` can optionally be provided otherwise the path name is used.
 
-returns an `image_id` that can be used in [sendchatmessage](#sendchatmessage).
+returns an `image_id` that can be used in [`sendchatmessage`](#sendchatmessage).
 
 
 
