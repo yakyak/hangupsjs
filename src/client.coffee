@@ -17,6 +17,7 @@ Auth            = require './auth'
 Init            = require './init'
 
 {OffTheRecordStatus, TypingStatus,
+ClientNotificationLevel,
 CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
 CLIENT_GET_CONVERSATION_RESPONSE
 CLIENT_GET_ENTITY_BY_ID_RESPONSE} = require './schema'
@@ -426,6 +427,17 @@ module.exports = class Client extends EventEmitter
         ]
 
 
+    # Set the notification level of a conversation.
+    #
+    # Pass Client.NotificationLevel.QUIET to disable notifications,
+    # or Client.NotificationLevel.RING to enable them.
+    setconversationnotificationlevel: (conversation_id, level) ->
+        @chatreq.req 'conversations/setconversationnotificationlevel', [
+            @_requestBodyHeader()
+            [conversation_id],
+            level
+        ]
+
     # upload_image(self, thefile, extension_hint="jpg")
 
 
@@ -434,4 +446,5 @@ Client.OffTheRecordStatus = OffTheRecordStatus
 Client.TypingStatus       = TypingStatus
 Client.MessageBuilder     = MessageBuilder
 Client.authStdin          = Auth::authStdin
+Client.NotificationLevel  = ClientNotificationLevel
 Client.OAUTH2_LOGIN_URL   = Auth.OAUTH2_LOGIN_URL

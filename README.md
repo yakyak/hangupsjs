@@ -342,6 +342,17 @@ Return information about your account.
 
 
 
+#### `setconversationnotificationlevel`
+
+`setconversationnotificationlevel: (conversation_id, level) ->`
+
+Set the notification level of a conversation.
+
+Pass `Client.NotificationLevel.QUIET` to disable notifications, or
+`Client.NotificationLevel.RING` to enable them.
+
+
+
 #### `setfocus`
 
 `setfocus: (conversation_id) ->`
