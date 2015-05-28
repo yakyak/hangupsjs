@@ -1,344 +1,336 @@
-{
-  "conversation_id": {
-    "id": "UgzJilj2Tg_oqk5EhEp4AaABAQ"
+[
+  {
+    "conversation_id": {
+      "id": "UgxjmN5ygMnYI6ZRPZp4AaABAQ"
+    },
+    "conversation": {
+      "conversation_id": {
+        "id": "UgxjmN5ygMnYI6ZRPZp4AaABAQ"
+      },
+      "type": "STICKY_ONE_TO_ONE",
+      "name": null,
+      "self_conversation_state": {
+        "self_read_state": {
+          "participant_id": {
+            "gaia_id": "102224360723365489932",
+            "chat_id": "102224360723365489932"
+          },
+          "latest_read_timestamp": 1430497808139701
+        },
+        "status": "ACTIVE",
+        "notification_level": "RING",
+        "view": [
+          "INBOX_VIEW"
+        ],
+        "inviter_id": {
+          "gaia_id": "102224360723365489932",
+          "chat_id": "102224360723365489932"
+        },
+        "invite_timestamp": 1430497801138000,
+        "sort_timestamp": 1430497808139701,
+        "active_timestamp": 1430497801138000
+      },
+      "read_state": [
+        {
+          "participant_id": {
+            "gaia_id": "105510613398923491294",
+            "chat_id": "105510613398923491294"
+          },
+          "last_read_timestamp": 0
+        },
+        {
+          "participant_id": {
+            "gaia_id": "102224360723365489932",
+            "chat_id": "102224360723365489932"
+          },
+          "last_read_timestamp": 1430497808139701
+        }
+      ],
+      "otr_status": "ON_THE_RECORD",
+      "current_participant": [
+        {
+          "gaia_id": "102224360723365489932",
+          "chat_id": "102224360723365489932"
+        },
+        {
+          "gaia_id": "105510613398923491294",
+          "chat_id": "105510613398923491294"
+        }
+      ],
+      "participant_data": [
+        {
+          "id": {
+            "gaia_id": "105510613398923491294",
+            "chat_id": "105510613398923491294"
+          },
+          "fallback_name": "Bo Tenström"
+        },
+        {
+          "id": {
+            "gaia_id": "102224360723365489932",
+            "chat_id": "102224360723365489932"
+          },
+          "fallback_name": "Bo Tenström"
+        }
+      ]
+    },
+    "event": [
+      {
+        "conversation_id": {
+          "id": "UgxjmN5ygMnYI6ZRPZp4AaABAQ"
+        },
+        "sender_id": {
+          "gaia_id": "102224360723365489932",
+          "chat_id": "102224360723365489932"
+        },
+        "timestamp": 1430497808139701,
+        "self_event_state": {
+          "user_id": {
+            "gaia_id": "102224360723365489932",
+            "chat_id": "102224360723365489932"
+          },
+          "client_generated_id": "1289503288794",
+          "notification_level": {}
+        },
+        "chat_message": {
+          "annotation": [],
+          "message_content": {
+            "segment": [
+              {
+                "type": "TEXT",
+                "text": "hey",
+                "formatting": {
+                  "bold": 0,
+                  "italic": 0,
+                  "strikethrough": 0,
+                  "underline": 0
+                },
+                "link_data": null
+              }
+            ],
+            "attachment": []
+          }
+        },
+        "membership_change": null,
+        "conversation_rename": null,
+        "hangout_event": null,
+        "event_id": "7zbr7sUt_No7zbr8i4WRTa",
+        "advances_sort_timestamp": null,
+        "otr_modification": null,
+        "event_otr": "ON_THE_RECORD"
+      }
+    ],
+    "event_continuation_token": null
   },
-  "conversation": {
+  {
     "conversation_id": {
       "id": "UgzJilj2Tg_oqk5EhEp4AaABAQ"
     },
-    "type": {
-      "k": "STICKY_ONE_TO_ONE",
-      "v": 1
-    },
-    "name": null,
-    "self_conversation_state": {
-      "self_read_state": {
-        "participant_id": {
-          "gaia_id": "102224360723365489932",
-          "chat_id": "102224360723365489932"
+    "conversation": {
+      "conversation_id": {
+        "id": "UgzJilj2Tg_oqk5EhEp4AaABAQ"
+      },
+      "type": "STICKY_ONE_TO_ONE",
+      "name": null,
+      "self_conversation_state": {
+        "self_read_state": {
+          "participant_id": {
+            "gaia_id": "102224360723365489932",
+            "chat_id": "102224360723365489932"
+          },
+          "latest_read_timestamp": 1430497844252252
         },
-        "latest_read_timestamp": 1430575955297187
+        "status": "ACTIVE",
+        "notification_level": "RING",
+        "view": [
+          "INBOX_VIEW"
+        ],
+        "inviter_id": {
+          "gaia_id": "110994664963851875523",
+          "chat_id": "110994664963851875523"
+        },
+        "invite_timestamp": 1430497826216000,
+        "sort_timestamp": 1430497904083513,
+        "active_timestamp": 1430497840649000
       },
-      "status": {
-        "k": "ACTIVE",
-        "v": 2
-      },
-      "notification_level": {
-        "k": "RING",
-        "v": 30
-      },
-      "view": [
+      "read_state": [
         {
-          "k": "INBOX_VIEW",
-          "v": 1
+          "participant_id": {
+            "gaia_id": "102224360723365489932",
+            "chat_id": "102224360723365489932"
+          },
+          "last_read_timestamp": 1430497844252252
+        },
+        {
+          "participant_id": {
+            "gaia_id": "110994664963851875523",
+            "chat_id": "110994664963851875523"
+          },
+          "last_read_timestamp": 0
         }
       ],
-      "inviter_id": {
-        "gaia_id": "110994664963851875523",
-        "chat_id": "110994664963851875523"
-      },
-      "invite_timestamp": 1430497826216000,
-      "sort_timestamp": 1430575955297187,
-      "active_timestamp": 1430497840649000
-    },
-    "read_state": [
-      {
-        "participant_id": {
-          "gaia_id": "102224360723365489932",
-          "chat_id": "102224360723365489932"
-        },
-        "last_read_timestamp": 1430575955297187
-      },
-      {
-        "participant_id": {
+      "otr_status": "ON_THE_RECORD",
+      "current_participant": [
+        {
           "gaia_id": "110994664963851875523",
           "chat_id": "110994664963851875523"
         },
-        "last_read_timestamp": 0
-      }
-    ],
-    "otr_status": {
-      "k": "ON_THE_RECORD",
-      "v": 2
-    },
-    "current_participant": [
-      {
-        "gaia_id": "110994664963851875523",
-        "chat_id": "110994664963851875523"
-      },
-      {
-        "gaia_id": "102224360723365489932",
-        "chat_id": "102224360723365489932"
-      }
-    ],
-    "participant_data": [
-      {
-        "id": {
+        {
           "gaia_id": "102224360723365489932",
           "chat_id": "102224360723365489932"
+        }
+      ],
+      "participant_data": [
+        {
+          "id": {
+            "gaia_id": "102224360723365489932",
+            "chat_id": "102224360723365489932"
+          },
+          "fallback_name": "Bo Tenström"
         },
-        "fallback_name": "Bo Tenström"
-      },
+        {
+          "id": {
+            "gaia_id": "110994664963851875523",
+            "chat_id": "110994664963851875523"
+          },
+          "fallback_name": "Martin Algesten"
+        }
+      ]
+    },
+    "event": [
       {
-        "id": {
+        "conversation_id": {
+          "id": "UgzJilj2Tg_oqk5EhEp4AaABAQ"
+        },
+        "sender_id": {
           "gaia_id": "110994664963851875523",
           "chat_id": "110994664963851875523"
         },
-        "fallback_name": "Martin Algesten"
-      }
-    ]
-  },
-  "event": [
-    {
-      "conversation_id": {
-        "id": "UgzJilj2Tg_oqk5EhEp4AaABAQ"
+        "timestamp": 1430497831165769,
+        "self_event_state": {
+          "user_id": {
+            "gaia_id": "102224360723365489932",
+            "chat_id": "102224360723365489932"
+          },
+          "client_generated_id": null,
+          "notification_level": {}
+        },
+        "chat_message": {
+          "annotation": [],
+          "message_content": {
+            "segment": [
+              {
+                "type": "TEXT",
+                "text": "the second",
+                "formatting": {
+                  "bold": 0,
+                  "italic": 0,
+                  "strikethrough": 0,
+                  "underline": 0
+                },
+                "link_data": null
+              }
+            ],
+            "attachment": []
+          }
+        },
+        "membership_change": null,
+        "conversation_rename": null,
+        "hangout_event": null,
+        "event_id": "7zbrAwdAT-g7zbrBWycNlt",
+        "advances_sort_timestamp": null,
+        "otr_modification": null,
+        "event_otr": "ON_THE_RECORD"
       },
-      "sender_id": {
-        "gaia_id": "110994664963851875523",
-        "chat_id": "110994664963851875523"
-      },
-      "timestamp": 1430497831165769,
-      "self_event_state": {
-        "user_id": {
+      {
+        "conversation_id": {
+          "id": "UgzJilj2Tg_oqk5EhEp4AaABAQ"
+        },
+        "sender_id": {
           "gaia_id": "102224360723365489932",
           "chat_id": "102224360723365489932"
         },
-        "client_generated_id": null,
-        "notification_level": {}
-      },
-      "chat_message": {
-        "annotation": [],
-        "message_content": {
-          "segment": [
-            {
-              "type": {
-                "k": "TEXT",
-                "v": 0
-              },
-              "text": "the second",
-              "formatting": {
-                "bold": 0,
-                "italic": 0,
-                "strikethrough": 0,
-                "underline": 0
-              },
-              "link_data": null
-            }
-          ],
-          "attachment": []
-        }
-      },
-      "membership_change": null,
-      "conversation_rename": null,
-      "hangout_event": null,
-      "event_id": "7zbrAwdAT-g7zbrBWycNlt",
-      "advances_sort_timestamp": null,
-      "otr_modification": null,
-      "event_otr": {
-        "k": "ON_THE_RECORD",
-        "v": 2
-      }
-    },
-    {
-      "conversation_id": {
-        "id": "UgzJilj2Tg_oqk5EhEp4AaABAQ"
-      },
-      "sender_id": {
-        "gaia_id": "102224360723365489932",
-        "chat_id": "102224360723365489932"
-      },
-      "timestamp": 1430497844252252,
-      "self_event_state": {
-        "user_id": {
-          "gaia_id": "102224360723365489932",
-          "chat_id": "102224360723365489932"
+        "timestamp": 1430497844252252,
+        "self_event_state": {
+          "user_id": {
+            "gaia_id": "102224360723365489932",
+            "chat_id": "102224360723365489932"
+          },
+          "client_generated_id": "260429275674",
+          "notification_level": {}
         },
-        "client_generated_id": "260429275674",
-        "notification_level": {}
-      },
-      "chat_message": {
-        "annotation": [],
-        "message_content": {
-          "segment": [
-            {
-              "type": {
-                "k": "TEXT",
-                "v": 0
-              },
-              "text": "test123",
-              "formatting": {
-                "bold": 0,
-                "italic": 0,
-                "strikethrough": 0,
-                "underline": 0
-              },
-              "link_data": null
-            }
-          ],
-          "attachment": []
-        }
-      },
-      "membership_change": null,
-      "conversation_rename": null,
-      "hangout_event": null,
-      "event_id": "7zbrAwdAT-g7zbrD7DR5bM",
-      "advances_sort_timestamp": null,
-      "otr_modification": null,
-      "event_otr": {
-        "k": "ON_THE_RECORD",
-        "v": 2
-      }
-    },
-    {
-      "conversation_id": {
-        "id": "UgzJilj2Tg_oqk5EhEp4AaABAQ"
-      },
-      "sender_id": {
-        "gaia_id": "110994664963851875523",
-        "chat_id": "110994664963851875523"
-      },
-      "timestamp": 1430497904083513,
-      "self_event_state": {
-        "user_id": {
-          "gaia_id": "102224360723365489932",
-          "chat_id": "102224360723365489932"
+        "chat_message": {
+          "annotation": [],
+          "message_content": {
+            "segment": [
+              {
+                "type": "TEXT",
+                "text": "test123",
+                "formatting": {
+                  "bold": 0,
+                  "italic": 0,
+                  "strikethrough": 0,
+                  "underline": 0
+                },
+                "link_data": null
+              }
+            ],
+            "attachment": []
+          }
         },
-        "client_generated_id": null,
-        "notification_level": {}
+        "membership_change": null,
+        "conversation_rename": null,
+        "hangout_event": null,
+        "event_id": "7zbrAwdAT-g7zbrD7DR5bM",
+        "advances_sort_timestamp": null,
+        "otr_modification": null,
+        "event_otr": "ON_THE_RECORD"
       },
-      "chat_message": {
-        "annotation": [],
-        "message_content": {
-          "segment": [
-            {
-              "type": {
-                "k": "TEXT",
-                "v": 0
-              },
-              "text": "the second one",
-              "formatting": {
-                "bold": 0,
-                "italic": 0,
-                "strikethrough": 0,
-                "underline": 0
-              },
-              "link_data": null
-            }
-          ],
-          "attachment": []
-        }
-      },
-      "membership_change": null,
-      "conversation_rename": null,
-      "hangout_event": null,
-      "event_id": "7zbrAwdAT-g7zbrKQdW4ZV",
-      "advances_sort_timestamp": null,
-      "otr_modification": null,
-      "event_otr": {
-        "k": "ON_THE_RECORD",
-        "v": 2
-      }
-    },
-    {
-      "conversation_id": {
-        "id": "UgzJilj2Tg_oqk5EhEp4AaABAQ"
-      },
-      "sender_id": {
-        "gaia_id": "110994664963851875523",
-        "chat_id": "110994664963851875523"
-      },
-      "timestamp": 1430571336328963,
-      "self_event_state": {
-        "user_id": {
-          "gaia_id": "102224360723365489932",
-          "chat_id": "102224360723365489932"
+      {
+        "conversation_id": {
+          "id": "UgzJilj2Tg_oqk5EhEp4AaABAQ"
         },
-        "client_generated_id": null,
-        "notification_level": {}
-      },
-      "chat_message": {
-        "annotation": [],
-        "message_content": {
-          "segment": [
-            {
-              "type": {
-                "k": "TEXT",
-                "v": 0
-              },
-              "text": "vi testar 123",
-              "formatting": {
-                "bold": null,
-                "italic": null,
-                "strikethrough": null,
-                "underline": null
-              },
-              "link_data": null
-            }
-          ],
-          "attachment": []
-        }
-      },
-      "membership_change": null,
-      "conversation_rename": null,
-      "hangout_event": null,
-      "event_id": "7zbrAwdAT-g7ze2OK3N6LB",
-      "advances_sort_timestamp": null,
-      "otr_modification": null,
-      "event_otr": {
-        "k": "ON_THE_RECORD",
-        "v": 2
-      }
-    },
-    {
-      "conversation_id": {
-        "id": "UgzJilj2Tg_oqk5EhEp4AaABAQ"
-      },
-      "sender_id": {
-        "gaia_id": "110994664963851875523",
-        "chat_id": "110994664963851875523"
-      },
-      "timestamp": 1430575955297187,
-      "self_event_state": {
-        "user_id": {
-          "gaia_id": "102224360723365489932",
-          "chat_id": "102224360723365489932"
+        "sender_id": {
+          "gaia_id": "110994664963851875523",
+          "chat_id": "110994664963851875523"
         },
-        "client_generated_id": null,
-        "notification_level": {}
-      },
-      "chat_message": {
-        "annotation": [],
-        "message_content": {
-          "segment": [
-            {
-              "type": {
-                "k": "TEXT",
-                "v": 0
-              },
-              "text": "tja bosse",
-              "formatting": {
-                "bold": 0,
-                "italic": 0,
-                "strikethrough": 0,
-                "underline": 0
-              },
-              "link_data": null
-            }
-          ],
-          "attachment": []
-        }
-      },
-      "membership_change": null,
-      "conversation_rename": null,
-      "hangout_event": null,
-      "event_id": "7zbrAwdAT-g7zeBC9kcDsL",
-      "advances_sort_timestamp": null,
-      "otr_modification": null,
-      "event_otr": {
-        "k": "ON_THE_RECORD",
-        "v": 2
+        "timestamp": 1430497904083513,
+        "self_event_state": {
+          "user_id": {
+            "gaia_id": "102224360723365489932",
+            "chat_id": "102224360723365489932"
+          },
+          "client_generated_id": null,
+          "notification_level": {}
+        },
+        "chat_message": {
+          "annotation": [],
+          "message_content": {
+            "segment": [
+              {
+                "type": "TEXT",
+                "text": "the second one",
+                "formatting": {
+                  "bold": 0,
+                  "italic": 0,
+                  "strikethrough": 0,
+                  "underline": 0
+                },
+                "link_data": null
+              }
+            ],
+            "attachment": []
+          }
+        },
+        "membership_change": null,
+        "conversation_rename": null,
+        "hangout_event": null,
+        "event_id": "7zbrAwdAT-g7zbrKQdW4ZV",
+        "advances_sort_timestamp": null,
+        "otr_modification": null,
+        "event_otr": "ON_THE_RECORD"
       }
-    }
-  ],
-  "event_continuation_token": null
-}
+    ],
+    "event_continuation_token": null
+  }
+]

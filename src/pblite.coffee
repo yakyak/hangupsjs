@@ -15,7 +15,7 @@ class EnumField
         return new EnumField(enms) unless this instanceof EnumField
         @enms = enms
     parse: (input) ->
-        return {k,v} for k, v of @enms when input == v
+        return k for k, v of @enms when input == v
         return {}
 
 class RepeatedField
