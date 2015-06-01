@@ -310,6 +310,12 @@ irrelevant, clients may send messages with whatever OTR status they
 like. One of `Client.OffTheRecordStatus.OFF_THE_RECORD` or
 `Client.OffTheRecordStatus.ON_THE_RECORD`.
 
+`client_generated_id` is an identifier that is kept in the event both
+in the result of this call and the following chat_event.  it can be
+used to tie together a client send with the update from the
+server. The default is `null` which makes the client generate a random
+id.
+
 #### `setactiveclient`
 
 `setactiveclient: (active, timeoutsecs) ->`

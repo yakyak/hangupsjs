@@ -179,24 +179,28 @@ module.exports = class Client extends EventEmitter
             CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE.parse body
 
 
-    _randomId: ->
-
     # Send a chat message to a conversation.
     #
     # conversation_id must be a valid conversation ID. segments must be a
     # list of message segments to send, in pblite format.
+    #
+    # image_id is an optional ID of an image retrieved from
+    # @uploadimage(). If provided, the image will be attached to the
+    # message.
     #
     # otr_status determines whether the message will be saved in the server's
     # chat history. Note that the OTR status of the conversation is
     # irrelevant, clients may send messages with whatever OTR status they
     # like.
     #
-    # image_id is an optional ID of an image retrieved from
-    # @uploadimage(). If provided, the image will be attached to the
-    # message.
+    # client_generated_id is an identifier that is kept in the event
+    # both in the result of this call and the following chat_event.
+    # it can be used to tie together a client send with the update
+    # from the server. The default is `null` which makes
+    # the client generate a random id.
     sendchatmessage: (conversation_id, segments, image_id=None,
-        otr_status=OffTheRecordStatus.ON_THE_RECORD) ->
-        client_generated_id = randomid()
+        otr_status=OffTheRecordStatus.ON_THE_RECORD,client_generated_id=null) ->
+        client_generated_id = randomid() unless client_generated_id
         @chatreq.req 'conversations/sendchatmessage', [
             @_requestBodyHeader(),
             None, None, None, []
