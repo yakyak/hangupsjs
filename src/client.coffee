@@ -486,7 +486,7 @@ module.exports = class Client extends EventEmitter
             puturl = body?.sessionStatus?.externalFieldTransfers?[0]?.putInfo?.url
             log.debug 'image resume upload to:', puturl
         .then -> Q.Promise (rs, rj) ->
-            fs.readFile filename, plug(rs, rj)
+            fs.readFile imagefile, plug(rs, rj)
         .then (buf) ->
             log.debug 'image resume uploading'
             chatreq.baseReq puturl, 'application/octet-stream', buf
