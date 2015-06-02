@@ -16,6 +16,8 @@ UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36
 
 op  = (o) -> "#{CHANNEL_URL_PREFIX}/#{o}"
 
+isUnknownSID = (res) -> res.statusCode == 400 and res.statusMessage == 'Unknown SID'
+
 # typical long poll
 #
 # 2015-05-02 14:44:19 DEBUG found sid/gsid 5ECBB7A224ED4276 XOqP3EYTfy6z0eGEr9OD5A
@@ -191,7 +193,7 @@ module.exports = class Channel
             log.debug 'long poll response', res.statusCode, res.statusMessage
             if res.statusCode == 200
                 return ok = true
-            else if res.statusCode == 400 and res.statusMessage == 'Unknown SID'
+            else if isUnknownSID(res)
                 ok = false
                 log.debug 'sid became invalid'
                 @sid = null
@@ -250,9 +252,14 @@ module.exports = class Channel
             req(opts)
         .then (res) ->
             if res.statusCode == 200
-                log.debug 'subscribed channel'
-            else
-                Q.reject NetworkError.forRes(res)
+                return log.debug 'subscribed channel'
+            else if isUnknownSID(res)
+                ok = false
+                log.debug 'sid became invalid'
+                @sid = null
+                @gsid = null
+                @subscribed = false
+            Q.reject NetworkError.forRes(res)
         .fail (err) =>
             log.error 'subscribe failed', err
             @subscribed = false
