@@ -56,7 +56,7 @@ sapisidof = (jarstore) ->
     jar = new CookieJar jarstore
     cookies = jar.getCookiesSync ORIGIN_URL
     cookie = find cookies, (cookie) -> cookie.key == 'SAPISID'
-    return cookie.value
+    return cookie?.value
 
 MAX_RETRIES = 5
 
@@ -78,9 +78,14 @@ module.exports = class Channel
 
     authHeaders: ->
         sapisid = sapisidof @jarstore
+        unless sapisid
+            log.warn 'no SAPISID cookie'
+            return null
         authhead sapisid, Date.now(), ORIGIN_URL
 
     fetchSid: =>
+        auth = @authHeaders()
+        return Q.reject new Error("No auth headers") unless auth
         Q().then =>
             opts =
                 method: 'POST'
@@ -92,7 +97,7 @@ module.exports = class Channel
                     ctype: 'hangouts'
                 form:
                     count: 0
-                headers: @authHeaders()
+                headers: auth
                 encoding: null # get body as buffer
             req(opts).then (res) ->
                 # Example format (after parsing JS):

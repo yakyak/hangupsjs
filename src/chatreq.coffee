@@ -19,6 +19,7 @@ module.exports = class ChatReq
     # NID, SID, HSID, SSID, APISID, SAPISID
     baseReq: (url, contenttype, body, json=true) ->
         headers = @channel.authHeaders()
+        return Q.reject new Error("No auth headers") unless headers
         headers['Content-Type'] = contenttype
         params =
             key: @init.apikey
