@@ -419,7 +419,7 @@ module.exports = class Client extends EventEmitter
         @chatreq.req('contacts/getentitybyid', [
             @_requestBodyHeader()
             None
-            [[chat_ids]]
+            [String(chat_id)] for chat_id in chat_ids
         ], false).then (body) ->
             CLIENT_GET_ENTITY_BY_ID_RESPONSE.parse body
 
