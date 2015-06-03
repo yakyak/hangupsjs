@@ -67,6 +67,7 @@ module.exports = class Channel
         @pushParser = new PushDataParser()
 
     fetchPvt: =>
+        log.debug 'fetching pvt'
         opts =
             method: 'GET'
             uri: "#{ORIGIN_URL}/talkgadget/_/extension-start"
@@ -75,6 +76,9 @@ module.exports = class Channel
             data = JSON.parse res.body
             log.debug 'found pvt token', data[1]
             data[1]
+        .fail (err) ->
+            log.error 'fetch pvt failed', err
+            Q.reject err
 
     authHeaders: ->
         sapisid = sapisidof @jarstore
@@ -143,8 +147,10 @@ module.exports = class Channel
                     run()
                 else
                     @running = false
-                    @pushParser.reset()
-                    @pushParser?.def?.reject err
+                    # resetting with error makes pushParser.allLines()
+                    # resolve with that error, which in turn makes
+                    # @getLines() propagate the error out.
+                    @pushParser.reset(err)
         run()
         return null
 

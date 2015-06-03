@@ -55,10 +55,10 @@ module.exports = class PushDataParser
             @def = def
         return def.promise
 
-    reset: ->
+    reset: (err) ->
         log.debug 'PushDataParser reset'
         if @def
-            @def.resolve []
+            if err then @def.reject(err) else @def.resolve([])
             @def = null
         @lines = []
         @leftover = null

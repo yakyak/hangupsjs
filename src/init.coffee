@@ -19,16 +19,16 @@ CHAT_INIT_PARAMS =
 
 module.exports = class Init
 
-    constructor: (@jarstore) ->
+    constructor: ->
 
-    initChat: (pvt) ->
+    initChat: (jarstore, pvt) ->
         params = clone CHAT_INIT_PARAMS
         params.pvt = pvt
         opts =
             method: 'GET'
             uri: CHAT_INIT_URL
             qs: params
-            jar: request.jar @jarstore
+            jar: request.jar jarstore
         req(opts).then (res) =>
             if res.statusCode == 200
                 @parseBody res.body

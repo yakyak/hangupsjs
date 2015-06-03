@@ -78,17 +78,17 @@ module.exports = class Client extends EventEmitter
                 @logout().then => @connect(creds)
                 return Q.reject ABORT
             # now intialize the chat using the pvt
-            @init.initChat pvt
+            @init.initChat @jarstore, pvt
         .then =>
             @running = true
             do poller = =>
-                return Q.reject(ABORT) unless @running
+                return unless @running
                 @channel.getLines().then (lines) =>
                     @messageParser.parsePushLines lines
                     poller()
-                .fail (err) ->
-                    if err == ABORT then return null else Q.reject(err)
-                .done()
+                .fail (err) =>
+                    log.error 'poller stopped with error', err
+                    @running = false
             # wait for connected event to release promise
             Q.Promise (rs) => @once 'connected', -> rs()
         .fail (err) =>
@@ -99,7 +99,7 @@ module.exports = class Client extends EventEmitter
         touch @opts.cookiespath
         @jar = new CookieJar (@jarstore = new FileCookieStore @opts.cookiespath)
         @channel = new Channel @jarstore
-        @init = new Init @jarstore
+        @init = new Init()
         @chatreq = new ChatReq @jarstore, @init, @channel
 
 
