@@ -566,9 +566,25 @@ client.on 'chat_message', (msg) ->
     # ... do something
 ```
 
+### State events
+
+#### `connecting`
+
+When someone calls `client.connect()` and it indicates we are trying
+to connect the client.
+
 #### `connected`
 
 When the client is fully inited and connected.
+
+#### `connect_failed (err)`
+
+Emitted in two cases. Either after `connecting` indicating that the
+client could not connect at all, or after `connected` when running the
+polling successfully, but is interrupted (such as lost network
+connection).
+
+### Chat events
 
 #### `chat_message`
 

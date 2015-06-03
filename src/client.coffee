@@ -63,8 +63,11 @@ module.exports = class Client extends EventEmitter
     loglevel: (lvl) -> log.level lvl
 
     connect: (creds) ->
+        # tell the world what we're doing
+        @emit 'connecting'
+        # create a new auth instance
         @auth = new Auth @jar, @jarstore, creds, @opts
-        # getAuth does a login and stored the cookies
+        # getAuth does a login and stores the cookies
         # of the login into the db. the cookies are
         # cached.
         @auth.getAuth().then =>
@@ -87,12 +90,20 @@ module.exports = class Client extends EventEmitter
                     @messageParser.parsePushLines lines
                     poller()
                 .fail (err) =>
-                    log.error 'poller stopped with error', err
+                    log.debug err.stack if err.stack
+                    log.debug err
+                    log.info 'poller stopped', fmterr(err)
+                    @emit 'connect_failed', err
                     @running = false
             # wait for connected event to release promise
             Q.Promise (rs) => @once 'connected', -> rs()
         .fail (err) =>
-            if err == ABORT then return null else Q.reject(err)
+            if err == ABORT
+                return null
+            else
+                # tell everyone we didn't connect
+                @emit 'connect_failed', err
+                return Q.reject(err)
 
 
     doInit: ->
