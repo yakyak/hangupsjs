@@ -7,7 +7,7 @@ log             = require 'bog'
 fs              = require 'fs'
 Q               = require 'q'
 
-{plug} = require './util'
+{plug, fmterr} = require './util'
 
 MessageBuilder  = require './messagebuilder'
 MessageParser   = require './messageparser'

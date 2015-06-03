@@ -5,7 +5,7 @@ crypto  = require 'crypto'
 log     = require 'bog'
 Q       = require 'q'
 
-{req, find, wait, NetworkError} = require './util'
+{req, find, wait, NetworkError, fmterr} = require './util'
 PushDataParser = require './pushdataparser'
 
 ORIGIN_URL = 'https://talkgadget.google.com'
@@ -77,7 +77,7 @@ module.exports = class Channel
             log.debug 'found pvt token', data[1]
             data[1]
         .fail (err) ->
-            log.error 'fetch pvt failed', err
+            log.info 'fetchPvt failed', fmterr(err)
             Q.reject err
 
     authHeaders: ->
@@ -117,7 +117,7 @@ module.exports = class Channel
                 else
                     log.warn 'failed to get sid', res.statusCode, res.body
         .fail (err) ->
-            log.error 'fetchSid failed', err
+            log.info 'fetchSid failed', fmterr(err)
             Q.reject err
 
 
@@ -272,6 +272,6 @@ module.exports = class Channel
                 @subscribed = false
             Q.reject NetworkError.forRes(res)
         .fail (err) =>
-            log.error 'subscribe failed', err
+            log.info 'subscribe failed', fmterr(err)
             @subscribed = false
             Q.reject err

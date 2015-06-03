@@ -24,4 +24,6 @@ wait = (time) -> Q.Promise (rs) -> setTimeout rs, time
 
 tryparse = (str) -> try JSON.parse(str) catch err then null
 
-module.exports = {req, plug, find, uniqfn, wait, tryparse, NetworkError}
+fmterr = (err) -> err.code ? err.errno ? err.message ? String(err)
+
+module.exports = {req, plug, find, uniqfn, wait, tryparse, NetworkError, fmterr}
