@@ -18,6 +18,9 @@ op  = (o) -> "#{CHANNEL_URL_PREFIX}/#{o}"
 
 isUnknownSID = (res) -> res.statusCode == 400 and res.statusMessage == 'Unknown SID'
 
+# error token
+ABORT = {}
+
 # typical long poll
 #
 # 2015-05-02 14:44:19 DEBUG found sid/gsid 5ECBB7A224ED4276 XOqP3EYTfy6z0eGEr9OD5A
@@ -138,9 +141,16 @@ module.exports = class Channel
             # graceful stop of polling
             return unless @running
             @poll(retries).then ->
+                # XXX we only reset to MAX_RETRIES after a full ended
+                # poll. this means in bad network conditions we get an
+                # edge case where retries never reset despite getting
+                # (interrupted) good polls. perhaps move retries to
+                # instance var?
                 retries = MAX_RETRIES # reset on success
                 run()
             .fail (err) =>
+                # abort token is not an error
+                return if err == ABORT
                 retries--
                 log.debug 'poll error', err
                 if retries > 0
@@ -171,6 +181,8 @@ module.exports = class Channel
             backoffTime = 2 * (MAX_RETRIES - retries) * 1000
             log.debug 'backing off for', backoffTime, 'ms' if backoffTime
             wait backoffTime
+        .then =>
+            Q.reject ABORT unless @running
         .then =>
             unless @sid
                 @fetchSid().then (o) =>

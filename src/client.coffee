@@ -7,7 +7,7 @@ log             = require 'bog'
 fs              = require 'fs'
 Q               = require 'q'
 
-{plug, fmterr} = require './util'
+{plug, fmterr, wait} = require './util'
 
 MessageBuilder  = require './messagebuilder'
 MessageParser   = require './messageparser'
@@ -27,6 +27,10 @@ IMAGE_UPLOAD_URL = 'http://docs.google.com/upload/photos/resumable'
 DEFAULTS =
     rtokenpath:  syspath.normalize syspath.join __dirname, '../refreshtoken.txt'
     cookiespath: syspath.normalize syspath.join __dirname, '../cookies.json'
+
+# the max amount of time we will wait between seeing some sort of
+# activity from the server.
+ALIVE_WAIT = 45000
 
 # ensure path exists
 touch = (path) ->
@@ -84,8 +88,11 @@ module.exports = class Client extends EventEmitter
             @init.initChat @jarstore, pvt
         .then =>
             @running = true
+            # ensure we have a fresh timestamp
+            @lastAlive = Date.now()
             do poller = =>
                 return unless @running
+                @ensureConnected()
                 @channel.getLines().then (lines) =>
                     @messageParser.parsePushLines lines
                     poller()
@@ -93,11 +100,12 @@ module.exports = class Client extends EventEmitter
                     log.debug err.stack if err.stack
                     log.debug err
                     log.info 'poller stopped', fmterr(err)
-                    @emit 'connect_failed', err
                     @running = false
+                    @emit 'connect_failed', err
             # wait for connected event to release promise
             Q.Promise (rs) => @once 'connected', -> rs()
         .fail (err) =>
+            @running = false
             if err == ABORT
                 return null
             else
@@ -117,9 +125,11 @@ module.exports = class Client extends EventEmitter
     # clears entire auth state, removing cached cookies and refresh
     # token.
     logout: =>
+        # stop client
+        @disconnect()
+        # remove saved state
         rpath = @opts.rtokenpath
         cpath = @opts.cookiespath
-        @disconnect()
         Q().then ->
             log.info 'removing refresh token'
             rm rpath
@@ -129,15 +139,39 @@ module.exports = class Client extends EventEmitter
         .then =>
             @doInit()
 
-    # debug each event emitted
     emit: (ev, data) ->
+        # record when we last emitted
+        @lastAlive = Date.now() unless ev is 'connect_failed'
+        # debug it
         log.debug 'emit', ev, (data ? '')
+        # and do it
         super
+
+
+    # we get at least a "noop" event every 20-30 secs, if we have no
+    # event after 45 secs, we must suspect a network interruption
+    ensureConnected: =>
+        # if there's a running timeout, stop it
+        clearTimeout @ensureTimer if @ensureTimer
+        # and no ensuring unless we're connected
+        return unless @running
+        # check whether we got an event within the threshold we see
+        # noop 20-30 secs, so 45 should be ok
+        Q().then =>
+            if (Date.now() - @lastAlive) > ALIVE_WAIT
+                log.debug 'activity wait timeout after 45 secs'
+                @disconnect()
+                @emit 'connect_failed', new Error("Connection timeout")
+        .then =>
+            return unless @running # it may have changed
+            waitFor = @lastActive + ALIVE_WAIT - Date.now()
+            @ensureTimer = setTimeout @ensureConnected, waitFor
 
 
     disconnect: ->
         log.debug 'disconnect'
         @running = false
+        clearTimeout @ensureTimer if @ensureTimer
         @channel?.stop?()
 
 

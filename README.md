@@ -93,6 +93,45 @@ client.connect(creds).then(function() {
 }).done();
 ```
 
+## Long running sessions / reconnect
+
+hangupsjs will not try to keep the connection open endlessly. the push
+channel has some reconnect logic, but it will eventually back off with
+a `connect_failed` event.
+
+additionally the client also monitors activity. the push channel
+receives events at least every 20-30 seconds, if there are no chat
+events, we get a `noop`.
+
+after a successful `connect()`, the client monitors the channel to
+ensure we receive any event at least every 45 seconds. if 45 seconds
+passes and the push channel got nothing, the client stops with a
+`connect_failed` event.
+
+### Example
+
+To construct a client that just doesn't give up we do:
+
+```javascript
+var = reconnect = function() {
+    client.connect(creds).then(function() {
+        // we are now connected. a `connected`
+        // event was emitted.
+    });
+};
+
+// whenever it fails, we try again
+client.on('connect_failed', function() {
+    Q.Promise(function(rs) {
+        // backoff for 3 seconds
+        setTimeout(rs,3000);
+    }).then(reconnect);
+});
+
+// start connection
+reconnect();
+```
+
 ## API
 
 ### High Level API
@@ -579,10 +618,20 @@ When the client is fully inited and connected.
 
 #### `connect_failed (err)`
 
-Emitted in two cases. Either after `connecting` indicating that the
-client could not connect at all, or after `connected` when running the
-polling successfully, but is interrupted (such as lost network
-connection).
+Indicates that the client connection either didn't start or was
+interrupted. Either way, the client will not try to connect again by
+itself.  Another `client.connect` is required.
+
+Emitted in three cases.
+
+1. After `connecting` (in `client.connect()`) indicating that the
+client could not connect at all.
+
+2. After `connected` when running the polling (server push channel)
+successfully, but is interrupted (such as lost network connection).
+
+3. If the server push channel receives no events after 45 seconds
+   (server emits at least `noop` every 20-30 seconds).
 
 ### Chat events
 
