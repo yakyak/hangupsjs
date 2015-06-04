@@ -467,7 +467,7 @@ module.exports = class Client extends EventEmitter
     # used.
     #
     # returns an image_id that can be used in sendchatmessage
-    uploadimage: (imagefile, filename=null) =>
+    uploadimage: (imagefile, filename=null, timeout=30000) =>
         # either use provided or from path
         filename = filename ? syspath.basename(imagefile)
         size = null
@@ -500,7 +500,7 @@ module.exports = class Client extends EventEmitter
             fs.readFile imagefile, plug(rs, rj)
         .then (buf) ->
             log.debug 'image resume uploading'
-            chatreq.baseReq puturl, 'application/octet-stream', buf
+            chatreq.baseReq puturl, 'application/octet-stream', buf, true, timeout
         .then (body) ->
             log.debug 'image resume upload finished'
             body?.sessionStatus?.additionalInfo?['uploader_service.GoogleRupioAdditionalInfo']?.completionInfo?.customerSpecificInfo?.photoid

@@ -17,7 +17,7 @@ module.exports = class ChatReq
     #
     # These cookies are typically submitted:
     # NID, SID, HSID, SSID, APISID, SAPISID
-    baseReq: (url, contenttype, body, json=true) ->
+    baseReq: (url, contenttype, body, json=true, timeout=30000) ->
         headers = @channel.authHeaders()
         return Q.reject new Error("No auth headers") unless headers
         headers['Content-Type'] = contenttype
@@ -32,7 +32,7 @@ module.exports = class ChatReq
             headers: headers
             body: if Buffer.isBuffer body then body else JSON.stringify(body)
             encoding: null # get body as buffer
-            timeout: 30000 # 30 seconds timeout in connect attempt
+            timeout: timeout # timeout in connect attempt (default 30 sec)
         req(opts).fail (err) ->
             log.debug 'request failed', err
             Q.reject err

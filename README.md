@@ -545,13 +545,15 @@ Send an easteregg to a conversation.
 
 #### `uploadimage`
 
-`uploadimage: (path, filename=null) ->`
+`uploadimage: (path, filename=null, timeout=30000) ->`
 
 Uploads an image that can be later attached to a chat message.
 
 `imagefile` is a string path
 
 `filename` can optionally be provided otherwise the path name is used.
+
+`timeout` can be used to upload larger images, that may need more than 30 sec to be sent 
 
 returns an `image_id` that can be used in [`sendchatmessage`](#sendchatmessage).
 
