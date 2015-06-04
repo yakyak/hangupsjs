@@ -342,7 +342,7 @@ module.exports = class Client extends EventEmitter
         @chatreq.req 'conversations/adduser', [
             @_requestBodyHeader()
             None,
-            [([chat_id, None, None, "unknown", None, []] for chat_id in chat_ids)],
+            [chat_id, None, None, "unknown", None, []] for chat_id in chat_ids,
             None,
             [
                 [conversation_id], client_generated_id, 2, None, 4
@@ -378,7 +378,7 @@ module.exports = class Client extends EventEmitter
             if chat_ids.length == 1 and not force_group then 1 else 2
             client_generated_id
             None
-            [([chat_id, None, None, "unknown", None, []] for chat_id in chat_ids)]
+            [chat_id, None, None, "unknown", None, []] for chat_id in chat_ids
         ]
 
 
