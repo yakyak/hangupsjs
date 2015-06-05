@@ -89,10 +89,10 @@ module.exports = class Client extends EventEmitter
         .then =>
             @running = true
             # ensure we have a fresh timestamp
-            @lastAlive = Date.now()
+            @lastActive = Date.now()
+            @ensureConnected()
             do poller = =>
                 return unless @running
-                @ensureConnected()
                 @channel.getLines().then (lines) =>
                     @messageParser.parsePushLines lines
                     poller()
@@ -141,7 +141,7 @@ module.exports = class Client extends EventEmitter
 
     emit: (ev, data) ->
         # record when we last emitted
-        @lastAlive = Date.now() unless ev is 'connect_failed'
+        @lastActive = Date.now() unless ev is 'connect_failed'
         # debug it
         log.debug 'emit', ev, (data ? '')
         # and do it
@@ -158,7 +158,7 @@ module.exports = class Client extends EventEmitter
         # check whether we got an event within the threshold we see
         # noop 20-30 secs, so 45 should be ok
         Q().then =>
-            if (Date.now() - @lastAlive) > ALIVE_WAIT
+            if (Date.now() - @lastActive) > ALIVE_WAIT
                 log.debug 'activity wait timeout after 45 secs'
                 @disconnect()
                 @emit 'connect_failed', new Error("Connection timeout")
