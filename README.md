@@ -675,6 +675,11 @@ egg.
 
 [See #10](https://github.com/algesten/hangupsjs/issues/10)
 
+#### `delete`
+
+When a conversation is deleted by the user. As a response
+to `deleteconversation`.
+
 ### To be investigated
 
 The following events are possible and not investigated. Please tell me
@@ -686,7 +691,6 @@ in an [issue](https://github.com/algesten/hangupsjs/issues) if you figure one ou
 * `reply_to_invite`
 * `settings`
 * `self_presence` [See #10](https://github.com/algesten/hangupsjs/issues/10)
-* `delete`
 * `presence` [See #10](https://github.com/algesten/hangupsjs/issues/10)
 * `block`
 * `invitation_watermark`
