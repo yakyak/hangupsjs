@@ -641,6 +641,12 @@ successfully, but is interrupted (such as lost network connection).
 
 On a received chat message.
 
+#### `client_conversation`
+
+Whenever an update about the conversation itself is needed. Like when
+a new conversation is created, this event comes first with the
+metadata about it.
+
 #### `membership_change`
 
 Member joining/leaving conversation.
@@ -652,6 +658,12 @@ On a renamed conversation.
 #### `focus`
 
 When a user focuses a conversation.
+
+#### `hangout_event`
+
+On changes to video/audio calls. A "hangout" is in google API talk
+strictly a video/audio event. `START_HANGOUT` and `END_HANGOUT` would
+indicate attempts to start/end audio/video events.
 
 #### `typing`
 
@@ -685,8 +697,6 @@ to `deleteconversation`.
 The following events are possible and not investigated. Please tell me
 in an [issue](https://github.com/algesten/hangupsjs/issues) if you figure one out.
 
-* `hangout_event`
-* `client_conversation`
 * `conversation_notification`
 * `reply_to_invite`
 * `settings`
