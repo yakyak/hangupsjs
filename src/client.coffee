@@ -443,10 +443,13 @@ module.exports = class Client extends EventEmitter
     # Similar to syncallnewevents, but appears to return a limited
     # number of conversations (20) rather than all conversations in a
     # given date range.
+    #
+    # returns a parsed CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE (same structure)
     syncrecentconversations: ->
-        @chatreq.req 'conversations/syncrecentconversations', [
+        @chatreq.req('conversations/syncrecentconversations', [
             @_requestBodyHeader()
-        ]
+        ], false).then (body) -> # receive as protojson
+            CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE.parse body
 
 
     # Search for people.
