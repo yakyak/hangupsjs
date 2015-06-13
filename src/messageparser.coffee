@@ -35,12 +35,16 @@ module.exports = class MessageParser
 
     parsePayload: (payload) =>
         payload = tryparse(payload) if typeis payload, 'string'
-        if payload[0] == 'cbu'
+        # XXX when we get a null payload on an incoming hangout_event
+        # i wonder whether we *actually* got a null payload, or if we
+        # simply misinterpreted what's coming at some step.
+        return unless payload
+        if payload?[0] == 'cbu'
             for u in payload[1]
                 update = CLIENT_STATE_UPDATE.parse u
                 @emitUpdateParts update
         else
-            log.info 'ignoring payload with header', payload[0]
+            log.info 'ignoring payload', payload
 
 
     emitUpdateParts: (update) ->
