@@ -148,6 +148,8 @@ login cookies. Defaults to `cookies.json` in module dir.
 `opts.rtokenpath` (optional) path to file in which to store the
 oauth refresh token. Defaults to `refreshtoken.txt` in module dir.
 
+`opts.proxy` (optional) proxy URL that gets passed to request. Documentation is [here](https://github.com/request/request#proxies)
+
 #### `connect`
 
 `connect: (creds) ->`

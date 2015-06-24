@@ -66,7 +66,7 @@ MAX_RETRIES = 5
 
 module.exports = class Channel
 
-    constructor: (@jarstore) ->
+    constructor: (@jarstore, @proxy) ->
         @pushParser = new PushDataParser()
 
     fetchPvt: =>
@@ -250,6 +250,7 @@ module.exports = class Channel
                 method: 'POST'
                 uri: op 'channel/bind'
                 jar: request.jar @jarstore
+                proxy: @proxy
                 qs:
                     VER: 8
                     RID: 81188

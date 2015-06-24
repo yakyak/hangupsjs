@@ -8,7 +8,7 @@ Q       = require 'q'
 
 module.exports = class ChatReq
 
-    constructor: (@jarstore, @init, @channel) ->
+    constructor: (@jarstore, @init, @channel, @proxy) ->
 
     # does a request against url.
     # contentype is request Content-Type.
@@ -28,8 +28,10 @@ module.exports = class ChatReq
             method: 'POST'
             uri: url
             jar: request.jar @jarstore
+            proxy: @proxy
             qs: params
             headers: headers
+
             body: if Buffer.isBuffer body then body else JSON.stringify(body)
             encoding: null # get body as buffer
             timeout: timeout # timeout in connect attempt (default 30 sec)
