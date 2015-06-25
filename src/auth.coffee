@@ -175,6 +175,7 @@ module.exports = class Auth
                 method: 'GET'
                 uri: UBERAUTH
                 jar: request.jar jarstore
+                proxy: @opts.proxy
                 headers: headers
         .then (res) ->
             return Q.reject NetworkError.forRes(res) unless res.statusCode == 200
@@ -187,6 +188,7 @@ module.exports = class Auth
                 method: 'GET'
                 uri: MERGE_SESSION
                 jar: request.jar jarstore
+                proxy: @proxy
         .then (res) ->
             return Q.reject NetworkError.forRes(res) unless res.statusCode == 200
             log.debug 'request merge session 2/2'
@@ -194,6 +196,7 @@ module.exports = class Auth
                 method: 'GET'
                 uri: MERGE_SESSION_MAIL + uberauth
                 jar: request.jar jarstore
+                proxy: @proxy
                 header: headers
         .then (res) ->
             return Q.reject NetworkError.forRes(res) unless res.statusCode == 200

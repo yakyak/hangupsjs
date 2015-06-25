@@ -117,9 +117,9 @@ module.exports = class Client extends EventEmitter
     doInit: ->
         touch @opts.cookiespath
         @jar = new CookieJar (@jarstore = new FileCookieStore @opts.cookiespath)
-        @channel = new Channel @jarstore
-        @init = new Init()
-        @chatreq = new ChatReq @jarstore, @init, @channel
+        @channel = new Channel @jarstore, @opts.proxy
+        @init = new Init @opts.proxy
+        @chatreq = new ChatReq @jarstore, @init, @channel, @opts.proxy
 
 
     # clears entire auth state, removing cached cookies and refresh
