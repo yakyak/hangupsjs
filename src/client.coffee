@@ -542,7 +542,35 @@ module.exports = class Client extends EventEmitter
             log.debug 'image resume upload finished'
             body?.sessionStatus?.additionalInfo?['uploader_service.GoogleRupioAdditionalInfo']?.completionInfo?.customerSpecificInfo?.photoid
 
+# aliases list
+aliases = [
+    'logLevel',
+    'sendChatMessage',
+    'setActiveClient',
+    'syncAllNewEvents',
+    'getSelfInfo',
+    'setConversationNotificationLevel',
+    'setFocus',
+    'setTyping',
+    'setPresence',
+    'queryPresence',
+    'removeUser',
+    'deleteConversation',
+    'updateWatermark',
+    'addUser',
+    'renameConversation',
+    'createConversation',
+    'getConversation',
+    'syncRecentConversations',
+    'searchEntities',
+    'getEntityById',
+    'sendEasteregg',
+    'uploadImage'
+]
 
+# set aliases
+aliases.forEach((alias) ->
+  Client.prototype[alias] = Client.prototype[alias.toLowerCase()])
 
 
 
