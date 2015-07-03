@@ -169,13 +169,14 @@ module.exports = class Auth
         uberauth = null
         headers = Authorization: "Bearer #{atoken}"
         jarstore = @jarstore
+        opts = @opts
         Q().then ->
             log.debug 'requesting uberauth'
             req
                 method: 'GET'
                 uri: UBERAUTH
                 jar: request.jar jarstore
-                proxy: @opts.proxy
+                proxy: opts.proxy
                 headers: headers
         .then (res) ->
             return Q.reject NetworkError.forRes(res) unless res.statusCode == 200
