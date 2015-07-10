@@ -113,7 +113,7 @@ passes and the push channel got nothing, the client stops with a
 To construct a client that just doesn't give up we do:
 
 ```javascript
-var = reconnect = function() {
+var reconnect = function() {
     client.connect(creds).then(function() {
         // we are now connected. a `connected`
         // event was emitted.
