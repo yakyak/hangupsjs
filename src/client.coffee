@@ -60,9 +60,7 @@ module.exports = class Client extends EventEmitter
         @messageParser = new MessageParser(this)
 
         # clientid comes as part of pushdata
-        @on 'clientid', (clientid) =>
-            @init.clientid = clientid
-            @emit 'connected' if @isInited()
+        @on 'clientid', (clientid) => @init.clientid = clientid
 
     loglevel: (lvl) -> log.level lvl
 
@@ -88,12 +86,18 @@ module.exports = class Client extends EventEmitter
             @init.initChat @jarstore, pvt
         .then =>
             @running = true
+            @connected = false
             # ensure we have a fresh timestamp
             @lastActive = Date.now()
             @ensureConnected()
             do poller = =>
                 return unless @running
                 @channel.getLines().then (lines) =>
+                    # wait until we receive first data to emit a
+                    # 'connected' event.
+                    unless @connected
+                        @connected = true
+                        @emit 'connected'
                     @messageParser.parsePushLines lines
                     poller()
                 .fail (err) =>
@@ -101,11 +105,13 @@ module.exports = class Client extends EventEmitter
                     log.debug err
                     log.info 'poller stopped', fmterr(err)
                     @running = false
+                    @connected = false
                     @emit 'connect_failed', err
             # wait for connected event to release promise
             Q.Promise (rs) => @once 'connected', -> rs()
         .fail (err) =>
             @running = false
+            @connected = false
             if err == ABORT
                 return null
             else
@@ -160,7 +166,7 @@ module.exports = class Client extends EventEmitter
         Q().then =>
             if (Date.now() - @lastActive) > ALIVE_WAIT
                 log.debug 'activity wait timeout after 45 secs'
-                @disconnect()
+                @disconnect() # this also sets @connected to false
                 @emit 'connect_failed', new Error("Connection timeout")
         .then =>
             return unless @running # it may have changed
@@ -171,6 +177,7 @@ module.exports = class Client extends EventEmitter
     disconnect: ->
         log.debug 'disconnect'
         @running = false
+        @connected = false
         clearTimeout @ensureTimer if @ensureTimer
         @channel?.stop?()
 
