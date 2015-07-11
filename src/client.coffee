@@ -95,7 +95,7 @@ module.exports = class Client extends EventEmitter
                 @channel.getLines().then (lines) =>
                     # wait until we receive first data to emit a
                     # 'connected' event.
-                    unless @connected
+                    if not @connected and @running
                         @connected = true
                         @emit 'connected'
                     @messageParser.parsePushLines lines
