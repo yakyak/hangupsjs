@@ -25,15 +25,15 @@
     "bog": "^1.0.0",
     "fnuc": "0.0.15",
     "q": "^1.2.0",
-    "request": "^2.54.0",
-    "tough-cookie": "^0.12.1",
+    "request": "^2.58.0",
+    "tough-cookie": "^2.0.0",
     "tough-cookie-filestore": "0.0.1"
   },
   "devDependencies": {
-    "chai": "^2.3.0",
-    "coffee-script": "^1.9.1",
+    "chai": "^3.0.0",
+    "coffee-script": "^1.9.3",
     "hexy": "^0.2.7",
     "mocha": "^2.2.4",
-    "request-debug": "^0.1.1"
+    "request-debug": "^0.2.0"
   }
 }
