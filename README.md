@@ -142,8 +142,13 @@ High level API calls that are not doing direct hangouts calls.
 
 `Client(opts)`
 
+`opts.jarstore` (optional) instance of
+[`Store`](https://github.com/SalesforceEng/tough-cookie) to use
+instead of default file persistence for cookies.
+
 `opts.cookiespath` (optional) path to file in which to store cached
-login cookies. Defaults to `cookies.json` in module dir.
+login cookies. Defaults to `cookies.json` in module dir. not used
+if `opts.jarstore` is passed.
 
 `opts.rtokenpath` (optional) path to file in which to store the
 oauth refresh token. Defaults to `refreshtoken.txt` in module dir.

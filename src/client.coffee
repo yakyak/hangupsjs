@@ -124,7 +124,8 @@ module.exports = class Client extends EventEmitter
 
     doInit: ->
         touch @opts.cookiespath
-        @jar = new CookieJar (@jarstore = new FileCookieStore @opts.cookiespath)
+        @jarstore = @opts.jarstore ? new FileCookieStore(@opts.cookiespath)
+        @jar = new CookieJar @jarstore
         @channel = new Channel @jarstore, @opts.proxy
         @init = new Init @opts.proxy
         @chatreq = new ChatReq @jarstore, @init, @channel, @opts.proxy
