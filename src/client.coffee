@@ -98,8 +98,10 @@ module.exports = class Client extends EventEmitter
                     if not @connected and @running
                         @connected = true
                         @emit 'connected'
-                    @messageParser.parsePushLines lines
-                    poller()
+                    # when disconnecting, no more lines to parse.
+                    if @running
+                        @messageParser.parsePushLines lines
+                        poller()
                 .fail (err) =>
                     log.debug err.stack if err.stack
                     log.debug err
