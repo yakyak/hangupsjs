@@ -102,8 +102,13 @@ module.exports = class Auth
 
     loadRefreshToken: =>
         path = @opts.rtokenpath
+        tokenPersistence = @opts.tokenPersistence
         Q().then ->
-            Q.Promise (rs, rj) -> fs.readFile path, 'utf-8', plug(rs,rj)
+            Q.Promise (rs, rj) ->
+                if tokenPersistence
+                    tokenPersistence.load().then rs, rj
+                else
+                    fs.readFile path, 'utf-8', plug(rs,rj)
         .fail (err) ->
             # ENOTFOUND is ok, we just return null and deal with
             # oauthLogin()
@@ -113,8 +118,13 @@ module.exports = class Auth
 
     saveRefreshToken: (rtoken) =>
         path = @opts.rtokenpath
+        tokenPersistence = @opts.tokenPersistence
         Q().then ->
-            Q.Promise (rs, rj) -> fs.writeFile path, rtoken, plug(rs,rj)
+            Q.Promise (rs, rj) ->
+                if tokenPersistence
+                    tokenPersistence.save(rtoken).then rs, rj
+                else
+                    fs.writeFile path, rtoken, plug(rs,rj)
 
     authWithRefreshToken: (rtoken) =>
         log.debug 'auth with refresh token'
@@ -189,7 +199,7 @@ module.exports = class Auth
                 method: 'GET'
                 uri: MERGE_SESSION
                 jar: request.jar jarstore
-                proxy: @proxy
+                proxy: opts.proxy
         .then (res) ->
             return Q.reject NetworkError.forRes(res) unless res.statusCode == 200
             log.debug 'request merge session 2/2'
@@ -197,7 +207,7 @@ module.exports = class Auth
                 method: 'GET'
                 uri: MERGE_SESSION_MAIL + uberauth
                 jar: request.jar jarstore
-                proxy: @proxy
+                proxy: opts.proxy
                 header: headers
         .then (res) ->
             return Q.reject NetworkError.forRes(res) unless res.statusCode == 200
