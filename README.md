@@ -164,7 +164,9 @@ if `opts.jarstore` is passed.
 `opts.rtokenpath` (optional) path to file in which to store the
 oauth refresh token. Defaults to `refreshtoken.txt` in module dir.
 
-`opts.proxy` (optional) proxy URL that gets passed to request. Documentation is [here](https://github.com/request/request#proxies)
+`opts.proxy` (optional) proxy URL that gets passed to
+request. Documentation is
+[here](https://github.com/request/request#proxies)
 
 #### `connect`
 
