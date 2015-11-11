@@ -22,7 +22,7 @@ CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
 CLIENT_GET_CONVERSATION_RESPONSE
 CLIENT_GET_ENTITY_BY_ID_RESPONSE} = require './schema'
 
-IMAGE_UPLOAD_URL = 'http://docs.google.com/upload/photos/resumable'
+IMAGE_UPLOAD_URL = 'https://docs.google.com/upload/photos/resumable'
 
 DEFAULTS =
     rtokenpath:  syspath.normalize syspath.join __dirname, '../refreshtoken.txt'
