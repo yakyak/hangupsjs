@@ -3,6 +3,17 @@ hangupsjs
 
 [![Build Status](https://travis-ci.org/algesten/hangupsjs.svg)](https://travis-ci.org/algesten/hangupsjs) [![Gitter](https://d378bf3rn661mp.cloudfront.net/gitter.svg)](https://gitter.im/algesten/hangupsjs)
 
+### 2016-01-15 v1.3.0 breaking change
+
+It seems the entities information that previously was available in the
+init data is no longer there. Relying on these entities would now
+break.
+
+[tdryer](https://github.com/algesten/hangupsjs/issues/39#issuecomment-171853264)
+pointed out that hangups have stopped doing this init data request,
+since it's not necessary. hangupsjs should follow (soon) and remove
+everything around pvt/init. this will be a major release.
+
 ## Summary
 
 Client library for Google Hangouts in nodejs.
