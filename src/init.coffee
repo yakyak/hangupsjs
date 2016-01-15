@@ -10,11 +10,31 @@ syspath = require 'path'
 CLIENT_CONVERSATION_STATE_LIST,
 INITIAL_CLIENT_ENTITIES} = require './schema'
 
-CHAT_INIT_URL = 'https://talkgadget.google.com/u/0/talkgadget/_/chat'
+CHAT_INIT_URL = 'https://hangouts.google.com/webchat/u/0/load'
 CHAT_INIT_PARAMS =
+    stime: 1452813562809,
+    client: 'sm',
+    nav: 'true',
+    os: 'Linux',
+    xpc: '{"cn":"gvtgg","tp":1,"ifrid":"gtn-roster-iframe-id","pu":"https://hangouts.google.com/webchat/u/0/"}',
+    href: 'chrome-extension://nckgahadagoaajjgafhacjanaoiihapd/datachannel.html?rel=1',
+    pos: 'l',
+    uiv: '2',
+    hl: 'en_GB',
+    hpc: 'true',
+    hsm: 'true',
+    hrc: 'true',
+    pop: 'true',
+    pal: '1',
+    uqp: 'true',
+    sl: 'false',
+    mmoleh: '36',
+    host: '1',
+    two: 'chrome-extension://nckgahadagoaajjgafhacjanaoiihapd',
+    zx: 'yqosawc8m1fk',
     prop: 'aChromeExtension',
-    fid:  'gtn-roster-iframe-id',
-    ec:   '["ci:ec",true,true,false]',
+    fid: 'gtn-roster-iframe-id',
+    ec: '["ci:ec",true,true,false]',
     pvt:  null,  # Populated later
 
 module.exports = class Init
@@ -100,9 +120,5 @@ module.exports = class Init
                     log.warn 'no init data for', k
 
             # massage the entities
-            entgroups = (@entities["group#{g}"].entities for g in [1..5])
-            allents = map concat(@entities.entities, entgroups...), (e) -> e.entity
-            # only keep real entities
-            safe = allents.filter (e) -> e?.id?.gaia_id
-            deduped = uniqfn safe, (e) -> e.id.gaia_id
-            @entities = deduped
+            entgroups = []
+            @entities = undefined
