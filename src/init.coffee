@@ -12,29 +12,8 @@ INITIAL_CLIENT_ENTITIES} = require './schema'
 
 CHAT_INIT_URL = 'https://hangouts.google.com/webchat/u/0/load'
 CHAT_INIT_PARAMS =
-    stime: 1452813562809,
-    client: 'sm',
-    nav: 'true',
-    os: 'Linux',
-    xpc: '{"cn":"gvtgg","tp":1,"ifrid":"gtn-roster-iframe-id","pu":"https://hangouts.google.com/webchat/u/0/"}',
-    href: 'chrome-extension://nckgahadagoaajjgafhacjanaoiihapd/datachannel.html?rel=1',
-    pos: 'l',
-    uiv: '2',
-    hl: 'en_GB',
-    hpc: 'true',
-    hsm: 'true',
-    hrc: 'true',
-    pop: 'true',
-    pal: '1',
-    uqp: 'true',
-    sl: 'false',
-    mmoleh: '36',
-    host: '1',
-    two: 'chrome-extension://nckgahadagoaajjgafhacjanaoiihapd',
-    zx: 'yqosawc8m1fk',
-    prop: 'aChromeExtension',
-    fid: 'gtn-roster-iframe-id',
-    ec: '["ci:ec",true,true,false]',
+    fid:  'gtn-roster-iframe-id',
+    ec:   '["ci:ec",true,true,false]',
     pvt:  null,  # Populated later
 
 module.exports = class Init
@@ -97,15 +76,12 @@ module.exports = class Init
                 headerdate:    { key:'ds:2', fn: (d) -> d[0][4] }
                 headerversion: { key:'ds:2', fn: (d) -> d[0][6] }
                 headerid:      { key:'ds:4', fn: (d) -> d[0][7] }
-                timestamp:     { key:'ds:21', fn: (d) -> new Date (d[0][1][4] / 1000) }
+                timestamp:     { key:'ds:20', fn: (d) -> new Date (d[0][1][4] / 1000) }
                 self_entity:   { key:'ds:20', fn: (d) ->
                     CLIENT_GET_SELF_INFO_RESPONSE.parse(d[0]).self_entity
                 }
                 conv_states: { key:'ds:19', fn: (d) ->
                     CLIENT_CONVERSATION_STATE_LIST.parse(d[0][3])
-                }
-                entities: { key:'ds:21', fn: (d) ->
-                    INITIAL_CLIENT_ENTITIES.parse d[0]
                 }
 
             for k, spec of DICT

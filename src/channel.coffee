@@ -8,7 +8,7 @@ Q       = require 'q'
 {req, find, wait, NetworkError, fmterr} = require './util'
 PushDataParser = require './pushdataparser'
 
-ORIGIN_URL = 'https://hangouts.google.com'
+ORIGIN_URL = 'https://talkgadget.google.com'
 CHANNEL_URL_PREFIX = 'https://0.client-channel.google.com/client-channel'
 
 UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36
