@@ -123,7 +123,7 @@ module.exports = class Client extends EventEmitter
 
 
     doInit: ->
-        touch @opts.cookiespath
+        touch @opts.cookiespath unless @opts.jarstore
         @jarstore = @opts.jarstore ? new FileCookieStore(@opts.cookiespath)
         @jar = new CookieJar @jarstore
         @channel = new Channel @jarstore, @opts.proxy
