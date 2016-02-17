@@ -28,7 +28,16 @@
         },
         "invite_timestamp": 1430497801138000,
         "sort_timestamp": 1430497808139701,
-        "active_timestamp": 1430497801138000
+        "active_timestamp": 1430497801138000,
+        "delivery_medium_option": [ {
+          "current_default": 0,
+          "delivery_medium": {
+            "delivery_medium_type": "GOOGLE_VOICE",
+            "phone_number": {
+              "e164": "+14011234567"
+            }
+          }
+        } ]
       },
       "read_state": [
         {
@@ -63,14 +72,18 @@
             "gaia_id": "105510613398923491294",
             "chat_id": "105510613398923491294"
           },
-          "fallback_name": "Bo Tenström"
+          "fallback_name": "Bo Tenström",
+          "participant_type": "GAIA",
+          "phone_number": null
         },
         {
           "id": {
             "gaia_id": "102224360723365489932",
             "chat_id": "102224360723365489932"
           },
-          "fallback_name": "Bo Tenström"
+          "fallback_name": "Bo Tenström",
+          "participant_type": "GOOGLE_VOICE",
+          "phone_number": { "e164": "+14017654321" }
         }
       ]
     },
@@ -151,7 +164,14 @@
         },
         "invite_timestamp": 1430497826216000,
         "sort_timestamp": 1430497904083513,
-        "active_timestamp": 1430497840649000
+        "active_timestamp": 1430497840649000,
+        "delivery_medium_option": [ {
+          "current_default": 1,
+          "delivery_medium": {
+            "delivery_medium_type": "BABEL",
+            "phone_number": null
+          }
+      } ]
       },
       "read_state": [
         {
@@ -186,14 +206,18 @@
             "gaia_id": "102224360723365489932",
             "chat_id": "102224360723365489932"
           },
-          "fallback_name": "Bo Tenström"
+          "fallback_name": "Bo Tenström",
+          "participant_type": "GAIA",
+          "phone_number": null
         },
         {
           "id": {
             "gaia_id": "110994664963851875523",
             "chat_id": "110994664963851875523"
           },
-          "fallback_name": "Martin Algesten"
+          "fallback_name": "Martin Algesten",
+          "participant_type": "GAIA",
+          "phone_number": null
         }
       ]
     },
