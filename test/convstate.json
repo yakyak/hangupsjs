@@ -73,8 +73,10 @@
             "chat_id": "105510613398923491294"
           },
           "fallback_name": "Bo Tenström",
+          "invitation_status": "PENDING",
+          "phone_number": null,
           "participant_type": "GAIA",
-          "phone_number": null
+          "new_invitation_status": "PENDING"
         },
         {
           "id": {
@@ -82,8 +84,10 @@
             "chat_id": "102224360723365489932"
           },
           "fallback_name": "Bo Tenström",
+          "invitation_status": "ACCEPTED",
+          "phone_number": { "e164": "+14017654321" },
           "participant_type": "GOOGLE_VOICE",
-          "phone_number": { "e164": "+14017654321" }
+          "new_invitation_status": "ACCEPTED"
         }
       ]
     },
@@ -207,8 +211,10 @@
             "chat_id": "102224360723365489932"
           },
           "fallback_name": "Bo Tenström",
+          "invitation_status": "ACCEPTED",
+          "phone_number": null,
           "participant_type": "GAIA",
-          "phone_number": null
+          "new_invitation_status": "ACCEPTED"
         },
         {
           "id": {
@@ -216,8 +222,10 @@
             "chat_id": "110994664963851875523"
           },
           "fallback_name": "Martin Algesten",
+          "invitation_status": "ACCEPTED",
+          "phone_number": null,
           "participant_type": "GAIA",
-          "phone_number": null
+          "new_invitation_status": "ACCEPTED"
         }
       ]
     },
