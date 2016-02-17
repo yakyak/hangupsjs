@@ -47,6 +47,12 @@ s.ClientNotificationLevel =
     QUIET : 10
     RING : 30
 
+s.ClientDeliveryMediumType =
+
+    UNKNOWN: 0
+    BABEL: 1
+    GOOGLE_VOICE: 2
+    LOCAL_SMS: 3
 
 s.ClientConversationStatus =
 
@@ -97,8 +103,17 @@ s.ActiveClientState =
     NO_ACTIVE_CLIENT : 0
     IS_ACTIVE_CLIENT : 1
     OTHER_CLIENT_IS_ACTIVE : 2
+    
+s.ParticipantType =
 
+    UNKNOWN : 0
+    GAIA: 2
+    GOOGLE_VOICE: 3
 
+##############################################################################
+# Structures
+##############################################################################
+    
 s.USER_ID = Message([
     'gaia_id', Field()
     'chat_id', Field()
@@ -133,6 +148,22 @@ s.CONVERSATION_ID = Message([
     'id', Field()
 ])
 
+s.PHONE_NUMBER = Message([
+    'e164', Field()
+    None, RepeatedField(Field())
+])
+
+s.CLIENT_DELIVERY_MEDIUM = Message([
+    'delivery_medium_type', EnumField(s.ClientDeliveryMediumType)
+    'phone_number', s.PHONE_NUMBER
+])
+
+s.CLIENT_DELIVERY_MEDIUM_OPTION = Message([
+    'delivery_medium', s.CLIENT_DELIVERY_MEDIUM
+    'current_default',  Field()
+    None, Field() # No idea what this is yet
+])
+
 s.CLIENT_CONVERSATION = Message([
     'conversation_id', s.CONVERSATION_ID
     'type', EnumField(s.ConversationType)
@@ -155,9 +186,9 @@ s.CLIENT_CONVERSATION = Message([
         'invite_timestamp', Field()
         'sort_timestamp', Field()
         'active_timestamp', Field()
-        None, Field()
-        None, Field()
-        None, Field()
+        None, Field()   # This one should be "invite_affinity"
+        None, Field()   # No idea what this field is
+        'delivery_medium_option', RepeatedField(s.CLIENT_DELIVERY_MEDIUM_OPTION)
         None, Field()
     ])
     None, Field()
@@ -176,7 +207,9 @@ s.CLIENT_CONVERSATION = Message([
     'participant_data', RepeatedField(Message([
             'id', s.USER_ID
             'fallback_name', Field()
-            None, Field()
+            None, Field() # Invitation status
+            'phone_number', s.PHONE_NUMBER
+            'participant_type', EnumField(s.ParticipantType)
     ]))
     None, Field()
     None, Field()
@@ -411,6 +444,5 @@ s.CLIENT_GET_ENTITY_BY_ID_RESPONSE = Message([
     'response_header', s.CLIENT_RESPONSE_HEADER
     'entities', RepeatedField(s.CLIENT_ENTITY)
 ])
-
 
 module.exports = s
