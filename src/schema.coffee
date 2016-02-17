@@ -104,6 +104,12 @@ s.ActiveClientState =
     IS_ACTIVE_CLIENT : 1
     OTHER_CLIENT_IS_ACTIVE : 2
     
+s.InvitationStatus =
+
+    UNKNOWN : 0
+    PENDING : 1
+    ACCEPTED : 2
+    
 s.ParticipantType =
 
     UNKNOWN : 0
@@ -207,9 +213,10 @@ s.CLIENT_CONVERSATION = Message([
     'participant_data', RepeatedField(Message([
             'id', s.USER_ID
             'fallback_name', Field()
-            None, Field() # Invitation status
+            'invitation_status', EnumField(s.InvitationStatus)
             'phone_number', s.PHONE_NUMBER
             'participant_type', EnumField(s.ParticipantType)
+            'new_invitation_status', EnumField(s.InvitationStatus)
     ]))
     None, Field()
     None, Field()
