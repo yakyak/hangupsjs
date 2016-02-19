@@ -30,11 +30,19 @@
         "sort_timestamp": 1430497808139701,
         "active_timestamp": 1430497801138000,
         "delivery_medium_option": [ {
-          "current_default": 0,
+          "current_default": false,
           "delivery_medium": {
             "delivery_medium_type": "GOOGLE_VOICE",
             "phone_number": {
-              "e164": "+14011234567"
+              "e164": "+14011234567",
+              "i18n_data" : {
+              "national_number": "(401) 123-4567",
+              "international_number": "+1 401-123-4567",
+              "country_code": 1,
+              "region_code": "US",
+              "is_valid": false,
+              "validation_result": "IS_POSSIBLE"
+              }
             }
           }
         } ]
@@ -85,7 +93,17 @@
           },
           "fallback_name": "Bo Tenström",
           "invitation_status": "ACCEPTED",
-          "phone_number": { "e164": "+14017654321" },
+          "phone_number": {
+            "e164": "+14017654321",
+            "i18n_data": {
+              "national_number": "(401) 765-4321",
+              "international_number": "+1 401-765-4321",
+              "country_code": 1,
+              "region_code": "US",
+              "is_valid": true,
+              "validation_result": "IS_POSSIBLE"
+            }
+          },
           "participant_type": "GOOGLE_VOICE",
           "new_invitation_status": "ACCEPTED"
         }
@@ -170,7 +188,7 @@
         "sort_timestamp": 1430497904083513,
         "active_timestamp": 1430497840649000,
         "delivery_medium_option": [ {
-          "current_default": 1,
+          "current_default": true,
           "delivery_medium": {
             "delivery_medium_type": "BABEL",
             "phone_number": null

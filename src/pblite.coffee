@@ -8,6 +8,13 @@ class Field
     parse: (input) ->
         @value = if input == undefined then null else input
 
+# A boolean field that parses 0 or non-zero to false or true.
+class BooleanField
+    constructor: () ->
+        return new BooleanField() unless this instanceof BooleanField
+    parse: (input) ->
+        @value = if input == undefined then false else if parseInt(input) == 0 then false else true
+
 # An enum field can hold nothing or one of the
 # values of a defined enumeration
 class EnumField
@@ -46,4 +53,4 @@ class Message
             out[k] = v.parse val if k
         out
 
-module.exports = {Field, EnumField, RepeatedField, Message}
+module.exports = {Field, BooleanField, EnumField, RepeatedField, Message}
