@@ -1,4 +1,4 @@
-{Field, EnumField, RepeatedField, Message} = require './pblite'
+{Field, BooleanField, EnumField, RepeatedField, Message} = require './pblite'
 
 s = {}
 
@@ -115,6 +115,10 @@ s.ParticipantType =
     UNKNOWN : 0
     GAIA: 2
     GOOGLE_VOICE: 3
+    
+s.PhoneValidationResult =
+
+    IS_POSSIBLE : 0
 
 ##############################################################################
 # Structures
@@ -154,9 +158,18 @@ s.CONVERSATION_ID = Message([
     'id', Field()
 ])
 
+s.I18N_DATA = Message([
+    'national_number', Field()
+    'international_number', Field()
+    'country_code', Field()
+    'region_code', Field()
+    'is_valid', BooleanField()
+    'validation_result', EnumField(s.PhoneValidationResult)
+])
+
 s.PHONE_NUMBER = Message([
     'e164', Field()
-    None, RepeatedField(Field())
+    'i18n_data', s.I18N_DATA
 ])
 
 s.CLIENT_DELIVERY_MEDIUM = Message([
@@ -166,7 +179,7 @@ s.CLIENT_DELIVERY_MEDIUM = Message([
 
 s.CLIENT_DELIVERY_MEDIUM_OPTION = Message([
     'delivery_medium', s.CLIENT_DELIVERY_MEDIUM
-    'current_default',  Field()
+    'current_default',  BooleanField()
     None, Field() # No idea what this is yet
 ])
 

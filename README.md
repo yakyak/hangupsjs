@@ -667,6 +667,13 @@ Whenever an update about the conversation itself is needed. Like when
 a new conversation is created, this event comes first with the
 metadata about it.
 
+The conversation state is stored in self_conversation_state of the event.
+The self_conversation_state.delivery_medium_option contains an array of the
+delivery medium options which indicate all possible medium. The array element
+with current_default == true should be the one used to send message via by
+default. Currently there are 3 types of known medium, BABEL, Google Voice and
+SMS. BABEL is the Google Hangouts codename BTW.
+
 #### `membership_change`
 
 Member joining/leaving conversation.
