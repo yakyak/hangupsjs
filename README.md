@@ -350,7 +350,12 @@ returns a promise for the result.
 
 #### `sendchatmessage`
 
-`sendchatmessage: (conversation_id, segments, image_id=None, otr_status=OffTheRecordStatus.ON_THE_RECORD) ->`
+`sendchatmessage: (conversation_id,
+                   segments,
+                   image_id = None,
+                   otr_status = OffTheRecordStatus.ON_THE_RECORD,
+                   delivery_medium = [ClientDeliveryMediumType.BABEL],
+                   client_generated_id = null) ->`
 
 Send a chat message to a conversation.
 
@@ -368,6 +373,13 @@ server's chat history. Note that the OTR status of the conversation is
 irrelevant, clients may send messages with whatever OTR status they
 like. One of `Client.OffTheRecordStatus.OFF_THE_RECORD` or
 `Client.OffTheRecordStatus.ON_THE_RECORD`.
+
+`delivery_medium`: determines via which medium the message will be
+delivered. If caller does not specify value we pick the value BABEL to
+ensure the message is delivered via default medium. In fact the caller
+should retrieve current conversation's default delivery medium from
+self_conversation_state.delivery_medium_option when calling to ensure
+the message is delivered back to the conversation on same medium always.
 
 `client_generated_id` is an identifier that is kept in the event both
 in the result of this call and the following chat_event.  it can be

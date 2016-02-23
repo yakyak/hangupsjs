@@ -16,7 +16,9 @@ Channel         = require './channel'
 Auth            = require './auth'
 Init            = require './init'
 
-{OffTheRecordStatus, TypingStatus,
+{OffTheRecordStatus,
+TypingStatus,
+ClientDeliveryMediumType,
 ClientNotificationLevel,
 CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
 CLIENT_GET_CONVERSATION_RESPONSE
@@ -253,8 +255,12 @@ module.exports = class Client extends EventEmitter
     # it can be used to tie together a client send with the update
     # from the server. The default is `null` which makes
     # the client generate a random id.
-    sendchatmessage: (conversation_id, segments, image_id=None,
-        otr_status=OffTheRecordStatus.ON_THE_RECORD,client_generated_id=null) ->
+    sendchatmessage: (conversation_id,
+                      segments,
+                      image_id = None,
+                      otr_status = OffTheRecordStatus.ON_THE_RECORD,
+                      delivery_medium = [ClientDeliveryMediumType.BABEL],
+                      client_generated_id = null) ->
         client_generated_id = randomid() unless client_generated_id
         @chatreq.req 'conversations/sendchatmessage', [
             @_requestBodyHeader(),
@@ -267,6 +273,7 @@ module.exports = class Client extends EventEmitter
                 [conversation_id]
                 client_generated_id
                 otr_status
+                delivery_medium
             ],
             None, None, None, []
         ]
