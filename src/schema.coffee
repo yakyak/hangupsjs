@@ -463,6 +463,8 @@ s.CLIENT_GET_ENTITY_BY_ID_RESPONSE = Message([
     None, Field()  # 'cgebirp'
     'response_header', s.CLIENT_RESPONSE_HEADER
     'entities', RepeatedField(s.CLIENT_ENTITY)
+    'unknown', RepeatedField(Message([None, Field()
+                                     'entities', RepeatedField(s.CLIENT_ENTITY)]))
 ])
 
 module.exports = s

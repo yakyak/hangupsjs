@@ -478,6 +478,15 @@ module.exports = class Client extends EventEmitter
             max_results
         ]
 
+    # Return information from a phone number in e164
+    getentitybyphonenumber: (e164) ->
+        @chatreq.req('contacts/getentitybyid', [
+            @_requestBodyHeader()
+            None
+            [[null, null, null, e164, null, true]],
+            [1, 2]
+        ], false).then (body) ->
+            CLIENT_GET_ENTITY_BY_ID_RESPONSE.parse body
 
     # Return information about a list of chat_ids
     getentitybyid: (chat_ids) ->
