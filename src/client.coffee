@@ -259,8 +259,8 @@ module.exports = class Client extends EventEmitter
                       segments,
                       image_id = None,
                       otr_status = OffTheRecordStatus.ON_THE_RECORD,
-                      delivery_medium = [ClientDeliveryMediumType.BABEL],
-                      client_generated_id = null) ->
+                      client_generated_id = null,
+                      delivery_medium = [ClientDeliveryMediumType.BABEL]) ->
         client_generated_id = randomid() unless client_generated_id
         @chatreq.req 'conversations/sendchatmessage', [
             @_requestBodyHeader(),

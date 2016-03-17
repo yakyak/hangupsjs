@@ -354,8 +354,8 @@ returns a promise for the result.
                    segments,
                    image_id = None,
                    otr_status = OffTheRecordStatus.ON_THE_RECORD,
-                   delivery_medium = [ClientDeliveryMediumType.BABEL],
-                   client_generated_id = null) ->`
+                   client_generated_id = null,
+                   delivery_medium = [ClientDeliveryMediumType.BABEL]) ->`
 
 Send a chat message to a conversation.
 
@@ -374,18 +374,18 @@ irrelevant, clients may send messages with whatever OTR status they
 like. One of `Client.OffTheRecordStatus.OFF_THE_RECORD` or
 `Client.OffTheRecordStatus.ON_THE_RECORD`.
 
+`client_generated_id` is an identifier that is kept in the event both
+in the result of this call and the following chat_event.  it can be
+used to tie together a client send with the update from the
+server. The default is `null` which makes the client generate a random
+id.
+
 `delivery_medium`: determines via which medium the message will be
 delivered. If caller does not specify value we pick the value BABEL to
 ensure the message is delivered via default medium. In fact the caller
 should retrieve current conversation's default delivery medium from
 self_conversation_state.delivery_medium_option when calling to ensure
 the message is delivered back to the conversation on same medium always.
-
-`client_generated_id` is an identifier that is kept in the event both
-in the result of this call and the following chat_event.  it can be
-used to tie together a client send with the update from the
-server. The default is `null` which makes the client generate a random
-id.
 
 #### `setactiveclient`
 
