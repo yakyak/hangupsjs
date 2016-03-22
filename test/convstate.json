@@ -28,7 +28,24 @@
         },
         "invite_timestamp": 1430497801138000,
         "sort_timestamp": 1430497808139701,
-        "active_timestamp": 1430497801138000
+        "active_timestamp": 1430497801138000,
+        "delivery_medium_option": [ {
+          "current_default": false,
+          "delivery_medium": {
+            "delivery_medium_type": "GOOGLE_VOICE",
+            "phone_number": {
+              "e164": "+14011234567",
+              "i18n_data" : {
+              "national_number": "(401) 123-4567",
+              "international_number": "+1 401-123-4567",
+              "country_code": 1,
+              "region_code": "US",
+              "is_valid": false,
+              "validation_result": "IS_POSSIBLE"
+              }
+            }
+          }
+        } ]
       },
       "read_state": [
         {
@@ -63,14 +80,32 @@
             "gaia_id": "105510613398923491294",
             "chat_id": "105510613398923491294"
           },
-          "fallback_name": "Bo Tenström"
+          "fallback_name": "Bo Tenström",
+          "invitation_status": "PENDING",
+          "phone_number": null,
+          "participant_type": "GAIA",
+          "new_invitation_status": "PENDING"
         },
         {
           "id": {
             "gaia_id": "102224360723365489932",
             "chat_id": "102224360723365489932"
           },
-          "fallback_name": "Bo Tenström"
+          "fallback_name": "Bo Tenström",
+          "invitation_status": "ACCEPTED",
+          "phone_number": {
+            "e164": "+14017654321",
+            "i18n_data": {
+              "national_number": "(401) 765-4321",
+              "international_number": "+1 401-765-4321",
+              "country_code": 1,
+              "region_code": "US",
+              "is_valid": true,
+              "validation_result": "IS_POSSIBLE"
+            }
+          },
+          "participant_type": "GOOGLE_VOICE",
+          "new_invitation_status": "ACCEPTED"
         }
       ]
     },
@@ -151,7 +186,14 @@
         },
         "invite_timestamp": 1430497826216000,
         "sort_timestamp": 1430497904083513,
-        "active_timestamp": 1430497840649000
+        "active_timestamp": 1430497840649000,
+        "delivery_medium_option": [ {
+          "current_default": true,
+          "delivery_medium": {
+            "delivery_medium_type": "BABEL",
+            "phone_number": null
+          }
+      } ]
       },
       "read_state": [
         {
@@ -186,14 +228,22 @@
             "gaia_id": "102224360723365489932",
             "chat_id": "102224360723365489932"
           },
-          "fallback_name": "Bo Tenström"
+          "fallback_name": "Bo Tenström",
+          "invitation_status": "ACCEPTED",
+          "phone_number": null,
+          "participant_type": "GAIA",
+          "new_invitation_status": "ACCEPTED"
         },
         {
           "id": {
             "gaia_id": "110994664963851875523",
             "chat_id": "110994664963851875523"
           },
-          "fallback_name": "Martin Algesten"
+          "fallback_name": "Martin Algesten",
+          "invitation_status": "ACCEPTED",
+          "phone_number": null,
+          "participant_type": "GAIA",
+          "new_invitation_status": "ACCEPTED"
         }
       ]
     },
