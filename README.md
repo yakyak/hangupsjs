@@ -350,7 +350,12 @@ returns a promise for the result.
 
 #### `sendchatmessage`
 
-`sendchatmessage: (conversation_id, segments, image_id=None, otr_status=OffTheRecordStatus.ON_THE_RECORD) ->`
+`sendchatmessage: (conversation_id,
+                   segments,
+                   image_id = None,
+                   otr_status = OffTheRecordStatus.ON_THE_RECORD,
+                   client_generated_id = null,
+                   delivery_medium = [ClientDeliveryMediumType.BABEL]) ->`
 
 Send a chat message to a conversation.
 
@@ -374,6 +379,13 @@ in the result of this call and the following chat_event.  it can be
 used to tie together a client send with the update from the
 server. The default is `null` which makes the client generate a random
 id.
+
+`delivery_medium`: determines via which medium the message will be
+delivered. If caller does not specify value we pick the value BABEL to
+ensure the message is delivered via default medium. In fact the caller
+should retrieve current conversation's default delivery medium from
+self_conversation_state.delivery_medium_option when calling to ensure
+the message is delivered back to the conversation on same medium always.
 
 #### `setactiveclient`
 
