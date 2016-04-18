@@ -285,9 +285,9 @@ s.PLUS_PHOTO_THUMBNAIL = Message([
 
 s.PLUS_PHOTO = Message([
     'thumbnail', s.PLUS_PHOTO_THUMBNAIL
-    'owner_obfuscated_id', Field() # e.g. "103730981268153889186",
-    'album_id', Field() # e.g. "6272415246136908337",
-    'photo_id', Field() # e.g. "6273187366351249938",
+    'owner_obfuscated_id', Field()
+    'album_id', Field()
+    'photo_id', Field()
     None, Field()
     'url', Field()
     None, Field()
@@ -300,6 +300,7 @@ s.PLUS_PHOTO = Message([
     'stream_id', RepeatedField(Field())
 ])
 
+# Special numbers make up the property names of things in the embedded item
 s.EMBED_ITEM = DictField({
     '27639957': s.PLUS_PHOTO,
     '35825640': Field()       # not supporting maps yet
@@ -308,9 +309,7 @@ s.EMBED_ITEM = DictField({
 s.MESSAGE_ATTACHMENT = Message([
     'embed_item', Message([
         'type', RepeatedField(EnumField(s.ItemType))
-        'id', s.EMBED_ITEM    # this is a dictionary, which is like an ordinary object that has members that need to be looked up using a tag number
-        'plus_photo', Field() # TODO: The PlusPhoto. The doc says its order is 27639957. How does the schema definition work out for that huge number?
-        'place',  Field()     # No need to handle place yet. Leave as it is. The doc says its order number is 35825640 though.
+        'data', s.EMBED_ITEM    # this is a dictionary, which is like an ordinary object that has members that need to be looked up using a tag number
     ])
 ])
 
