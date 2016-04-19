@@ -264,54 +264,6 @@ s.MESSAGE_ATTACHMENT = Message([
         'plus_photo', Field() # TODO: The PlusPhoto. The doc says its order is 27639957. How does the schema definition work out for that huge number?
         'place',  Field()     # No need to handle place yet. Leave as it is. The doc says its order number is 35825640 though.
     ])
-  ###
-  Here is a piece of sample of this "embed_item". Appearntly the "27639957" is not the order number as other fields. It is a key thing.
-  [
-    {
-        "embed_item": {
-            "type": [
-                "PLUS_PHOTO"
-            ],
-            "id": {
-                "27639957": [
-                    [
-                        "https://plus.google.com/photos/albums/pj6pucrgrqo5mu6slno0afl5b31evvdjd?pid=6272865216622280562&oid=107991993313682235135",
-                        null,
-                        null,
-                        "https://lh3.googleusercontent.com/-XUrYEVSVXbg/Vw2xrfCsv3I/AAAAAAAAAaY/wDQpy4mvv3YSXZgG-GLmsG_RIjC4Ktmgw/s0/doge.png",
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        375,
-                        360
-                    ],
-                    "107991993313682235135",
-                    "6272865212899898545",
-                    "6272865216622280562",
-                    null,
-                    "https://lh3.googleusercontent.com/-XUrYEVSVXbg/Vw2xrfCsv3I/AAAAAAAAAaY/wDQpy4mvv3YSXZgG-GLmsG_RIjC4Ktmgw/s0/doge.png",
-                    null,
-                    null,
-                    null,
-                    "https://lh3.googleusercontent.com/TmefgSp3HC6pm6YKI0ZlID38WyH637fuLRvYrhZ2G4KxRdAl8MdpJpH_tazfpFyUbi8N",
-                    null,
-                    null,
-                    1,
-                    [
-                        "BABEL_STREAM_ID",
-                        "BABEL_UNIQUE_ID_8947994d-7a88-458c-ad9f-bd5bda65d684",
-                        "shared_group_6272865175882303570"
-                    ]
-                ]
-            },
-            "plus_photo": null,
-            "place": null
-        }
-    }
-  ]
-  ###
 ])
 
 s.CLIENT_CHAT_MESSAGE = Message([
