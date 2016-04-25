@@ -570,12 +570,14 @@ before.
 
 #### `syncrecentconversations`
 
-`syncrecentconversations: ->`
+`syncrecentconversations: (timestamp_since=null) ->`
 
 List the contents of recent conversations, including messages.
-Similar to syncallnewevents, but appears to return a limited number of
-conversations (20) rather than all conversations in a given date
-range.
+Similar to syncallnewevents, but returns a limited number of
+conversations (20) rather than all conversations in a given
+date range.
+
+To get older conversations, use the timestamp_since parameter.
 
 
 
