@@ -457,14 +457,17 @@ module.exports = class Client extends EventEmitter
 
 
     # List the contents of recent conversations, including messages.
-    # Similar to syncallnewevents, but appears to return a limited
+    # Similar to syncallnewevents, but returns a limited
     # number of conversations (20) rather than all conversations in a
     # given date range.
+	#
+	# To get older conversations, use the timestamp_since parameter.
     #
     # returns a parsed CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE (same structure)
-    syncrecentconversations: ->
+    syncrecentconversations: (timestamp_since=null) ->
         @chatreq.req('conversations/syncrecentconversations', [
-            @_requestBodyHeader()
+            @_requestBodyHeader(),
+            timestamp_since         # timestamp that controls pagination
         ], false).then (body) -> # receive as protojson
             CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE.parse body
 
