@@ -568,6 +568,44 @@ module.exports = class Client extends EventEmitter
             log.debug 'image resume upload finished'
             body?.sessionStatus?.additionalInfo?['uploader_service.GoogleRupioAdditionalInfo']?.completionInfo?.customerSpecificInfo?.photoid
 
+    # Uploads an image as buffer that can be later attached to a chat message.
+    #
+    # buffer is the buffer that contains the image file content.
+    #
+    # filename is the name of the file.
+    #
+    # returns an image_id that can be used in sendchatmessage
+    uploadimagebuffer: (buffer, filename, timeout=30000) =>
+        size = buffer.length;
+        puturl = null
+        chatreq = @chatreq
+        log.debug 'image resume upload prepare'
+        chatreq.baseReq IMAGE_UPLOAD_URL, 'application/x-www-form-urlencoded;charset=UTF-8'
+        , {
+            protocolVersion: "0.8"
+            createSessionRequest:
+                fields: [{
+                    external: {
+                        filename,
+                        size,
+                        put: {},
+                        name: 'file'
+                    }
+                }]
+        }
+        .then (body) ->
+            puturl = body?.sessionStatus?.externalFieldTransfers?[0]?.putInfo?.url
+            log.debug 'image resume upload to:', puturl
+        .then () ->
+            log.debug 'image resume uploading'
+            chatreq.baseReq puturl, 'application/octet-stream', buffer, true, timeout
+        .then (body) ->
+            log.debug 'image resume upload finished'
+            return Q.resolve body?.sessionStatus?.additionalInfo?['uploader_service.GoogleRupioAdditionalInfo']?.completionInfo?.customerSpecificInfo?.photoid
+        .fail (err) ->
+            log.error 'uploadImageBuffer failed', err
+            Q.reject err
+
 # aliases list
 aliases = [
     'logLevel',
@@ -591,7 +629,8 @@ aliases = [
     'searchEntities',
     'getEntityById',
     'sendEasteregg',
-    'uploadImage'
+    'uploadImage',
+    'uploadImageBuffer'
 ]
 
 # set aliases
