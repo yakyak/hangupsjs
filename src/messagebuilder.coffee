@@ -1,10 +1,11 @@
 
-{SegmentType} = require './schema'
+{MessageActionType, SegmentType} = require './schema'
 
 # Helper class to make message segments.
 module.exports = class MessageBuilder
 
-    constructor: ->
+    constructor: (messageActionType=MessageActionType.NONE) ->
+        @messageActionType = [[messageActionType, ""]]
         @segments = []
         @segsjson = []
 
@@ -49,5 +50,6 @@ module.exports = class MessageBuilder
         @segsjson.push segj
         this
 
+    toMessageActionType: -> @messageActionType
     toSegments: -> @segments
     toSegsjson: -> @segsjson
