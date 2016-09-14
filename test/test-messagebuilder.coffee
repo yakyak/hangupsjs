@@ -38,3 +38,7 @@ describe 'MessageBuilder', ->
     it 'adds a linebreak', ->
         deql mb.linebreak().toSegments(), [[1,'\n']]
         deql mb.toSegsjson(), [{text:'\n', type:'LINE_BREAK'}]
+
+    it 'recognizes the given message_action_type', ->
+        mb = new MessageBuilder 4
+        deql mb.toMessageActionType(), [[4, ""]]

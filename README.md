@@ -355,7 +355,8 @@ returns a promise for the result.
                    image_id = None,
                    otr_status = OffTheRecordStatus.ON_THE_RECORD,
                    client_generated_id = null,
-                   delivery_medium = [ClientDeliveryMediumType.BABEL]) ->`
+                   delivery_medium = [ClientDeliveryMediumType.BABEL],
+                   message_action_type = [[MessageActionType.NONE, ""]]) ->`
 
 Send a chat message to a conversation.
 
@@ -386,6 +387,10 @@ ensure the message is delivered via default medium. In fact the caller
 should retrieve current conversation's default delivery medium from
 self_conversation_state.delivery_medium_option when calling to ensure
 the message is delivered back to the conversation on same medium always.
+
+`message_action_type`: determines if the message is a simple text message
+or if the message is an action like `/me`. One of `Client.MessageActionType.NONE`
+or `Client.MessageActionType.ME_ACTION`
 
 #### `setactiveclient`
 
@@ -626,7 +631,7 @@ Uploads an image that can be later attached to a chat message.
 
 `filename` can optionally be provided otherwise the path name is used.
 
-`timeout` can be used to upload larger images, that may need more than 30 sec to be sent 
+`timeout` can be used to upload larger images, that may need more than 30 sec to be sent
 
 returns an `image_id` that can be used in [`sendchatmessage`](#sendchatmessage).
 

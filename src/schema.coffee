@@ -62,6 +62,12 @@ s.ClientConversationStatus =
     LEFT : 3
 
 
+s.MessageActionType =
+
+    NONE : 0
+    ME_ACTION : 4
+
+
 s.SegmentType =
 
     TEXT : 0
@@ -103,19 +109,19 @@ s.ActiveClientState =
     NO_ACTIVE_CLIENT : 0
     IS_ACTIVE_CLIENT : 1
     OTHER_CLIENT_IS_ACTIVE : 2
-    
+
 s.InvitationStatus =
 
     UNKNOWN : 0
     PENDING : 1
     ACCEPTED : 2
-    
+
 s.ParticipantType =
 
     UNKNOWN : 0
     GAIA: 2
     GOOGLE_VOICE: 3
-    
+
 s.PhoneValidationResult =
 
     IS_POSSIBLE : 0
@@ -123,7 +129,7 @@ s.PhoneValidationResult =
 ##############################################################################
 # Structures
 ##############################################################################
-    
+
 s.USER_ID = Message([
     'gaia_id', Field()
     'chat_id', Field()
@@ -262,7 +268,7 @@ s.MESSAGE_ATTACHMENT = Message([
 
 s.CLIENT_CHAT_MESSAGE = Message([
     None, Field()  # always None?
-    'annotation', RepeatedField(Field())
+    'annotation', RepeatedField(Field()) # [0, ""] or [4, ""] 4 is the "/me" action
     'message_content', Message([
         'segment', RepeatedField(s.MESSAGE_SEGMENT)
         'attachment', RepeatedField(s.MESSAGE_ATTACHMENT)
