@@ -1,7 +1,13 @@
 hangupsjs
 =========
 
-[![Build Status](https://travis-ci.org/algesten/hangupsjs.svg)](https://travis-ci.org/algesten/hangupsjs) [![Gitter](https://d378bf3rn661mp.cloudfront.net/gitter.svg)](https://gitter.im/algesten/hangupsjs)
+### 2016-01-15 v1.3.2
+
+This is a minor release. It does not solve login problems that are related to
+recent Google API changes. They have been solved in yakyak/yakyak client because
+auth method there is different. That solution involves user interaction
+therefore it can't be implemented hangupsjs library.
+We are still looking for a solution.
 
 ### 2016-01-15 v1.3.0 breaking change
 
