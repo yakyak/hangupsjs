@@ -31,9 +31,15 @@ describe 'MessageBuilder', ->
 
     it 'adds a link', ->
         deql mb.link('linktext', 'http://foo/bar').toSegments(),
-            [[2,'linktext',null,['http://foo/bar']]]
+            [[0, 'linktext ('], [2,'http://foo/bar',null,['http://foo/bar']], [0, ')']]
         deql mb.toSegsjson(),
-            [{link_data:{link_target:'http://foo/bar'},text:'linktext', type:'LINK'}]
+            [{type:'TEXT', text:'linktext ('}, {link_data:{link_target:'http://foo/bar'},text:'http://foo/bar', type:'LINK'}, {type:'TEXT', text:')'}]
+
+    it 'adds a plain link', ->
+        deql mb.link('http://foo/bar', 'http://foo/bar').toSegments(),
+            [[2,'http://foo/bar',null,['http://foo/bar']]]
+        deql mb.toSegsjson(),
+            [{link_data:{link_target:'http://foo/bar'},text:'http://foo/bar', type:'LINK'}]
 
     it 'adds a linebreak', ->
         deql mb.linebreak().toSegments(), [[1,'\n']]
