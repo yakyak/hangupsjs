@@ -25,6 +25,20 @@ class EnumField
         return k for k, v of @enms when input == v
         return {}
 
+class DictField
+    constructor: (dict) ->
+        return new DictField(dict) unless this instanceof DictField
+        @dict = dict
+    parse: (input) ->
+        return null unless input
+        return null if input == undefined
+        input = input.toString() if input instanceof Buffer
+        obj = if typeis input, 'string' then eval input else input
+        out = {}
+        for prop, val of @dict
+            out[prop] = val.parse obj[prop] if obj[prop]
+        out
+
 class RepeatedField
     constructor: (field) ->
         return new RepeatedField(field) unless this instanceof RepeatedField
@@ -53,4 +67,4 @@ class Message
             out[k] = v.parse val if k
         out
 
-module.exports = {Field, BooleanField, EnumField, RepeatedField, Message}
+module.exports = {Field, BooleanField, EnumField, DictField, RepeatedField, Message}
