@@ -18,6 +18,7 @@ Init            = require './init'
 
 {OffTheRecordStatus,
 TypingStatus,
+MessageActionType,
 ClientDeliveryMediumType,
 ClientNotificationLevel,
 CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
@@ -255,16 +256,20 @@ module.exports = class Client extends EventEmitter
     # it can be used to tie together a client send with the update
     # from the server. The default is `null` which makes
     # the client generate a random id.
+    #
+    # message_action_type determines if the message is a simple text message
+    # or if the message is an action like `/me`.
     sendchatmessage: (conversation_id,
                       segments,
                       image_id = None,
                       otr_status = OffTheRecordStatus.ON_THE_RECORD,
                       client_generated_id = null,
-                      delivery_medium = [ClientDeliveryMediumType.BABEL]) ->
+                      delivery_medium = [ClientDeliveryMediumType.BABEL],
+                      message_action_type = [[MessageActionType.NONE, ""]]) ->
         client_generated_id = randomid() unless client_generated_id
         @chatreq.req 'conversations/sendchatmessage', [
             @_requestBodyHeader(),
-            None, None, None, []
+            None, None, None, message_action_type
             [
                 segments, []
             ],
@@ -457,14 +462,17 @@ module.exports = class Client extends EventEmitter
 
 
     # List the contents of recent conversations, including messages.
-    # Similar to syncallnewevents, but appears to return a limited
+    # Similar to syncallnewevents, but returns a limited
     # number of conversations (20) rather than all conversations in a
     # given date range.
+	#
+	# To get older conversations, use the timestamp_since parameter.
     #
     # returns a parsed CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE (same structure)
-    syncrecentconversations: ->
+    syncrecentconversations: (timestamp_since=null) ->
         @chatreq.req('conversations/syncrecentconversations', [
-            @_requestBodyHeader()
+            @_requestBodyHeader(),
+            timestamp_since         # timestamp that controls pagination
         ], false).then (body) -> # receive as protojson
             CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE.parse body
 
@@ -643,6 +651,7 @@ aliases.forEach((alias) ->
 # Expose these as part of publich API
 Client.OffTheRecordStatus = OffTheRecordStatus
 Client.TypingStatus       = TypingStatus
+Client.MessageActionType  = MessageActionType
 Client.MessageBuilder     = MessageBuilder
 Client.authStdin          = Auth::authStdin
 Client.NotificationLevel  = ClientNotificationLevel

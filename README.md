@@ -1,7 +1,13 @@
 hangupsjs
 =========
 
-[![Build Status](https://travis-ci.org/algesten/hangupsjs.svg)](https://travis-ci.org/algesten/hangupsjs) [![Gitter](https://d378bf3rn661mp.cloudfront.net/gitter.svg)](https://gitter.im/algesten/hangupsjs)
+### 2016-01-15 v1.3.2
+
+This is a minor release. It does not solve login problems that are related to
+recent Google API changes. They have been solved in yakyak/yakyak client because
+auth method there is different. That solution involves user interaction
+therefore it can't be implemented hangupsjs library.
+We are still looking for a solution.
 
 ### 2016-01-15 v1.3.0 breaking change
 
@@ -355,7 +361,8 @@ returns a promise for the result.
                    image_id = None,
                    otr_status = OffTheRecordStatus.ON_THE_RECORD,
                    client_generated_id = null,
-                   delivery_medium = [ClientDeliveryMediumType.BABEL]) ->`
+                   delivery_medium = [ClientDeliveryMediumType.BABEL],
+                   message_action_type = [[MessageActionType.NONE, ""]]) ->`
 
 Send a chat message to a conversation.
 
@@ -386,6 +393,10 @@ ensure the message is delivered via default medium. In fact the caller
 should retrieve current conversation's default delivery medium from
 self_conversation_state.delivery_medium_option when calling to ensure
 the message is delivered back to the conversation on same medium always.
+
+`message_action_type`: determines if the message is a simple text message
+or if the message is an action like `/me`. One of `Client.MessageActionType.NONE`
+or `Client.MessageActionType.ME_ACTION`
 
 #### `setactiveclient`
 
@@ -570,12 +581,14 @@ before.
 
 #### `syncrecentconversations`
 
-`syncrecentconversations: ->`
+`syncrecentconversations: (timestamp_since=null) ->`
 
 List the contents of recent conversations, including messages.
-Similar to syncallnewevents, but appears to return a limited number of
-conversations (20) rather than all conversations in a given date
-range.
+Similar to syncallnewevents, but returns a limited number of
+conversations (20) rather than all conversations in a given
+date range.
+
+To get older conversations, use the timestamp_since parameter.
 
 
 
@@ -624,7 +637,7 @@ Uploads an image that can be later attached to a chat message.
 
 `filename` can optionally be provided otherwise the path name is used.
 
-`timeout` can be used to upload larger images, that may need more than 30 sec to be sent 
+`timeout` can be used to upload larger images, that may need more than 30 sec to be sent
 
 returns an `image_id` that can be used in [`sendchatmessage`](#sendchatmessage).
 
