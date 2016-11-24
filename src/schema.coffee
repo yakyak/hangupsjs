@@ -305,11 +305,11 @@ s.EMBED_ITEM = Message([
     'type_', RepeatedField(Field()) # EnumField(s.ItemType))
     'data', Field()
     'plus_photo', DictField({
-      '27639957': [s.PLUS_PHOTO, 'data'],
+        '27639957': [s.PLUS_PHOTO, 'data'],
     })
     'places', DictField({
-      '35825640': [Field(), 'data']
-      })
+        '35825640': [Field(), 'data']
+    })
 ])
 
 s.MESSAGE_ATTACHMENT = Message([

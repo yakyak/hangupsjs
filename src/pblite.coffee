@@ -40,10 +40,13 @@ class DictField
             return @value = if input == undefined then null else input
         out = {}
         for prop, val of @dict
-            prop_name = prop
-            if val.length > 1
-                prop_name = val[1]
-            out[prop_name] = val[0].parse obj[prop] if obj[prop]
+            out_prop = prop
+            out_val = val
+            if val.constructor == Array
+                out_val = val[0]
+                if val.length > 1
+                    out_prop = val[1]
+            out[out_prop] = out_val.parse obj[prop] if obj[prop]
         out
 
 class RepeatedField
