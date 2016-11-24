@@ -301,16 +301,21 @@ s.PLUS_PHOTO = Message([
 ])
 
 # Special numbers make up the property names of things in the embedded item
-s.EMBED_ITEM = DictField({
-    '27639957': s.PLUS_PHOTO,
-    '35825640': Field()       # not supporting maps yet
-})
+s.EMBED_ITEM = Message([
+    'type_', RepeatedField(Field()) # EnumField(s.ItemType))
+    'data', Field()
+    'plus_photo', DictField({
+      '27639957': [s.PLUS_PHOTO, 'data'],
+    })
+    'places', DictField({
+      '35825640': [Field(), 'data']
+      })
+])
 
 s.MESSAGE_ATTACHMENT = Message([
-    'embed_item', Message([
-        'type', RepeatedField(EnumField(s.ItemType))
-        'data', s.EMBED_ITEM    # this is a dictionary, which is like an ordinary object that has members that need to be looked up using a tag number
-    ])
+    #'type_', RepeatedField(EnumField(s.ItemType))
+    #'data', Field()
+    'embed_item', s.EMBED_ITEM
 ])
 
 s.CLIENT_CHAT_MESSAGE = Message([
