@@ -1,4 +1,4 @@
-{Field, BooleanField, EnumField, RepeatedField, Message} = require './pblite'
+{Field, BooleanField, EnumField, DictField, RepeatedField, Message} = require './pblite'
 
 s = {}
 
@@ -61,7 +61,6 @@ s.ClientConversationStatus =
     ACTIVE : 2
     LEFT : 3
 
-
 s.MessageActionType =
 
     NONE : 0
@@ -74,6 +73,18 @@ s.SegmentType =
     LINE_BREAK : 1
     LINK : 2
 
+s.ItemType =
+
+    THING : 0
+    PLUS_PHOTO : 249    # Google Plus Photo
+    PLACE : 335         # Google Map Place
+    PLACE_V2 : 340      # Google Map Place v2
+
+s.MediaType =
+
+    MEDIA_TYPE_UNKNOWN : 0
+    MEDIA_TYPE_PHOTO : 1
+    MEDIA_TYPE_ANIMATED_PHOTO : 4
 
 s.MembershipChangeType =
 
@@ -258,11 +269,47 @@ s.MESSAGE_SEGMENT = Message([
     ])
 ])
 
+s.PLUS_PHOTO_THUMBNAIL = Message([
+    'url', Field()
+    None, Field()
+    None, Field()
+    'image_url', Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    'width_px', Field()
+    'height_px', Field()
+])
+
+s.PLUS_PHOTO = Message([
+    'thumbnail', s.PLUS_PHOTO_THUMBNAIL
+    'owner_obfuscated_id', Field()
+    'album_id', Field()
+    'photo_id', Field()
+    None, Field()
+    'url', Field()
+    None, Field()
+    None, Field()
+    None, Field()
+    'original_content_url', Field()
+    None, Field()
+    None, Field()
+    'media_type', EnumField(s.MediaType)
+    'stream_id', RepeatedField(Field())
+])
+
+# Special numbers make up the property names of things in the embedded item
+s.EMBED_ITEM = DictField({
+    '27639957': s.PLUS_PHOTO,
+    '35825640': Field()       # not supporting maps yet
+})
+
 s.MESSAGE_ATTACHMENT = Message([
     'embed_item', Message([
-        # 249 (PLUS_PHOTO), 340, 335, 0
-        'type_', RepeatedField(Field())
-        'data', Field()  # can be a dict
+        'type', RepeatedField(EnumField(s.ItemType))
+        'data', s.EMBED_ITEM    # this is a dictionary, which is like an ordinary object that has members that need to be looked up using a tag number
     ])
 ])
 
