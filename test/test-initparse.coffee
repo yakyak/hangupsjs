@@ -3,7 +3,8 @@ deql = assert.deepEqual
 
 {CLIENT_GET_SELF_INFO_RESPONSE
 INITIAL_CLIENT_ENTITIES,
-CLIENT_CONVERSATION_STATE_LIST} = require '../src/schema'
+CLIENT_CONVERSATION_STATE_LIST,
+EMBED_ITEM} = require '../src/schema'
 
 msg1 = ["cgsirp",[1,null,"","1950326504872917925",1430493729941000],[null,null,null,null,null,null,null,[1,0,[],null,null,null,null,null,[[]]],["102224360723365489932","102224360723365489932"],[1,"Bo Tenström","Bo","//lh5.googleusercontent.com/-99B0CMsSo68/AAAAAAAAAAI/AAAAAAAAABI/v8oOeHFwNSI/photo.jpg",["botenstrom2@gmail.com"],[],null,null,null,null,null,2,[],[]],null,null,2,null,0,0,0],0,[],[0,null,0],[0],[[],[],2],[[8,0],[9,1],[22,0],[19,1],[10,1],[11,1],[14,0],[20,0],[17,0],[16,0],[23,0],[24,0],[27,0],[5,1],[6,1],[1,0],[2,1],[7,1],[3,1],[4,1],[29,1],[13,0],[12,0],[15,0],[28,0]],[1],1,[1,1],[null,[],[[5,0],[4,0],[2,0],[6,1],[1,0],[3,1]]],1,1,0,2,[],1,["SE",46],[],null,[1]]
 
@@ -33,3 +34,16 @@ describe 'CLIENT_CONVERSATION_STATE_LIST', ->
 
     it 'parses', ->
         deql CLIENT_CONVERSATION_STATE_LIST.parse(msg3), cmp3
+
+msg4 = [['249'], '' ,  { "27639957": [["https://plus.google.com/photos/albums/p16geqve3h5t3tqdn4odhtha2j5lqkale?pid=6275042227379600450&oid=103730981268153889186", null, null, "https://lh3.googleusercontent.com/-QUwpEWamKew/VxVtqMGJfEI/AAAAAAAAAFM/jeRZI6e_DUIZkUVdhXoNbQNiY8UxBGvwwCK8B/s0/2016-04-18.jpg", null, null, null, null, null, 768, 401], "103730981268153889186", "6272415246136908337", "6275042227379600450", null, "https://lh3.googleusercontent.com/-QUwpEWamKew/VxVtqMGJfEI/AAAAAAAAAFM/jeRZI6e_DUIZkUVdhXoNbQNiY8UxBGvwwCK8B/s0/2016-04-18.jpg", null, null, null, "https://lh3.googleusercontent.com/nUIH-qp7Cgeei1PAAdirnxrtS2Ryc6A2Tai2gzOdR0oIAPxhIj9BtSkTkYQWxalPvr4", null, null, 1, ["shared_group_6275042227379600450", "BABEL_STREAM_ID", "BABEL_UNIQUE_ID_1e30efc4-8f46-4f58-ab52-c2b8ec77a3a7"]] }, '']
+
+cmp4 = {
+  'type_': ['249'],
+  'data': "",
+  'places': null,
+  'plus_photo': {"data":{"album_id":"6272415246136908337","media_type":"MEDIA_TYPE_PHOTO","original_content_url":"https://lh3.googleusercontent.com/nUIH-qp7Cgeei1PAAdirnxrtS2Ryc6A2Tai2gzOdR0oIAPxhIj9BtSkTkYQWxalPvr4","owner_obfuscated_id":"103730981268153889186","photo_id":"6275042227379600450","stream_id":["shared_group_6275042227379600450","BABEL_STREAM_ID","BABEL_UNIQUE_ID_1e30efc4-8f46-4f58-ab52-c2b8ec77a3a7"],"thumbnail":{"height_px":401,"image_url":"https://lh3.googleusercontent.com/-QUwpEWamKew/VxVtqMGJfEI/AAAAAAAAAFM/jeRZI6e_DUIZkUVdhXoNbQNiY8UxBGvwwCK8B/s0/2016-04-18.jpg","url":"https://plus.google.com/photos/albums/p16geqve3h5t3tqdn4odhtha2j5lqkale?pid=6275042227379600450&oid=103730981268153889186","width_px":768},"url":"https://lh3.googleusercontent.com/-QUwpEWamKew/VxVtqMGJfEI/AAAAAAAAAFM/jeRZI6e_DUIZkUVdhXoNbQNiY8UxBGvwwCK8B/s0/2016-04-18.jpg"}}}
+
+describe 'EMBED_ITEM', ->
+
+    it 'parses', ->
+        deql EMBED_ITEM.parse(msg4), cmp4
