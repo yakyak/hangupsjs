@@ -72,15 +72,15 @@ module.exports = class Init
             #   { key: 'ds:3', isError: false, hash: '5', data: [Function] }...
             DICT =
                 apikey: { key:'ds:7',  fn: (d) -> d[0][2] }
-                email:  { key:'ds:33', fn: (d) -> d[0][2] }
+                email:  { key:'ds:36', fn: (d) -> d[0][2] }
                 headerdate:    { key:'ds:2', fn: (d) -> d[0][4] }
                 headerversion: { key:'ds:2', fn: (d) -> d[0][6] }
                 headerid:      { key:'ds:4', fn: (d) -> d[0][7] }
                 timestamp:     { key:'ds:20', fn: (d) -> new Date (d[0][1][4] / 1000) }
-                self_entity:   { key:'ds:20', fn: (d) ->
+                self_entity:   { key:'ds:21', fn: (d) ->
                     CLIENT_GET_SELF_INFO_RESPONSE.parse(d[0]).self_entity
                 }
-                conv_states: { key:'ds:19', fn: (d) ->
+                conv_states: { key:'ds:20', fn: (d) ->
                     CLIENT_CONVERSATION_STATE_LIST.parse(d[0][3])
                 }
 
