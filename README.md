@@ -1,6 +1,10 @@
 hangupsjs
 =========
 
+### 2016-12-01 v1.3.3
+
+Fixes a breaking change of the google apis.
+
 ### 2016-01-15 v1.3.2
 
 This is a minor release. It does not solve login problems that are related to
