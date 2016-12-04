@@ -443,11 +443,11 @@ module.exports = class Client extends EventEmitter
     # This is mainly used for retrieving conversation
     # scrollback. Events occurring before timestamp are returned, in
     # order from oldest to newest.
-    getconversation: (conversation_id, timestamp, max_events=50) ->
+    getconversation: (conversation_id, timestamp, max_events=50, include_metadata = false) ->
         @chatreq.req('conversations/getconversation', [
             @_requestBodyHeader()
             [[conversation_id], [], []],  # conversationSpec
-            false,                        # includeConversationMetadata
+            include_metadata,             # includeConversationMetadata
             true,                         # includeEvents
             None,                         # ???
             max_events,                   # maxEventsPerConversation
