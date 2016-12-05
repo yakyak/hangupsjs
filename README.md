@@ -1,6 +1,10 @@
 hangupsjs
 =========
 
+### 2016-12-05 v1.3.4
+
+Add support for conversation metadata fetching
+
 ### 2016-12-01 v1.3.3
 
 Fixes a breaking change of the google apis.
