@@ -605,6 +605,7 @@ aliases.forEach((alias) ->
 
 # Expose these as part of publich API
 Client.OffTheRecordStatus = OffTheRecordStatus
+Client.FocusStatus        = FocusStatus
 Client.TypingStatus       = TypingStatus
 Client.MessageActionType  = MessageActionType
 Client.MessageBuilder     = MessageBuilder
