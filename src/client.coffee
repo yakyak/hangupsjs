@@ -17,6 +17,7 @@ Auth            = require './auth'
 Init            = require './init'
 
 {OffTheRecordStatus,
+FocusStatus,
 TypingStatus,
 MessageActionType,
 ClientDeliveryMediumType,
@@ -292,12 +293,14 @@ module.exports = class Client extends EventEmitter
 
 
     # Set focus (occurs whenever you give focus to a client).
-    setfocus: (conversation_id) ->
+    #
+    # focus must be a FocusStatus enum.
+    setfocus: (conversation_id, focus=FocusStatus.FOCUSED, timeoutsecs=20) ->
         @chatreq.req 'conversations/setfocus', [
             @_requestBodyHeader()
             [conversation_id]
-            1
-            20
+            focus
+            timeoutsecs
         ]
 
 

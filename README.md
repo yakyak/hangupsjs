@@ -451,11 +451,16 @@ Pass `Client.NotificationLevel.QUIET` to disable notifications, or
 
 #### `setfocus`
 
-`setfocus: (conversation_id) ->`
+`setfocus: (conversation_id, focus=FocusStatus.FOCUSED, timeoutsecs=20) ->`
 
 Set focus (occurs whenever you give focus to a client).
 
 `conversation_id`: the conversation you are focusing.
+
+`typing`: constant indicating focus status. One of
+`Client.FocusStatus.FOCUSED` or `Client.FocusStatus.UNFOCUSED`
+
+`timeoutsecs`: the length of focus in seconds.
 
 
 
