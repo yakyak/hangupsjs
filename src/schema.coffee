@@ -17,6 +17,7 @@ s.TypingStatus =
 
 s.FocusStatus =
 
+    UNKNOWN : 0
     FOCUSED : 1
     UNFOCUSED : 2
 
