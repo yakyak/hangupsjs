@@ -12,7 +12,7 @@ fs       = require 'fs'
 OAUTH2_CLIENT_ID     = '936475272427.apps.googleusercontent.com'
 OAUTH2_CLIENT_SECRET = 'KWsJlkaMn1jGLxQpWxMnOox-'
 
-OAUTH2_SCOPE         = 'https://www.google.com/accounts/OAuthLogin'
+OAUTH2_SCOPE         = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me'
 
 OAUTH2_PARAMS =
     client_id:    OAUTH2_CLIENT_ID
