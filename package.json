@@ -23,17 +23,17 @@
   "homepage": "https://github.com/yakyak/hangupsjs",
   "dependencies": {
     "bog": "^1.0.0",
-    "fnuc": "0.0.15",
+    "fnuc": "3.0.6",
     "q": "^1.2.0",
     "request": "^2.58.0",
     "tough-cookie": "^2.0.0",
     "tough-cookie-filestore": "0.0.1"
   },
   "devDependencies": {
-    "chai": "^3.0.0",
+    "chai": "^4.1.0",
     "coffee-script": "^1.9.3",
     "hexy": "^0.2.7",
-    "mocha": "^2.2.4",
+    "mocha": "^3.4.2",
     "request-debug": "^0.2.0"
   }
 }
