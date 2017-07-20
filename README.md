@@ -1,6 +1,8 @@
 hangupsjs
 =========
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/yakyak/hangupsjs.svg)](https://greenkeeper.io/)
+
 ### 2016-12-05 v1.3.4
 
 Add support for conversation metadata fetching
