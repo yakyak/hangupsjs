@@ -220,7 +220,7 @@ module.exports = class Auth
 
     authStdin: ->
         process.stdout.write "\nTo log in, open the following link in a browser
-            and paste the provided authorization code below (see https://www.youtube.com/watch?v=hlDhp-eNLMU to get code):\n\n"
+            and paste the provided authorization code below (to get the code see: https://www.youtube.com/watch?v=hlDhp-eNLMU ):\n\n"
         process.stdout.write OAUTH2_LOGIN_URL
         Q().then ->
             process.stdout.write "\n\nAuthorization Token: "
