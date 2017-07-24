@@ -12,16 +12,20 @@ fs       = require 'fs'
 OAUTH2_CLIENT_ID     = '936475272427.apps.googleusercontent.com'
 OAUTH2_CLIENT_SECRET = 'KWsJlkaMn1jGLxQpWxMnOox-'
 
-OAUTH2_SCOPE         = 'https://www.google.com/accounts/OAuthLogin'
+OAUTH2_SCOPE         = 'https://www.google.com/accounts/OAuthLogin https://www.googleapis.com/auth/userinfo.email'
+
+OAUTH2_DELEGATED_CLIENT_ID = '183697946088-m3jnlsqshjhh5lbvg05k46q1k4qqtrgn.apps.googleusercontent.com'
 
 OAUTH2_PARAMS =
+    hl: 'en'
+    scope: OAUTH2_SCOPE
     client_id:    OAUTH2_CLIENT_ID
-    scope:        OAUTH2_SCOPE
-    redirect_uri: 'urn:ietf:wg:oauth:2.0:oob'
-    response_type:'code'
+    access_type: 'offline'
+    delegated_client_id: OAUTH2_DELEGATED_CLIENT_ID
+    top_level_cookie: '1'
 
 OAUTH2_QUERY = ("&#{k}=#{encodeURIComponent(v)}" for k, v of OAUTH2_PARAMS).join('')
-OAUTH2_LOGIN_URL = "https://accounts.google.com/o/oauth2/auth?#{OAUTH2_QUERY}"
+OAUTH2_LOGIN_URL = "https://accounts.google.com/o/oauth2/programmatic_auth?#{OAUTH2_QUERY}"
 OAUTH2_TOKEN_REQUEST_URL = 'https://accounts.google.com/o/oauth2/token'
 
 UBERAUTH = 'https://accounts.google.com/accounts/OAuthLogin?source=hangups&issueuberauth=1'
@@ -216,7 +220,7 @@ module.exports = class Auth
 
     authStdin: ->
         process.stdout.write "\nTo log in, open the following link in a browser
-            and paste the provided authorization code below:\n\n"
+            and paste the provided authorization code below (see https://www.youtube.com/watch?v=hlDhp-eNLMU to get code):\n\n"
         process.stdout.write OAUTH2_LOGIN_URL
         Q().then ->
             process.stdout.write "\n\nAuthorization Token: "
