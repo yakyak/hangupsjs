@@ -1,6 +1,10 @@
 hangupsjs
 =========
 
+### 2017-07-25 v?
+
+Adds additional fields to ENTITY schema
+
 ### 2016-12-05 v1.3.4
 
 Add support for conversation metadata fetching
