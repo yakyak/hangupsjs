@@ -249,9 +249,9 @@ module.exports = class Channel
             services = ['babel', 'babel_presence_last_seen']
             mapList = for service in services
               JSON.stringify({"3": {"1": {"1": service}}})
-            form = {count: mapList.length, ofs: 0}
+            formMap = {count: mapList.length, ofs: 0}
             for el, ix in mapList
-              form["req#{ix}_p"] = el
+              formMap["req#{ix}_p"] = el
             opts =
                 method: 'POST'
                 uri: op 'channel/bind'
@@ -265,11 +265,7 @@ module.exports = class Channel
                     SID: @sid
                 headers: @authHeaders()
                 timeout: 30000 # 30 seconds timeout in connect attempt
-                form:
-                    count: 2
-                    ofs: 0
-                    req0_p: '{"3": {"1": {"1": babel}}}'
-                    req1_p: '{"3": {"1": {"1": babel_presence_last_seen}}}'
+                form: formMap
             req(opts)
         .then (res) ->
             if res.statusCode == 200
