@@ -1,7 +1,7 @@
 hangupsjs
 =========
 
-### 2017-07-25 v?
+### (not yet released) v1.3.5
 
 Adds additional fields to ENTITY schema
 
