@@ -4,6 +4,7 @@
   "description": "google hangouts client library for nodejs",
   "main": "lib/client.js",
   "scripts": {
+    "postinstall": "npm run prepublish",
     "test": "mocha",
     "prepublish": "coffee -o lib src"
   },
