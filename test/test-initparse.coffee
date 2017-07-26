@@ -8,7 +8,28 @@ EMBED_ITEM} = require '../src/schema'
 
 msg1 = ["cgsirp",[1,null,"","1950326504872917925",1430493729941000],[null,null,null,null,null,null,null,[1,0,[],null,null,null,null,null,[[]]],["102224360723365489932","102224360723365489932"],[1,"Bo Tenström","Bo","//lh5.googleusercontent.com/-99B0CMsSo68/AAAAAAAAAAI/AAAAAAAAABI/v8oOeHFwNSI/photo.jpg",["botenstrom2@gmail.com"],[],null,null,null,null,null,2,[],[]],null,null,2,null,0,0,0],0,[],[0,null,0],[0],[[],[],2],[[8,0],[9,1],[22,0],[19,1],[10,1],[11,1],[14,0],[20,0],[17,0],[16,0],[23,0],[24,0],[27,0],[5,1],[6,1],[1,0],[2,1],[7,1],[3,1],[4,1],[29,1],[13,0],[12,0],[15,0],[28,0]],[1],1,[1,1],[null,[],[[5,0],[4,0],[2,0],[6,1],[1,0],[3,1]]],1,1,0,2,[],1,["SE",46],[],null,[1]]
 
-cmp1 = {"self_entity":{"id":{"gaia_id":"102224360723365489932","chat_id":"102224360723365489932"},"properties":{"type":1,"display_name":"Bo Tenström","first_name":"Bo","photo_url":"//lh5.googleusercontent.com/-99B0CMsSo68/AAAAAAAAAAI/AAAAAAAAABI/v8oOeHFwNSI/photo.jpg","emails":["botenstrom2@gmail.com"]}}}
+cmp1 = {
+  "self_entity": {
+    "id": {
+      "gaia_id": "102224360723365489932",
+      "chat_id": "102224360723365489932"
+    },
+    "properties": {
+      "type": 1,
+      "display_name": "Bo Tenström",
+      "first_name": "Bo",
+      "photo_url": "//lh5.googleusercontent.com/-99B0CMsSo68/AAAAAAAAAAI/AAAAAAAAABI/v8oOeHFwNSI/photo.jpg",
+      "canonical_email": null,
+      "in_users_domain": null,
+      "gender": null,
+      "phones": [],
+      "photo_url_status": 2,
+      "emails": [
+        "botenstrom2@gmail.com"
+      ]
+    }
+  }
+}
 
 describe 'CLIENT_GET_SELF_INFO_RESPONSE', ->
 
@@ -18,7 +39,106 @@ describe 'CLIENT_GET_SELF_INFO_RESPONSE', ->
 
 msg2 = ["cgserp",[1,null,"","-7303892207317438164",1430552593677000],[],null,[0,"XrPb1g==",[[[null,null,null,null,null,null,null,null,["110994664963851875523","110994664963851875523"],[1,"Martin Algesten","Martin","//lh5.googleusercontent.com/-R7AuYVncPys/AAAAAAAAAAI/AAAAAAAAAIw/incUIqFokok/photo.jpg",[],[],null,null,null,0,null,2,[],[]],null,null,2,null,1,1,0],0],[[null,null,null,null,null,null,null,null,["105510613398923491294","105510613398923491294"],[1,"Bo Tenström","Bo","//lh6.googleusercontent.com/-Xg2kTTvP-1o/AAAAAAAAAAI/AAAAAAAAABY/buSUZUepxPY/photo.jpg",[],[],null,null,null,0,null,2,[],[]],null,null,2,null,1,1,0],0]]],[0,"KCC4Ng==",[[[null,null,null,null,null,null,null,null,["105510613398923491294","105510613398923491294"],[1,"Bo Tenström","Bo","//lh6.googleusercontent.com/-Xg2kTTvP-1o/AAAAAAAAAAI/AAAAAAAAABY/buSUZUepxPY/photo.jpg",[],[],null,null,null,0,null,2,[],[]],null,null,2,null,1,1,0],1],[[null,null,null,null,null,null,null,null,["110994664963851875523","110994664963851875523"],[1,"Martin Algesten","Martin","//lh5.googleusercontent.com/-R7AuYVncPys/AAAAAAAAAAI/AAAAAAAAAIw/incUIqFokok/photo.jpg",[],[],null,null,null,0,null,2,[],[]],null,null,2,null,1,1,0],2]]],[0,"AAAAAA==",[]],[0,"AAAAAA==",[]],[0,"AAAAAA==",[]],[0,"AAAAAA==",[]]]
 
-cmp2 = {"entities":[],"group1":{"entities":[{"entity":{"id":{"gaia_id":"110994664963851875523","chat_id":"110994664963851875523"},"properties":{"type":1,"display_name":"Martin Algesten","first_name":"Martin","photo_url":"//lh5.googleusercontent.com/-R7AuYVncPys/AAAAAAAAAAI/AAAAAAAAAIw/incUIqFokok/photo.jpg","emails":[]}}},{"entity":{"id":{"gaia_id":"105510613398923491294","chat_id":"105510613398923491294"},"properties":{"type":1,"display_name":"Bo Tenström","first_name":"Bo","photo_url":"//lh6.googleusercontent.com/-Xg2kTTvP-1o/AAAAAAAAAAI/AAAAAAAAABY/buSUZUepxPY/photo.jpg","emails":[]}}}]},"group2":{"entities":[{"entity":{"id":{"gaia_id":"105510613398923491294","chat_id":"105510613398923491294"},"properties":{"type":1,"display_name":"Bo Tenström","first_name":"Bo","photo_url":"//lh6.googleusercontent.com/-Xg2kTTvP-1o/AAAAAAAAAAI/AAAAAAAAABY/buSUZUepxPY/photo.jpg","emails":[]}}},{"entity":{"id":{"gaia_id":"110994664963851875523","chat_id":"110994664963851875523"},"properties":{"type":1,"display_name":"Martin Algesten","first_name":"Martin","photo_url":"//lh5.googleusercontent.com/-R7AuYVncPys/AAAAAAAAAAI/AAAAAAAAAIw/incUIqFokok/photo.jpg","emails":[]}}}]},"group3":{"entities":[]},"group4":{"entities":[]},"group5":{"entities":[]}}
+cmp2 = {
+  "entities": [],
+  "group1": {
+    "entities": [
+      {
+        "entity": {
+          "id": {
+            "gaia_id": "110994664963851875523",
+            "chat_id": "110994664963851875523"
+          },
+          "properties": {
+            "type": 1,
+            "display_name": "Martin Algesten",
+            "first_name": "Martin",
+            "photo_url": "//lh5.googleusercontent.com/-R7AuYVncPys/AAAAAAAAAAI/AAAAAAAAAIw/incUIqFokok/photo.jpg",
+            "canonical_email": null,
+            "in_users_domain": 0,
+            "gender": null,
+            "phones": [],
+            "photo_url_status": 2,
+            "emails": []
+          }
+        }
+      },
+      {
+        "entity": {
+          "id": {
+            "gaia_id": "105510613398923491294",
+            "chat_id": "105510613398923491294"
+          },
+          "properties": {
+            "type": 1,
+            "display_name": "Bo Tenström",
+            "first_name": "Bo",
+            "photo_url": "//lh6.googleusercontent.com/-Xg2kTTvP-1o/AAAAAAAAAAI/AAAAAAAAABY/buSUZUepxPY/photo.jpg",
+            "canonical_email": null,
+            "in_users_domain": 0,
+            "gender": null,
+            "phones": [],
+            "photo_url_status": 2,
+            "emails": []
+          }
+        }
+      }
+    ]
+  },
+  "group2": {
+    "entities": [
+      {
+        "entity": {
+          "id": {
+            "gaia_id": "105510613398923491294",
+            "chat_id": "105510613398923491294"
+          },
+          "properties": {
+            "type": 1,
+            "display_name": "Bo Tenström",
+            "first_name": "Bo",
+            "photo_url": "//lh6.googleusercontent.com/-Xg2kTTvP-1o/AAAAAAAAAAI/AAAAAAAAABY/buSUZUepxPY/photo.jpg",
+            "canonical_email": null,
+            "in_users_domain": 0,
+            "gender": null,
+            "phones": [],
+            "photo_url_status": 2,
+            "emails": []
+          }
+        }
+      },
+      {
+        "entity": {
+          "id": {
+            "gaia_id": "110994664963851875523",
+            "chat_id": "110994664963851875523"
+          },
+          "properties": {
+            "type": 1,
+            "display_name": "Martin Algesten",
+            "first_name": "Martin",
+            "photo_url": "//lh5.googleusercontent.com/-R7AuYVncPys/AAAAAAAAAAI/AAAAAAAAAIw/incUIqFokok/photo.jpg",
+            "canonical_email": null,
+            "in_users_domain": 0,
+            "gender": null,
+            "phones": [],
+            "photo_url_status": 2,
+            "emails": []
+          }
+        }
+      }
+    ]
+  },
+  "group3": {
+    "entities": []
+  },
+  "group4": {
+    "entities": []
+  },
+  "group5": {
+    "entities": []
+  }
+}
 
 describe 'INITIAL_CLIENT_ENTITIES', ->
 
