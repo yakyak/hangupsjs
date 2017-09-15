@@ -1,7 +1,7 @@
 hangupsjs
 =========
 
-### (not yet released) v1.3.5
+### 2017-09-15 v1.3.5
 
 Adds additional fields to ENTITY schema
 Updates the subscribe method to only `babel` and `babel_presence_last_seen`
