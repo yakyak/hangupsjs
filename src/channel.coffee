@@ -246,6 +246,12 @@ module.exports = class Channel
             wait(1000) # https://github.com/tdryer/hangups/issues/58
         .then =>
             timestamp = Date.now() * 1000
+            services = ['babel', 'babel_presence_last_seen']
+            mapList = for service in services
+              JSON.stringify({"3": {"1": {"1": service}}})
+            formMap = {count: mapList.length, ofs: 0}
+            for el, ix in mapList
+              formMap["req#{ix}_p"] = el
             opts =
                 method: 'POST'
                 uri: op 'channel/bind'
@@ -259,20 +265,7 @@ module.exports = class Channel
                     SID: @sid
                 headers: @authHeaders()
                 timeout: 30000 # 30 seconds timeout in connect attempt
-                form:
-                    count: 3,
-                    ofs: 0,
-                    req0_p: '{"1":{"1":{"1":{"1":3,"2":2}},"2":{"1":{"1":3,"2":' +
-                            '2},"2":"","3":"JS","4":"lcsclient"},"3":' +
-                            timestamp + ',"4":0,"5":"c1"},"2":{}}',
-                    req1_p: '{"1":{"1":{"1":{"1":3,"2":2}},"2":{"1":{"1":3,"2":' +
-                            '2},"2":"","3":"JS","4":"lcsclient"},"3":' +
-                            timestamp + ',"4":' + timestamp +
-                            ',"5":"c3"},"3":{"1":{"1":"babel"}}}',
-                    req2_p: '{"1":{"1":{"1":{"1":3,"2":2}},"2":{"1":{"1":3,"2":' +
-                            '2},"2":"","3":"JS","4":"lcsclient"},"3":' +
-                            timestamp + ',"4":' + timestamp +
-                            ',"5":"c4"},"3":{"1":{"1":"hangout_invite"}}}'
+                form: formMap
             req(opts)
         .then (res) ->
             if res.statusCode == 200
