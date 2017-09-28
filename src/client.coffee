@@ -527,7 +527,7 @@ module.exports = class Client extends EventEmitter
     #
     # Pass Client.OffTheRecordStatus.OFF_THE_RECORD to disable history
     # or Client.OffTheRecordStatus.ON_THE_RECORD to turn it on
-    modifyotrstatus: (conversation_id, otr=0) ->
+    modifyotrstatus: (conversation_id, otr=OffTheRecordStatus.ON_THE_RECORD) ->
         client_generated_id = randomid()
         @chatreq.req 'conversations/modifyotrstatus', [
             @_requestBodyHeader(),
