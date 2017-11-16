@@ -1,6 +1,12 @@
 hangupsjs
 =========
 
+### 2017-11-16 v1.3.6
+
+Adds ability yo modify OTR status
+Add client delivery medium type
+Update node version
+
 ### 2017-09-15 v1.3.5
 
 Adds additional fields to ENTITY schema
