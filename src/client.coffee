@@ -549,13 +549,13 @@ module.exports = class Client extends EventEmitter
     # returns an image_id that can be used in sendchatmessage
     uploadimage: (imagefile, filename=null, timeout=30000) =>
         # either use provided or from path
-        filename = filename ? syspath.basename(imagefile)
+        filename = filename ? (if Buffer.isBuffer imagefile then "image.jpg" else syspath.basename(imagefile))
         size = null
         puturl = null
         chatreq = @chatreq
         Q().then -> Q.Promise (rs, rj) ->
             # figure out file size
-            fs.stat imagefile, plug(rs, rj)
+            if Buffer.isBuffer(imagefile) then rs({ size: imagefile.length }) else fs.stat imagefile, plug(rs, rj)
         .then (st) ->
             size = st.size
         .then ->
@@ -577,7 +577,7 @@ module.exports = class Client extends EventEmitter
             puturl = body?.sessionStatus?.externalFieldTransfers?[0]?.putInfo?.url
             log.debug 'image resume upload to:', puturl
         .then -> Q.Promise (rs, rj) ->
-            fs.readFile imagefile, plug(rs, rj)
+            if Buffer.isBuffer(imagefile) then rs(imagefile) else fs.readFile imagefile, plug(rs, rj)
         .then (buf) ->
             log.debug 'image resume uploading'
             chatreq.baseReq puturl, 'application/octet-stream', buf, true, timeout
