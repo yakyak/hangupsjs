@@ -208,7 +208,7 @@ module.exports = class Auth
                 uri: MERGE_SESSION_MAIL + uberauth
                 jar: request.jar jarstore
                 proxy: opts.proxy
-                header: headers
+                headers: headers
         .then (res) ->
             return Q.reject NetworkError.forRes(res) unless res.statusCode == 200
             log.debug 'got session cookies'
