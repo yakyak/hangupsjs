@@ -188,6 +188,7 @@ module.exports = class Auth
                 jar: request.jar jarstore
                 proxy: opts.proxy
                 headers: headers
+                withCredentials: true
         .then (res) ->
             return Q.reject NetworkError.forRes(res) unless res.statusCode == 200
             log.debug 'got uberauth'
@@ -200,6 +201,7 @@ module.exports = class Auth
                 uri: MERGE_SESSION
                 jar: request.jar jarstore
                 proxy: opts.proxy
+                withCredentials: true
         .then (res) ->
             return Q.reject NetworkError.forRes(res) unless res.statusCode == 200
             log.debug 'request merge session 2/2'
@@ -209,6 +211,7 @@ module.exports = class Auth
                 jar: request.jar jarstore
                 proxy: opts.proxy
                 headers: headers
+                withCredentials: true
         .then (res) ->
             return Q.reject NetworkError.forRes(res) unless res.statusCode == 200
             log.debug 'got session cookies'

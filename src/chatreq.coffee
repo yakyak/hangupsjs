@@ -35,6 +35,7 @@ module.exports = class ChatReq
             body: if Buffer.isBuffer body then body else JSON.stringify(body)
             encoding: null # get body as buffer
             timeout: timeout # timeout in connect attempt (default 30 sec)
+            withCredentials: true
         req(opts).fail (err) ->
             log.debug 'request failed', err
             Q.reject err
