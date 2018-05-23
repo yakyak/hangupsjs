@@ -50,7 +50,7 @@ module.exports = class Init
             html = body.replace /<!DOCTYPE html><html>(.|\n)*<\/html>/gm, ''
 
             # and then the <script> tags
-            html = html.replace /<\/?script>/gm, ''
+            html = html.replace /<\/?script.*>/gm, ''
 
             # expose the init chunk queue
             html = html.replace 'var AF_initDataChunkQueue =',
