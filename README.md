@@ -3,7 +3,7 @@ hangupsjs
 
 ### 2017-11-16 v1.3.6
 
-Adds ability yo modify OTR status
+Adds ability to modify OTR status
 Add client delivery medium type
 Update node version
 
