@@ -1,5 +1,5 @@
 require('fnuc').expose global
-FileCookieStore = require 'tough-cookie-filestore'
+FileCookieStore = require 'tough-cookie-file-store'
 {CookieJar}     = require 'tough-cookie'
 {EventEmitter}  = require 'events'
 syspath         = require 'path'
@@ -523,6 +523,21 @@ module.exports = class Client extends EventEmitter
             level
         ]
 
+    # Set the OTR status of a conversation
+    #
+    # Pass Client.OffTheRecordStatus.OFF_THE_RECORD to disable history
+    # or Client.OffTheRecordStatus.ON_THE_RECORD to turn it on
+    modifyotrstatus: (conversation_id, otr=OffTheRecordStatus.ON_THE_RECORD) ->
+        client_generated_id = randomid()
+        @chatreq.req 'conversations/modifyotrstatus', [
+            @_requestBodyHeader(),
+            None,
+            otr,
+            None,
+            [
+                [conversation_id], client_generated_id, otr, None, 9
+            ]
+        ]
 
     # Uploads an image that can be later attached to a chat message.
     #
@@ -578,6 +593,7 @@ aliases = [
     'syncAllNewEvents',
     'getSelfInfo',
     'setConversationNotificationLevel',
+    'modifyOtrStatus',
     'setFocus',
     'setTyping',
     'setPresence',
@@ -605,6 +621,7 @@ aliases.forEach((alias) ->
 
 # Expose these as part of publich API
 Client.OffTheRecordStatus = OffTheRecordStatus
+Client.ClientDeliveryMediumType = ClientDeliveryMediumType
 Client.FocusStatus        = FocusStatus
 Client.TypingStatus       = TypingStatus
 Client.MessageActionType  = MessageActionType
