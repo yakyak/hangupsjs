@@ -12,7 +12,7 @@
     "ignore": [
       "fnuc"
     ]
-  }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/yakyak/hangupsjs"
