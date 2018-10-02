@@ -1,6 +1,8 @@
 hangupsjs
 =========
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/yakyak/hangupsjs.svg)](https://greenkeeper.io/)
+
 ### 2017-11-16 v1.3.6
 
 Adds ability to modify OTR status
@@ -11,6 +13,7 @@ Update node version
 
 Adds additional fields to ENTITY schema
 Updates the subscribe method to only `babel` and `babel_presence_last_seen`
+
 
 ### 2016-12-05 v1.3.4
 

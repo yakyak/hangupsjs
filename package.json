@@ -8,6 +8,11 @@
     "test": "mocha",
     "prepublish": "coffee -o lib src"
   },
+  "greenkeeper": {
+    "ignore": [
+      "fnuc"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/yakyak/hangupsjs"
