@@ -1,5 +1,5 @@
 require('fnuc').expose global
-FileCookieStore = require 'tough-cookie-filestore'
+FileCookieStore = require 'tough-cookie-file-store'
 {CookieJar}     = require 'tough-cookie'
 {EventEmitter}  = require 'events'
 syspath         = require 'path'
