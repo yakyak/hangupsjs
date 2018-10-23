@@ -549,7 +549,7 @@ module.exports = class Client extends EventEmitter
     # returns an image_id that can be used in sendchatmessage
     uploadimage: (imagefile, filename=null, timeout=30000) =>
         # either use provided or from path
-        filename = filename ? (if Buffer.isBuffer imagefile then "image.jpg" else syspath.basename(imagefile)
+        filename = filename ? (if Buffer.isBuffer imagefile then "image.jpg" else syspath.basename(imagefile))
         size = null
         puturl = null
         chatreq = @chatreq
