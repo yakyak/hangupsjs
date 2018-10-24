@@ -72,7 +72,7 @@ module.exports = class Init
             #   { key: 'ds:3', isError: false, hash: '5', data: [Function] }...
             DICT =
                 apikey: { key:'ds:7',  fn: (d) -> d[0][2] }
-                email:  { key:'ds:36', fn: (d) -> d[0][2] }
+                email:  { key:'ds:33', fn: (d) -> d[0][2] }
                 headerdate:    { key:'ds:2', fn: (d) -> d[0][4] }
                 headerversion: { key:'ds:2', fn: (d) -> d[0][6] }
                 headerid:      { key:'ds:4', fn: (d) -> d[0][7] }
