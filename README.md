@@ -5,7 +5,7 @@ hangupsjs
 
 ### 2018-10-26 v1.3.7
 
-* #104 Fix email and self_entity changing ids server-side. And initial conv list
+* Fix email and self_entity changing ids server-side. And initial conv list ([#104](https://github.com/yakyak/hangupsjs/pull/104))
 * update versions of modules
 
 ### 2017-11-16 v1.3.6
