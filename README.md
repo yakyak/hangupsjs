@@ -3,16 +3,21 @@ hangupsjs
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/yakyak/hangupsjs.svg)](https://greenkeeper.io/)
 
+### 2018-10-26 v1.3.7
+
+* #104 Fix email and self_entity changing ids server-side. And initial conv list
+* update versions of modules
+
 ### 2017-11-16 v1.3.6
 
-Adds ability to modify OTR status
-Add client delivery medium type
-Update node version
+* Adds ability to modify OTR status
+* Add client delivery medium type
+* Update node version
 
 ### 2017-09-15 v1.3.5
 
-Adds additional fields to ENTITY schema
-Updates the subscribe method to only `babel` and `babel_presence_last_seen`
+* Adds additional fields to ENTITY schema
+* Updates the subscribe method to only `babel` and `babel_presence_last_seen`
 
 
 ### 2016-12-05 v1.3.4
@@ -29,6 +34,7 @@ This is a minor release. It does not solve login problems that are related to
 recent Google API changes. They have been solved in yakyak/yakyak client because
 auth method there is different. That solution involves user interaction
 therefore it can't be implemented hangupsjs library.
+
 We are still looking for a solution.
 
 ### 2016-01-15 v1.3.0 breaking change
