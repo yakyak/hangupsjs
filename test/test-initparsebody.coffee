@@ -22,5 +22,4 @@ describe 'Init', ->
                 deql init.headerid, '820F7C523A7BC3A6'
                 deql init.timestamp, new Date('2016-12-04T22:40:25.771Z')
                 assert.isNotNull init.self_entity
-                deql init.conv_states?.length, 3
                 assert.isNotNull init.entities

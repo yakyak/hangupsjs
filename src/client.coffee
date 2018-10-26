@@ -89,6 +89,8 @@ module.exports = class Client extends EventEmitter
             # now intialize the chat using the pvt
             @init.initChat @jarstore, pvt
         .then =>
+            @initrecentconversations @init
+        .then =>
             @running = true
             @connected = false
             # ensure we have a fresh timestamp
@@ -479,6 +481,14 @@ module.exports = class Client extends EventEmitter
         ], false).then (body) -> # receive as protojson
             CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE.parse body
 
+    # Initializes the recent conversations.
+    initrecentconversations: (init) ->
+        @chatreq.req('conversations/syncrecentconversations', [
+            @_requestBodyHeader(),
+            null
+        ], false).then (body) -> # receive as protojson
+            data = CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE.parse body
+            init.conv_states = data.conversation_state
 
     # Search for people.
     searchentities: (search_string, max_results=10) ->
