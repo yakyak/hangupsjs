@@ -4,8 +4,6 @@ log      = require 'bog'
 Q        = require 'q'
 fs       = require 'fs'
 
-{google} = require 'googleapis'
-
 {plug, req, NetworkError} = require './util'
 
 # this CLIENT_ID and CLIENT_SECRET are whitelisted at google and
