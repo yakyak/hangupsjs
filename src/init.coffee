@@ -87,9 +87,9 @@ module.exports = class Init
 
             for k, spec of DICT
                 ent = find out.AF_initDataChunkQueue, (e) ->
-                    if spec.name? && e.data()?
+                    if spec.name? && typeof e.data == 'function'
                         d = e.data()
-                        if d.length > 0 && d[0].length > 0 && d[0][0].length > 0
+                        if d? && d.length > 0 && d[0].length > 0 && d[0][0].length > 0
                             return spec.name == d[0][0]
                     spec.key == e.key
 
