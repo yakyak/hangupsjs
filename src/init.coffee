@@ -71,22 +71,28 @@ module.exports = class Init
             #   { key: 'ds:2', isError: false, hash: '19', data: [Function] },
             #   { key: 'ds:3', isError: false, hash: '5', data: [Function] }...
             DICT =
-                apikey: { key:'ds:7',  fn: (d) -> d[0][2] }
-                email:  { key:'ds:31', fn: (d) -> d[0][2] }
-                headerdate:    { key:'ds:2', fn: (d) -> d[0][4] }
-                headerversion: { key:'ds:2', fn: (d) -> d[0][6] }
-                headerid:      { key:'ds:4', fn: (d) -> d[0][7] }
-                timestamp:     { key:'ds:20', fn: (d) -> new Date (d[0][1][4] / 1000) }
-                self_entity:   { key:'ds:20', fn: (d) ->
+                apikey: { name:'cin:cac',  fn: (d) -> d[0][2] }
+                email:  { name:'cic:vd', fn: (d) -> d[0][2] }
+                headerdate:    { name:'cin:acc', fn: (d) -> d[0][4] }
+                headerversion: { name:'cin:acc', fn: (d) -> d[0][6] }
+                headerid:      { name:'cin:bcsc', fn: (d) -> d[0][7] }
+                timestamp:     { name:'cgsirp', fn: (d) -> new Date (d[0][1][4] / 1000) }
+                self_entity:   { name:'cgsirp', fn: (d) ->
                     CLIENT_GET_SELF_INFO_RESPONSE.parse(d[0]).self_entity
                 }
-                conv_states: { key:'ds:20', fn: (d) ->
+                conv_states: { name:'cgsirp', fn: (d) ->
                     # Removed in server-side update
                     CLIENT_CONVERSATION_STATE_LIST.parse(d[0][3])
                 }
 
             for k, spec of DICT
-                ent = find out.AF_initDataChunkQueue, (e) -> spec.key == e.key
+                ent = find out.AF_initDataChunkQueue, (e) ->
+                    if spec.name? && typeof e.data == 'function'
+                        d = e.data()
+                        if d? && d.length > 0 && d[0].length > 0 && d[0][0].length > 0
+                            return spec.name == d[0][0]
+                    spec.key == e.key
+
                 if ent
                     this[k] = d = spec.fn ent.data()
                     if d.length

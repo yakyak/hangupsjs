@@ -20,6 +20,6 @@ describe 'Init', ->
                 deql init.headerdate, '1480451609'
                 deql init.headerversion, 'chat_frontend_20161129.11_p0'
                 deql init.headerid, '820F7C523A7BC3A6'
-                deql init.timestamp, new Date('2016-12-04T22:40:25.771Z')
+                deql init.timestamp, new Date('2016-12-04T22:40:25.772Z')
                 assert.isNotNull init.self_entity
                 assert.isNotNull init.entities
