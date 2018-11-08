@@ -3,6 +3,10 @@ hangupsjs
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/yakyak/hangupsjs.svg)](https://greenkeeper.io/)
 
+### 2018-11-08 v1.3.8
+
+* Use the name instead of the key in AF_initDataChunkQueue. ([#107](https://github.com/yakyak/hangupsjs/pull/107))
+
 ### 2018-10-26 v1.3.7
 
 * Fix email and self_entity changing ids server-side. And initial conv list ([#104](https://github.com/yakyak/hangupsjs/pull/104))
