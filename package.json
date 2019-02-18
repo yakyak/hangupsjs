@@ -39,7 +39,7 @@
     "chai": "^4.1.0",
     "coffee-script": "^1.9.3",
     "hexy": "^0.2.7",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.0",
     "request-debug": "^0.2.0"
   }
 }
