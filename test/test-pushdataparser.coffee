@@ -21,21 +21,21 @@ describe 'PushDataParser', ->
         deql gsid, 'iMyLjHNOp8jTdYnYP4ophA'
 
     it 'handles chopped off len specifications', ->
-        msg1 = new Buffer('1')
+        msg1 = new Buffer.from('1')
         lines = p.parse msg1
         deql lines, 0
-        deql p.leftover, new Buffer('1')
-        msg2 = new Buffer('0\n1234567890')
+        deql p.leftover, new Buffer.from('1')
+        msg2 = new Buffer.from('0\n1234567890')
         lines = p.parse msg2
         deql lines, 1
         deql p.leftover, null
 
     it 'handles chopped off data', ->
-        msg1 = new Buffer('10\n1234')
+        msg1 = new Buffer.from('10\n1234')
         lines = p.parse msg1
         deql lines, 0
-        deql p.leftover, new Buffer('10\n1234')
-        msg2 = new Buffer('567890')
+        deql p.leftover, new Buffer.from('10\n1234')
+        msg2 = new Buffer.from('567890')
         lines = p.parse msg2
         deql lines, 1
         deql p.leftover, null
@@ -47,4 +47,4 @@ describe 'PushDataParser', ->
                 deql lines, ['abc', 'def']
                 done()
             .done()
-            p.parse new Buffer('5\n"abc"5\n"def"')
+            p.parse new Buffer.from('5\n"abc"5\n"def"')
