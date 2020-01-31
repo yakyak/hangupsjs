@@ -59,6 +59,7 @@ ABORT = {abort:true}
 module.exports = class Client extends EventEmitter
 
     constructor: (opts) ->
+        super()
         @opts = mixin DEFAULTS, opts
         @doInit()
         @messageParser = new MessageParser(this)
@@ -160,7 +161,7 @@ module.exports = class Client extends EventEmitter
         # debug it
         log.debug 'emit', ev, (data ? '')
         # and do it
-        super
+        super()
 
 
     # we get at least a "noop" event every 20-30 secs, if we have no

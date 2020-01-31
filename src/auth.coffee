@@ -31,7 +31,7 @@ MERGE_SESSION = 'https://accounts.google.com/MergeSession'
 MERGE_SESSION_MAIL = "https://accounts.google.com/MergeSession?service=mail" +
     "&continue=http://www.google.com&uberauth="
 
-class AuthError extends Error then constructor: -> super
+class AuthError extends Error then constructor: -> super()
 
 setCookie = (jar) -> (cookie) -> Q.Promise (rs, rj) ->
     jar.setCookie cookie, OAUTH2_LOGIN_URL, plug(rs,rj)
