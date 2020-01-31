@@ -21,6 +21,14 @@
     "hangouts",
     "library"
   ],
+  "mocha": {
+    "reporter": "list",
+    "timeout": 500,
+    "spec": "test/**/*.coffee",
+    "require": [
+      "coffeescript/register"
+    ]
+  },
   "author": "Martin Algesten <martin@algesten.se>",
   "license": "MIT",
   "bugs": {
