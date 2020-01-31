@@ -41,7 +41,11 @@ module.exports = class MessageBuilder
     italic: (txt) -> @text txt, false, true
     strikethrough: (txt) -> @text txt, false, false, true
     underline: (txt) -> @text txt, false, false, false, true
-    link: (txt, href) -> @text txt, false, false, false, false, href
+    link: (txt, href) ->
+        if txt != href
+            @text(txt + ' (', false, false, false, false).text(href, false, false, false, false, href).text(')', false, false, false, false)
+        else
+            @text txt, false, false, false, false, href
 
     linebreak: ->
         seg = [SegmentType.LINE_BREAK, '\n']
