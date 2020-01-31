@@ -75,6 +75,7 @@ module.exports = class Channel
             method: 'GET'
             uri: "#{ORIGIN_URL}/talkgadget/_/extension-start"
             jar: request.jar @jarstore
+            withCredentials: true
         req(opts).then (res) =>
             data = JSON.parse res.body
             log.debug 'found pvt token', data[1]
@@ -106,6 +107,7 @@ module.exports = class Channel
                     count: 0
                 headers: auth
                 encoding: null # get body as buffer
+                withCredentials: true
             req(opts).then (res) ->
                 # Example format (after parsing JS):
                 # [   [0,["c","SID_HERE","",8]],
@@ -211,6 +213,7 @@ module.exports = class Channel
             headers: @authHeaders()
             encoding: null # get body as buffer
             timeout: 30000 # 30 seconds timeout in connect attempt
+            withCredentials: true
         ok = false
         @currentReq = request(opts).on 'response', (res) =>
             log.debug 'long poll response', res.statusCode, res.statusMessage
@@ -266,6 +269,7 @@ module.exports = class Channel
                 headers: @authHeaders()
                 timeout: 30000 # 30 seconds timeout in connect attempt
                 form: formMap
+                withCredentials: true
             req(opts)
         .then (res) ->
             if res.statusCode == 200

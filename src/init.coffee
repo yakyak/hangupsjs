@@ -29,6 +29,7 @@ module.exports = class Init
             qs: params
             jar: request.jar jarstore
             proxy: @proxy
+            withCredentials: true
         req(opts).then (res) =>
             if res.statusCode == 200
                 @parseBody res.body
