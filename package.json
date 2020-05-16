@@ -41,7 +41,7 @@
     "q": "^1.2.0",
     "request": "^2.88.0",
     "tough-cookie": "^3.0.1",
-    "tough-cookie-file-store": "1.2.0"
+    "tough-cookie-file-store": "2.0.2"
   },
   "devDependencies": {
     "chai": "^4.1.0",
