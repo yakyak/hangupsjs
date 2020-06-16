@@ -92,10 +92,19 @@ module.exports = class Init
                         d = e.data()
                         if d? && d.length > 0 && d[0].length > 0 && d[0][0].length > 0
                             return spec.name == d[0][0]
+                    else if spec.name? && Array.isArray e.data
+                        d = e.data
+                        if d? && d.length > 0 && d[0].length > 0 && d[0][0].length > 0
+                            return spec.name == d[0][0]
                     spec.key == e.key
 
                 if ent
-                    this[k] = d = spec.fn ent.data()
+                    if typeof ent.data == 'function'
+                        data = ent.data()
+                    else
+                        data = ent.data
+
+                    this[k] = d = spec.fn data
                     if d.length
                         log.debug 'init data count', k, d.length
                     else
