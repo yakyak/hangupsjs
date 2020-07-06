@@ -639,3 +639,4 @@ Client.MessageBuilder     = MessageBuilder
 Client.authStdin          = Auth::authStdin
 Client.NotificationLevel  = ClientNotificationLevel
 Client.OAUTH2_LOGIN_URL   = Auth.OAUTH2_LOGIN_URL
+Client.VERSION            = JSON.parse(fs.readFileSync(syspath.normalize syspath.join(__dirname, '..', 'package.json'))).version
