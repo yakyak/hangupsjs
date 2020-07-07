@@ -3,6 +3,15 @@ hangupsjs
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/yakyak/hangupsjs.svg)](https://greenkeeper.io/)
 
+
+### 2020-07-07 v1.3.10
+
+* Adds `VERSION` property to client
+
+### 2020-06-16 v1.3.9
+
+* Fix connection issues due to server changing data to an array ([#117](https://github.com/yakyak/hangupsjs/pull/117))
+
 ### 2018-11-08 v1.3.8
 
 * Use the name instead of the key in AF_initDataChunkQueue. ([#107](https://github.com/yakyak/hangupsjs/pull/107))
