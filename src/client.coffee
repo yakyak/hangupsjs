@@ -87,11 +87,13 @@ module.exports = class Client extends EventEmitter
             # see https://github.com/algesten/hangupsjs/issues/6
             unless pvt
                 # clear state and start reconnecting
+                log.debug 'no pvt token, logout and then reconnect'
                 self.logout().then => self.connect(creds)
                 return Q.reject ABORT
             # now intialize the chat using the pvt
             self.init.initChat self.jarstore, pvt
         .then =>
+            log.debug 'initializing recent conversations'
             self.initrecentconversations self.init
         .then =>
             self.running = true
@@ -164,7 +166,7 @@ module.exports = class Client extends EventEmitter
         # debug it
         log.debug 'emit', ev, (data ? '')
         # and do it
-        super()
+        super ev, data
 
 
     # we get at least a "noop" event every 20-30 secs, if we have no

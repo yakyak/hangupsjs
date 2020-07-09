@@ -21,6 +21,7 @@ module.exports = class Init
     constructor: (@proxy) ->
 
     initChat: (jarstore, pvt) ->
+        log.debug 'initChat()'
         params = clone CHAT_INIT_PARAMS
         params.pvt = pvt
         opts =
