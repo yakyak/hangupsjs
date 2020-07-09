@@ -30,14 +30,16 @@ module.exports = class Init
             jar: request.jar jarstore
             proxy: @proxy
             withCredentials: true
+        self = @
         req(opts).then (res) =>
             if res.statusCode == 200
-                @parseBody res.body
+                self.parseBody res.body
             else
                 log.warn 'init failed', res.statusCode, res.statusMessage
                 Q.reject NetworkError.forRes(res)
 
     parseBody: (body) ->
+        self = @
         Q().then ->
             # the structure of the html body is (bizarelly):
             # <script>...</script>
@@ -114,4 +116,4 @@ module.exports = class Init
 
             # massage the entities
             entgroups = []
-            @entities = undefined
+            self.entities = undefined

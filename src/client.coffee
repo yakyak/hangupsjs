@@ -65,7 +65,8 @@ module.exports = class Client extends EventEmitter
         @messageParser = new MessageParser(this)
 
         # clientid comes as part of pushdata
-        @on 'clientid', (clientid) => @init.clientid = clientid
+        self = @
+        @on 'clientid', (clientid) => self.init.clientid = clientid
 
     loglevel: (lvl) -> log.level lvl
 
@@ -77,55 +78,56 @@ module.exports = class Client extends EventEmitter
         # getAuth does a login and stores the cookies
         # of the login into the db. the cookies are
         # cached.
+        self = @
         @auth.getAuth().then =>
             # fetch the 'pvt' token, which is required for the
             # initialization request (otherwise it will return 400)
-            @channel.fetchPvt()
+            self.channel.fetchPvt()
         .then (pvt) =>
             # see https://github.com/algesten/hangupsjs/issues/6
             unless pvt
                 # clear state and start reconnecting
-                @logout().then => @connect(creds)
+                self.logout().then => self.connect(creds)
                 return Q.reject ABORT
             # now intialize the chat using the pvt
-            @init.initChat @jarstore, pvt
+            self.init.initChat self.jarstore, pvt
         .then =>
-            @initrecentconversations @init
+            self.initrecentconversations self.init
         .then =>
-            @running = true
-            @connected = false
+            self.running = true
+            self.connected = false
             # ensure we have a fresh timestamp
-            @lastActive = Date.now()
-            @ensureConnected()
+            self.lastActive = Date.now()
+            self.ensureConnected()
             do poller = =>
-                return unless @running
-                @channel.getLines().then (lines) =>
+                return unless self.running
+                self.channel.getLines().then (lines) =>
                     # wait until we receive first data to emit a
                     # 'connected' event.
-                    if not @connected and @running
-                        @connected = true
-                        @emit 'connected'
+                    if not self.connected and self.running
+                        self.connected = true
+                        self.emit 'connected'
                     # when disconnecting, no more lines to parse.
-                    if @running
-                        @messageParser.parsePushLines lines
+                    if self.running
+                        self.messageParser.parsePushLines lines
                         poller()
                 .fail (err) =>
                     log.debug err.stack if err.stack
                     log.debug err
                     log.info 'poller stopped', fmterr(err)
-                    @running = false
-                    @connected = false
-                    @emit 'connect_failed', err
+                    self.running = false
+                    self.connected = false
+                    self.emit 'connect_failed', err
             # wait for connected event to release promise
-            Q.Promise (rs) => @once 'connected', -> rs()
+            Q.Promise (rs) => self.once 'connected', -> rs()
         .fail (err) =>
-            @running = false
-            @connected = false
+            self.running = false
+            self.connected = false
             if err == ABORT
                 return null
             else
                 # tell everyone we didn't connect
-                @emit 'connect_failed', err
+                self.emit 'connect_failed', err
                 return Q.reject(err)
 
 
@@ -146,6 +148,7 @@ module.exports = class Client extends EventEmitter
         # remove saved state
         rpath = @opts.rtokenpath
         cpath = @opts.cookiespath
+        self = @
         Q().then ->
             log.info 'removing refresh token'
             rm rpath
@@ -153,7 +156,7 @@ module.exports = class Client extends EventEmitter
             log.info 'removing cookie store'
             rm cpath
         .then =>
-            @doInit()
+            self.doInit()
 
     emit: (ev, data) ->
         # record when we last emitted
@@ -173,15 +176,16 @@ module.exports = class Client extends EventEmitter
         return unless @running
         # check whether we got an event within the threshold we see
         # noop 20-30 secs, so 45 should be ok
+        self = @
         Q().then =>
-            if (Date.now() - @lastActive) > ALIVE_WAIT
+            if (Date.now() - self.lastActive) > ALIVE_WAIT
                 log.debug 'activity wait timeout after 45 secs'
-                @disconnect() # this also sets @connected to false
-                @emit 'connect_failed', new Error("Connection timeout")
+                self.disconnect() # this also sets self.connected to false
+                self.emit 'connect_failed', new Error("Connection timeout")
         .then =>
-            return unless @running # it may have changed
-            waitFor = @lastActive + ALIVE_WAIT - Date.now()
-            @ensureTimer = setTimeout @ensureConnected, waitFor
+            return unless self.running # it may have changed
+            waitFor = self.lastActive + ALIVE_WAIT - Date.now()
+            self.ensureTimer = setTimeout self.ensureConnected, waitFor
 
 
     disconnect: ->
