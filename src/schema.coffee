@@ -1,4 +1,4 @@
-{Field, BooleanField, EnumField, DictField, RepeatedField, Message} = require './pblite'
+{Field, BooleanField, EnumField, DictField, NumberField, RepeatedField, Message} = require './pblite'
 
 s = {}
 
@@ -224,15 +224,15 @@ s.CLIENT_CONVERSATION = new Message([
         None, new Field()
         'self_read_state', new Message([
             'participant_id', s.USER_ID
-            'latest_read_timestamp', new Field()
+            'latest_read_timestamp', new NumberField()
         ])
         'status', new EnumField(s.ClientConversationStatus)
         'notification_level', new EnumField(s.ClientNotificationLevel)
         'view', new RepeatedField(new EnumField(s.ClientConversationView))
         'inviter_id', s.USER_ID
-        'invite_timestamp', new Field()
-        'sort_timestamp', new Field()
-        'active_timestamp', new Field()
+        'invite_timestamp', new NumberField()
+        'sort_timestamp', new NumberField()
+        'active_timestamp', new NumberField()
         None, new Field()   # This one should be "invite_affinity"
         None, new Field()   # No idea what this field is
         'delivery_medium_option', new RepeatedField(s.CLIENT_DELIVERY_MEDIUM_OPTION)
@@ -243,7 +243,7 @@ s.CLIENT_CONVERSATION = new Message([
     None, new Field()
     'read_state', new RepeatedField(new Message([
             'participant_id', s.USER_ID
-            'last_read_timestamp', new Field()
+            'last_read_timestamp', new NumberField()
         ])
     )
     None, new Field()
@@ -370,7 +370,7 @@ s.CLIENT_OTR_MODIFICATION = new Message([
 s.CLIENT_EVENT = new Message([
     'conversation_id', s.CONVERSATION_ID
     'sender_id', s.USER_ID
-    'timestamp', new Field()
+    'timestamp', new NumberField()
     'self_event_state', new Message([
         'user_id', s.USER_ID
         'client_generated_id', new Field()
@@ -384,7 +384,7 @@ s.CLIENT_EVENT = new Message([
     'conversation_rename', s.CLIENT_CONVERSATION_RENAME
     'hangout_event', s.CLIENT_HANGOUT_EVENT
     'event_id', new Field()
-    'advances_sort_timestamp', new Field()
+    'advances_sort_timestamp', new NumberField()
     'otr_modification', s.CLIENT_OTR_MODIFICATION
     None, new Field()  # 0, 1 or ''? related to notifications?
     'event_otr', new EnumField(s.OffTheRecordStatus)
@@ -394,7 +394,7 @@ s.CLIENT_EVENT = new Message([
 s.CLIENT_EVENT_CONTINUATION_TOKEN = new Message([
     'event_id', new Field()
     'storage_continuation_token', new Field()
-    'event_timestamp', new Field()
+    'event_timestamp', new NumberField()
 ])
 
 s.CLIENT_CONVERSATION_STATE = new Message([
@@ -449,7 +449,7 @@ s.CLIENT_EVENT_NOTIFICATION = new Message([
 s.CLIENT_SET_FOCUS_NOTIFICATION = new Message([
     'conversation_id', s.CONVERSATION_ID
     'user_id', s.USER_ID
-    'timestamp', new Field()
+    'timestamp', new NumberField()
     'status', new EnumField(s.FocusStatus)
     'device', new EnumField(s.FocusDevice)
 ])
@@ -457,14 +457,14 @@ s.CLIENT_SET_FOCUS_NOTIFICATION = new Message([
 s.CLIENT_SET_TYPING_NOTIFICATION = new Message([
     'conversation_id', s.CONVERSATION_ID
     'user_id', s.USER_ID
-    'timestamp', new Field()
+    'timestamp', new NumberField()
     'status', new EnumField(s.TypingStatus)
 ])
 
 s.CLIENT_WATERMARK_NOTIFICATION = new Message([
     'participant_id', s.USER_ID
     'conversation_id', s.CONVERSATION_ID
-    'latest_read_timestamp', new Field()
+    'latest_read_timestamp', new NumberField()
 ])
 
 s.CLIENT_STATE_UPDATE = new Message([
@@ -499,7 +499,7 @@ s.CLIENT_RESPONSE_HEADER = new Message([
 s.CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE = new Message([
     None, new Field()  # 'csanerp'
     'response_header', s.CLIENT_RESPONSE_HEADER
-    'sync_timestamp', new Field()
+    'sync_timestamp', new NumberField()
     'conversation_state', new RepeatedField(s.CLIENT_CONVERSATION_STATE)
 ])
 
