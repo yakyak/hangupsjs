@@ -31,7 +31,7 @@ MERGE_SESSION = 'https://accounts.google.com/MergeSession'
 MERGE_SESSION_MAIL = "https://accounts.google.com/MergeSession?service=mail" +
     "&continue=http://www.google.com&uberauth="
 
-class AuthError extends Error then constructor: -> super()
+class AuthError extends Error then constructor: -> super
 
 setCookie = (jar) -> (cookie) -> Q.Promise (rs, rj) ->
     jar.setCookie cookie, OAUTH2_LOGIN_URL, plug(rs,rj)
@@ -48,16 +48,15 @@ module.exports = class Auth
     # first checks the database if we already have cookies, or else proceeds with login
     getAuth: =>
         log.debug 'getting auth...'
-        self = @
         Q().then =>
-            Q.Promise (rs, rj) => self.jar.getCookies OAUTH2_LOGIN_URL, plug(rs, rj)
+            Q.Promise (rs, rj) => @jar.getCookies OAUTH2_LOGIN_URL, plug(rs, rj)
         .then (cookies) =>
             if cookies.length
                 log.debug 'using cached cookies'
                 Q()
             else
                 log.debug 'proceeding to login'
-                self.login()
+                @login()
         .then ->
             # result
             log.debug 'getAuth done'
@@ -66,15 +65,14 @@ module.exports = class Auth
             Q.reject err
 
     login: ->
-        self = @
         Q().then =>
             # fetch creds to inspect what we got to work with
-            self.creds()
+            @creds()
         .then (creds) =>
             if creds.auth
-                self.oauthLogin(creds)
+                @oauthLogin(creds)
             else if creds.cookies
-                self.providedCookies(creds)
+                @providedCookies(creds)
             else
                 throw new Error("No acceptable creds provided")
 
@@ -87,22 +85,21 @@ module.exports = class Auth
 
 
     oauthLogin: ({auth}) =>
-        self = @
         Q().then =>
             # load the refresh-token from disk, and if found
             # use to get an authentication token.
-            self.loadRefreshToken().then (rtoken) =>
-                self.authWithRefreshToken(rtoken) if rtoken
+            @loadRefreshToken().then (rtoken) =>
+                @authWithRefreshToken(rtoken) if rtoken
         .then (atoken) =>
             if atoken
                 # token from refresh-token. just use it.
                 atoken
             else
                 # no loaded refresh-token. request auth code.
-                self.requestAuthCode auth
+                @requestAuthCode auth
         .then (atoken) =>
             # one way or another we have an atoken now
-            self.getSessionCookies atoken
+            @getSessionCookies atoken
 
 
     loadRefreshToken: =>
@@ -154,7 +151,6 @@ module.exports = class Auth
 
     requestAuthCode: (auth) =>
         log.debug 'request auth code from user'
-        self = @
         Q().then ->
             auth()
         .then (code) ->
@@ -174,7 +170,7 @@ module.exports = class Auth
                 log.debug 'auth with code success'
                 body = JSON.parse(res.body)
                 # save it and then return the access token
-                self.saveRefreshToken(body.refresh_token).then ->
+                @saveRefreshToken(body.refresh_token).then ->
                     body.access_token
             else
 

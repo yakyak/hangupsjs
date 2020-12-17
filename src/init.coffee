@@ -21,7 +21,6 @@ module.exports = class Init
     constructor: (@proxy) ->
 
     initChat: (jarstore, pvt) ->
-        log.debug 'initChat()'
         params = clone CHAT_INIT_PARAMS
         params.pvt = pvt
         opts =
@@ -31,16 +30,14 @@ module.exports = class Init
             jar: request.jar jarstore
             proxy: @proxy
             withCredentials: true
-        self = @
         req(opts).then (res) =>
             if res.statusCode == 200
-                self.parseBody res.body
+                @parseBody res.body
             else
                 log.warn 'init failed', res.statusCode, res.statusMessage
                 Q.reject NetworkError.forRes(res)
 
     parseBody: (body) ->
-        self = @
         Q().then ->
             # the structure of the html body is (bizarelly):
             # <script>...</script>
@@ -117,4 +114,4 @@ module.exports = class Init
 
             # massage the entities
             entgroups = []
-            self.entities = undefined
+            @entities = undefined
