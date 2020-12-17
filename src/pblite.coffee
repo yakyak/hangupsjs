@@ -84,4 +84,4 @@ class Message
             out[k] = v.parse val if k
         out
 
-module.exports = {Field, BooleanField, EnumField, DictField, RepeatedField, Message}
+module.exports = {Field, BooleanField, EnumField, DictField, NumberField, RepeatedField, Message}
