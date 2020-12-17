@@ -1,4 +1,4 @@
-{Field, BooleanField, EnumField, DictField, RepeatedField, Message} = require './pblite'
+{Field, BooleanField, EnumField, DictField, NumberField, RepeatedField, Message} = require './pblite'
 
 s = {}
 
