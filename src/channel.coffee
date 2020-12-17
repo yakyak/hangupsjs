@@ -94,12 +94,11 @@ module.exports = class Channel
     fetchSid: =>
         auth = @authHeaders()
         return Q.reject new Error("No auth headers") unless auth
-        self = @
         Q().then =>
             opts =
                 method: 'POST'
                 uri: op 'channel/bind'
-                jar: request.jar self.jarstore
+                jar: request.jar @jarstore
                 qs:
                     VER: 8
                     RID: 81187
@@ -140,11 +139,10 @@ module.exports = class Channel
         @sid = null   # ensures we get a new sid
         @gsid = null
         @subscribed = false
-        self = @
         run = =>
             # graceful stop of polling
-            return unless self.running
-            self.poll(retries).then ->
+            return unless @running
+            @poll(retries).then ->
                 # XXX we only reset to MAX_RETRIES after a full ended
                 # poll. this means in bad network conditions we get an
                 # edge case where retries never reset despite getting
@@ -160,11 +158,11 @@ module.exports = class Channel
                 if retries > 0
                     run()
                 else
-                    self.running = false
+                    @running = false
                     # resetting with error makes pushParser.allLines()
                     # resolve with that error, which in turn makes
-                    # self.getLines() propagate the error out.
-                    self.pushParser.reset(err)
+                    # @getLines() propagate the error out.
+                    @pushParser.reset(err)
         run()
         return null
 
@@ -181,68 +179,65 @@ module.exports = class Channel
 
 
     poll: (retries) =>
-        self = @
         Q().then ->
             backoffTime = 2 * (MAX_RETRIES - retries) * 1000
             log.debug 'backing off for', backoffTime, 'ms' if backoffTime
             wait backoffTime
         .then =>
-            Q.reject ABORT unless self.running
+            Q.reject ABORT unless @running
         .then =>
-            unless self.sid
-                self.fetchSid().then (o) =>
+            unless @sid
+                @fetchSid().then (o) =>
                     merge this, o # set on this
-                    self.pushParser.reset() # ensure no half data
+                    @pushParser.reset() # ensure no half data
         .then =>
-            self.reqpoll()
+            @reqpoll()
 
 
     # long polling
-    reqpoll: =>
-        self = @
-        Q.Promise (rs, rj) =>
-          log.debug 'long poll req'
-          opts =
-              method: 'GET'
-              uri: op 'channel/bind'
-              jar: request.jar self.jarstore
-              qs:
-                  VER: 8
-                  gsessionid: self.gsid
-                  RID: 'rpc'
-                  t: 1
-                  SID: self.sid
-                  CI: 0
-                  ctype: 'hangouts'
-                  TYPE: 'xmlhttp'
-              headers: self.authHeaders()
-              encoding: null # get body as buffer
-              timeout: 30000 # 30 seconds timeout in connect attempt
-              withCredentials: true
-          ok = false
-          self.currentReq = request(opts).on 'response', (res) =>
-              log.debug 'long poll response', res.statusCode, res.statusMessage
-              if res.statusCode == 200
-                  return ok = true
-              else if isUnknownSID(res)
-                  ok = false
-                  log.debug 'sid became invalid'
-                  self.sid = null
-                  self.gsid = null
-                  self.subscribed = false
-              rj NetworkError.forRes(res)
-          .on 'data', (chunk) =>
-              if ok
-  #                log.debug 'long poll chunk\n' + require('hexy').hexy(chunk)
-                  self.pushParser.parse chunk
-              # subscribe on first data received
-              self.subscribe() unless self.subscribed
-          .on 'error', (err) =>
-              log.debug 'long poll error', err
-              rj err
-          .on 'end', ->
-              log.debug 'long poll end'
-              rs()
+    reqpoll: => Q.Promise (rs, rj) =>
+        log.debug 'long poll req'
+        opts =
+            method: 'GET'
+            uri: op 'channel/bind'
+            jar: request.jar @jarstore
+            qs:
+                VER: 8
+                gsessionid: @gsid
+                RID: 'rpc'
+                t: 1
+                SID: @sid
+                CI: 0
+                ctype: 'hangouts'
+                TYPE: 'xmlhttp'
+            headers: @authHeaders()
+            encoding: null # get body as buffer
+            timeout: 30000 # 30 seconds timeout in connect attempt
+            withCredentials: true
+        ok = false
+        @currentReq = request(opts).on 'response', (res) =>
+            log.debug 'long poll response', res.statusCode, res.statusMessage
+            if res.statusCode == 200
+                return ok = true
+            else if isUnknownSID(res)
+                ok = false
+                log.debug 'sid became invalid'
+                @sid = null
+                @gsid = null
+                @subscribed = false
+            rj NetworkError.forRes(res)
+        .on 'data', (chunk) =>
+            if ok
+#                log.debug 'long poll chunk\n' + require('hexy').hexy(chunk)
+                @pushParser.parse chunk
+            # subscribe on first data received
+            @subscribe() unless @subscribed
+        .on 'error', (err) =>
+            log.debug 'long poll error', err
+            rj err
+        .on 'end', ->
+            log.debug 'long poll end'
+            rs()
 
 
     # Subscribes the channel to receive relevant events. Only needs to
@@ -250,7 +245,6 @@ module.exports = class Channel
     subscribe: =>
         return if @subscribed
         @subscribed = true
-        self = @
         Q().then ->
             wait(1000) # https://github.com/tdryer/hangups/issues/58
         .then =>
@@ -264,15 +258,15 @@ module.exports = class Channel
             opts =
                 method: 'POST'
                 uri: op 'channel/bind'
-                jar: request.jar self.jarstore
-                proxy: self.proxy
+                jar: request.jar @jarstore
+                proxy: @proxy
                 qs:
                     VER: 8
                     RID: 81188
                     ctype: 'hangouts'
-                    gsessionid: self.gsid
-                    SID: self.sid
-                headers: self.authHeaders()
+                    gsessionid: @gsid
+                    SID: @sid
+                headers: @authHeaders()
                 timeout: 30000 # 30 seconds timeout in connect attempt
                 form: formMap
                 withCredentials: true
@@ -283,11 +277,11 @@ module.exports = class Channel
             else if isUnknownSID(res)
                 ok = false
                 log.debug 'sid became invalid'
-                self.sid = null
-                self.gsid = null
-                self.subscribed = false
+                @sid = null
+                @gsid = null
+                @subscribed = false
             Q.reject NetworkError.forRes(res)
         .fail (err) =>
             log.info 'subscribe failed', fmterr(err)
-            self.subscribed = false
+            @subscribed = false
             Q.reject err
