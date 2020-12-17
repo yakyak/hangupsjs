@@ -49,6 +49,13 @@ class DictField
             out[out_prop] = out_val.parse obj[prop] if obj[prop]
         out
 
+# A number field that parses a number or null on failure
+class NumberField
+    constructor: () ->
+        return new NumberField() unless this instanceof NumberField
+    parse: (input) ->
+        @value = if not Number.isNaN (val = Number.parseInt input) then val else null
+
 class RepeatedField
     constructor: (field) ->
         return new RepeatedField(field) unless this instanceof RepeatedField
@@ -77,4 +84,4 @@ class Message
             out[k] = v.parse val if k
         out
 
-module.exports = {Field, BooleanField, EnumField, DictField, RepeatedField, Message}
+module.exports = {Field, BooleanField, EnumField, DictField, NumberField, RepeatedField, Message}
