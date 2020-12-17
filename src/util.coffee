@@ -11,7 +11,7 @@ find = curry (o, fn) ->
 plug = (rs, rj) -> (err, val) -> if err then rj(err) else rs(val)
 
 class NetworkError extends Error
-    constructor: (@code, @message, @body) -> super
+    constructor: (@code, @message, @body) -> super()
 NetworkError.forRes = (res) -> new NetworkError(res.statusCode, res.statusMessage, res.body)
 
 req = (as...) -> Q.Promise (rs, rj) -> request as..., plug(rs, rj)
