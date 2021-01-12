@@ -26,3 +26,6 @@ login.coffee
 jsdom
 test
 refreshtoken.txt
+
+src
+.travis.yml
