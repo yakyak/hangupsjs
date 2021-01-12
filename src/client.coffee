@@ -135,7 +135,16 @@ module.exports = class Client extends EventEmitter
 
     doInit: ->
         touch @opts.cookiespath unless @opts.jarstore
-        @jarstore = @opts.jarstore ? new FileCookieStore(@opts.cookiespath)
+        @jarstore = @opts.jarstore
+        if @jarstore == null
+            try
+                @jarstore = new FileCookieStore(@opts.cookiespath)
+            catch error
+                if !fs.existsSync @opts.cookiespath
+                    throw error
+                log.error 'Error while reading cookie store, clearing cookie file'
+                fs.unlinkSync @opts.cookiespath
+                @jarstore = new FileCookieStore(@opts.cookiespath)
         @jar = new CookieJar @jarstore
         @channel = new Channel @jarstore, @opts.proxy
         @init = new Init @opts.proxy
