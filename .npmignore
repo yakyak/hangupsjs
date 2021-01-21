@@ -27,5 +27,5 @@ jsdom
 test
 refreshtoken.txt
 
-src
+#src
 .travis.yml
