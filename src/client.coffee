@@ -136,7 +136,7 @@ module.exports = class Client extends EventEmitter
     doInit: ->
         touch @opts.cookiespath unless @opts.jarstore
         @jarstore = @opts.jarstore
-        if @jarstore == null
+        unless @jarstore?
             try
                 @jarstore = new FileCookieStore(@opts.cookiespath)
             catch error
