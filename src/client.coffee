@@ -611,6 +611,12 @@ module.exports = class Client extends EventEmitter
             log.debug 'image resume upload finished'
             body?.sessionStatus?.additionalInfo?['uploader_service.GoogleRupioAdditionalInfo']?.completionInfo?.customerSpecificInfo?.photoid
 
+    getvideoinformation: (user_id, photo_id) ->
+        @chatreq.userMediaReq 'videoinformation', {
+            'mediaItemId.legacyPhotoId.obfuscatedUserId': user_id,
+            'mediaItemId.legacyPhotoId.photoId': photo_id
+        }
+
 # aliases list
 aliases = [
     'logLevel',
