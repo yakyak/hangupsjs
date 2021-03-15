@@ -606,7 +606,7 @@ module.exports = class Client extends EventEmitter
             if Buffer.isBuffer(imagefile) then rs(imagefile) else fs.readFile imagefile, plug(rs, rj)
         .then (buf) ->
             log.debug 'image resume uploading'
-            chatreq.baseReq puturl, 'application/octet-stream', buf, true, timeout
+            chatreq.baseReq puturl, 'application/octet-stream', buf, {}, true, timeout
         .then (body) ->
             log.debug 'image resume upload finished'
             body?.sessionStatus?.additionalInfo?['uploader_service.GoogleRupioAdditionalInfo']?.completionInfo?.customerSpecificInfo?.photoid
