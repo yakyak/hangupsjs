@@ -1,20 +1,7 @@
-request = require 'request'
 log     = require 'bog'
 Q       = require 'q'
-fs      = require 'fs'
-syspath = require 'path'
 
-{req, find, uniqfn, NetworkError} = require './util'
-
-{CLIENT_GET_SELF_INFO_RESPONSE,
-CLIENT_CONVERSATION_STATE_LIST,
-INITIAL_CLIENT_ENTITIES} = require './schema'
-
-CHAT_INIT_URL = 'https://hangouts.google.com/webchat/u/0/load'
-CHAT_INIT_PARAMS =
-    fid:  'gtn-roster-iframe-id',
-    ec:   '["ci:ec",true,true,false]',
-    pvt:  null,  # Populated later
+{find} = require './util'
 
 module.exports = class InitDataParser
 
