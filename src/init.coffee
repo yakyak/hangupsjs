@@ -36,26 +36,29 @@ module.exports = class Init
         self = @
         req(opts).then (res) =>
             if res.statusCode == 200
-                DICT =
-                    apikey: { name:'cin:cac',  fn: (d) -> d[0][2] }
-                    email:  { name:'cic:vd', fn: (d) -> d[0][2] }
-                    headerdate:    { name:'cin:acc', fn: (d) -> d[0][4] }
-                    headerversion: { name:'cin:acc', fn: (d) -> d[0][6] }
-                    headerid:      { name:'cin:bcsc', fn: (d) -> d[0][7] }
-                    timestamp:     { name:'cgsirp', fn: (d) -> new Date (d[0][1][4] / 1000) }
-                    self_entity:   { name:'cgsirp', fn: (d) ->
-                        CLIENT_GET_SELF_INFO_RESPONSE.parse(d[0]).self_entity
-                    }
-                    conv_states: { name:'cgsirp', fn: (d) ->
-                        # Removed in server-side update
-                        CLIENT_CONVERSATION_STATE_LIST.parse(d[0][3])
-                    }
-
-                await InitDataParser.parse res.body, DICT, this
-
-                # massage the entities
-                this.entgroups = []
-                this.entities = undefined
+                @parseBody res.body
             else
                 log.warn 'init failed', res.statusCode, res.statusMessage
                 Q.reject NetworkError.forRes(res)
+
+    parseBody: (body) ->
+        DICT =
+            apikey: { name:'cin:cac',  fn: (d) -> d[0][2] }
+            email:  { name:'cic:vd', fn: (d) -> d[0][2] }
+            headerdate:    { name:'cin:acc', fn: (d) -> d[0][4] }
+            headerversion: { name:'cin:acc', fn: (d) -> d[0][6] }
+            headerid:      { name:'cin:bcsc', fn: (d) -> d[0][7] }
+            timestamp:     { name:'cgsirp', fn: (d) -> new Date (d[0][1][4] / 1000) }
+            self_entity:   { name:'cgsirp', fn: (d) ->
+                CLIENT_GET_SELF_INFO_RESPONSE.parse(d[0]).self_entity
+            }
+            conv_states: { name:'cgsirp', fn: (d) ->
+                # Removed in server-side update
+                CLIENT_CONVERSATION_STATE_LIST.parse(d[0][3])
+            }
+
+        await InitDataParser.parse body, DICT, this
+
+        # massage the entities
+        this.entgroups = []
+        this.entities = undefined
