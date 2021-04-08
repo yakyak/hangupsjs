@@ -6,6 +6,7 @@ log     = require 'bog'
 Q       = require 'q'
 
 {req, find, wait, NetworkError, fmterr} = require './util'
+InitDataParser = require './initdataparser'
 PushDataParser = require './pushdataparser'
 
 ORIGIN_URL = 'https://talkgadget.google.com'
@@ -73,13 +74,17 @@ module.exports = class Channel
         log.debug 'fetching pvt'
         opts =
             method: 'GET'
-            uri: "#{ORIGIN_URL}/talkgadget/_/extension-start"
+            uri: "#{ORIGIN_URL}/webchat/start"
             jar: request.jar @jarstore
             withCredentials: true
         req(opts).then (res) =>
-            data = JSON.parse res.body
-            log.debug 'found pvt token', data[1]
-            data[1]
+            DICT =
+                pvtToken: { key:'ds:0',  fn: (d) -> d[1] }
+
+            result = []
+            await InitDataParser.parse res.body, DICT, result
+            log.debug 'found pvt token', result.pvtToken
+            result.pvtToken
         .fail (err) ->
             log.info 'fetchPvt failed', fmterr(err)
             Q.reject err
