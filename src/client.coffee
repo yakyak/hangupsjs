@@ -23,8 +23,9 @@ MessageActionType,
 ClientDeliveryMediumType,
 ClientNotificationLevel,
 CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
-CLIENT_GET_CONVERSATION_RESPONSE
-CLIENT_GET_ENTITY_BY_ID_RESPONSE} = require './schema'
+CLIENT_GET_CONVERSATION_RESPONSE,
+CLIENT_GET_ENTITY_BY_ID_RESPONSE,
+CLIENT_SEARCH_ENTITIES_RESPONSE} = require './schema'
 
 IMAGE_UPLOAD_URL = 'https://docs.google.com/upload/photos/resumable'
 
@@ -508,12 +509,13 @@ module.exports = class Client extends EventEmitter
 
     # Search for people.
     searchentities: (search_string, max_results=10) ->
-        @chatreq.req 'contacts/searchentities', [
+        @chatreq.req('contacts/searchentities', [
             @_requestBodyHeader()
             []
             search_string
             max_results
-        ]
+        ], false).then (body) ->
+            CLIENT_SEARCH_ENTITIES_RESPONSE.parse body
 
 
     # Return information about a list of chat_ids
