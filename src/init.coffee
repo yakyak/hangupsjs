@@ -21,6 +21,8 @@ CHAT_INIT_PARAMS =
 module.exports = class Init
 
     constructor: (@proxy) ->
+        @self_entity = []
+        @conv_states = []
 
     initChat: (jarstore, pvt) ->
         log.debug 'initChat()'
