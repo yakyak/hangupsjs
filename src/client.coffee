@@ -504,7 +504,7 @@ module.exports = class Client extends EventEmitter
             null
         ], false).then (body) -> # receive as protojson
             data = CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE.parse body
-            init.conv_states = data.conversation_state
+            init.conv_states = data.conversation_state if Array.isArray data.conversation_state
 
     # Search for people.
     searchentities: (search_string, max_results=10) ->
