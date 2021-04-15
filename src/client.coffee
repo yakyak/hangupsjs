@@ -23,8 +23,10 @@ MessageActionType,
 ClientDeliveryMediumType,
 ClientNotificationLevel,
 CLIENT_SYNC_ALL_NEW_EVENTS_RESPONSE,
-CLIENT_GET_CONVERSATION_RESPONSE
-CLIENT_GET_ENTITY_BY_ID_RESPONSE} = require './schema'
+CLIENT_GET_CONVERSATION_RESPONSE,
+CLIENT_GET_ENTITY_BY_ID_RESPONSE,
+CLIENT_CREATE_CONVERSATION_RESPONSE,
+CLIENT_SEARCH_ENTITIES_RESPONSE} = require './schema'
 
 IMAGE_UPLOAD_URL = 'https://docs.google.com/upload/photos/resumable'
 
@@ -447,16 +449,17 @@ module.exports = class Client extends EventEmitter
     # force_group set to true if you invite just one chat_id, but
     # still want a group.
     #
-    # New conversation ID is returned as res['conversation']['id']['id']
+    # New conversation ID is returned as res['conversation']['conversation_id']['id']
     createconversation: (chat_ids, force_group=false) ->
         client_generated_id = randomid()
-        @chatreq.req 'conversations/createconversation', [
+        @chatreq.req('conversations/createconversation', [
             @_requestBodyHeader()
             if chat_ids.length == 1 and not force_group then 1 else 2
             client_generated_id
             None
             [chat_id, None, None, "unknown", None, []] for chat_id in chat_ids
-        ]
+        ], false).then (body) ->
+            CLIENT_CREATE_CONVERSATION_RESPONSE.parse body
 
 
     # Return conversation events.
@@ -508,12 +511,13 @@ module.exports = class Client extends EventEmitter
 
     # Search for people.
     searchentities: (search_string, max_results=10) ->
-        @chatreq.req 'contacts/searchentities', [
+        @chatreq.req('contacts/searchentities', [
             @_requestBodyHeader()
             []
             search_string
             max_results
-        ]
+        ], false).then (body) ->
+            CLIENT_SEARCH_ENTITIES_RESPONSE.parse body
 
 
     # Return information about a list of chat_ids

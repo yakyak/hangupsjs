@@ -515,4 +515,16 @@ s.CLIENT_GET_ENTITY_BY_ID_RESPONSE = new Message([
     'entities', new RepeatedField(s.CLIENT_ENTITY)
 ])
 
+s.CLIENT_CREATE_CONVERSATION_RESPONSE = new Message([
+    None, new Field()
+    'response_header', s.CLIENT_RESPONSE_HEADER
+    'conversation', s.CLIENT_CONVERSATION
+])
+
+s.CLIENT_SEARCH_ENTITIES_RESPONSE = new Message([
+    None, new Field()
+    'response_header', s.CLIENT_RESPONSE_HEADER
+    'entity', new RepeatedField(s.CLIENT_ENTITY)
+])
+
 module.exports = s
