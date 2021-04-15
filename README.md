@@ -3,6 +3,13 @@ hangupsjs
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/yakyak/hangupsjs.svg)](https://greenkeeper.io/)
 
+### 2021-04-15 v1.4.0-beta
+
+* Fix create conversation not working, and names showing up as Unknown
+
+### 2021-04-15 v1.3.11
+
+* Fix bad crash when we don't have any active conversations.
 
 ### 2020-07-07 v1.3.10
 
