@@ -10,7 +10,8 @@ InitDataParser = require './initdataparser'
 PushDataParser = require './pushdataparser'
 
 ORIGIN_URL = 'https://hangouts.google.com'
-CHANNEL_URL_PREFIX = 'https://0.client-channel.google.com/client-channel'
+CHANNEL_URL_NUMBER = Math.floor(Math.random() * 30).toString()
+CHANNEL_URL_PREFIX = "https://#{CHANNEL_URL_NUMBER}.client-channel.google.com/client-channel"
 
 UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36
       (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36'
@@ -114,7 +115,9 @@ module.exports = class Channel
                 headers: auth
                 encoding: null # get body as buffer
                 withCredentials: true
+
             req(opts).then (res) ->
+                log.debug opts.uri, 'res', res.statusCode
                 # Example format (after parsing JS):
                 # [   [0,["c","SID_HERE","",8]],
                 #     [1,[{"gsid":"GSESSIONID_HERE"}]]]
@@ -126,7 +129,7 @@ module.exports = class Channel
                     log.debug 'found sid/gsid', sid, gsid
                     return {sid,gsid}
                 else
-                    log.warn 'failed to get sid', res.statusCode, res.body
+                    log.error 'failed to get sid', res.statusCode, res.body.toString()
         .fail (err) ->
             log.info 'fetchSid failed', fmterr(err)
             Q.reject err
