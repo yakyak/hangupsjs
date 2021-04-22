@@ -358,13 +358,17 @@ module.exports = class Client extends EventEmitter
         ]
 
     # Check someone's presence status.
-    querypresence: (chat_id) ->
+    querypresence: (chat_ids) ->
+        if not Array.isArray chat_ids
+            chat_ids = [chat_ids]
+            opts = [1, 2, 3, 5, 7, 8, 10]
+        else
+            opts = [2, 3, 10]
+
         @chatreq.req 'presence/querypresence', [
             @_requestBodyHeader()
-            [
-                [chat_id]
-            ],
-            [1, 2, 5, 7, 8]
+            [chat_id] for chat_id in chat_ids,
+            opts
         ]
 
     # Leave group conversation.
