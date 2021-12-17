@@ -413,6 +413,19 @@ module.exports = class Client extends EventEmitter
             togoogtime(timestamp)
         ]
 
+    # Mark event observed for a conversation.
+    #
+    # conversation_id must be a valid conversation ID.
+    # event_id must be a valid event ID.
+    #
+    # timestamp is a date or long millis
+    markeventobserved: (conversation_id, event_id) ->
+        @chatreq.req 'conversations/markeventobserved', [
+            @_requestBodyHeader()
+            # conversation_id
+            [[[conversation_id], [event_id]]]
+        ]
+
 
     # Add user to existing conversation.
     #
