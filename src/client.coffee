@@ -6,6 +6,7 @@ syspath         = require 'path'
 log             = require 'bog'
 fs              = require 'fs'
 Q               = require 'q'
+moment          = require('moment')
 
 {plug, fmterr, wait} = require './util'
 
@@ -214,6 +215,15 @@ module.exports = class Client extends EventEmitter
         !!(@init.apikey and @init.email and @init.headerdate and @init.headerversion and
         @init.headerid and @init.clientid)
 
+    syncCookies: (sess) ->
+        @jarstore.getAllCookies (e, cookies) ->
+            cookies.forEach (cookie) ->
+                schema = if cookie.secure then "https" else "http"
+                host = if cookie?.domain?[0] is "." then cookie.domain.substr(1) else cookie.domain
+                p = {url: schema + '://' + host, name: cookie.key, value: cookie.value, domain: host, path: cookie.path, secure: cookie.secure, httpOnly: cookie.httpOnly, expirationDate: moment(cookie.expires).unix(), sameSite: cookie.sameSite}
+                sess.cookies.set(p)
+                .catch (e) ->
+                    return
 
     # makes the header required at the start of each api call body.
     _requestBodyHeader: ->
